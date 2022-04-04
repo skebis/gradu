@@ -13,15 +13,17 @@
 
 \usepackage{booktabs} % hyvä kauniiden taulukoiden tekemiseen
 
+\usepackage[authordate,backend=biber,noibid]{biblatex-chicago} % biber / chicago-tyylin käyttö
+
 % HUOM! Tämän tulee olla viimeinen \usepackage koko dokumentissa!
 \usepackage[bookmarksopen,bookmarksnumbered,linktocpage]{hyperref}
 
-\addbibresource{malliopas.bib} % Lähdetietokannan tiedostonimi
+\addbibresource{gradu_EK.bib} % Lähdetietokannan tiedostonimi
 
 \begin{document}
 
-\title{Tutkimussuunnitelma}
-\translatedtitle{Research plan}
+\title{Vertaileva tutkimus koneoppimisen hyödyntämisestä videopelien reitinhaussa}
+\translatedtitle{Comparative study of utilizing machine learning in video games' pathfinding}
 \studyline{Tietotekniikka}
 \tiivistelma{%
 TODO: tiivistelmä suomeksi
@@ -83,26 +85,13 @@ pelialueilla ja verrataan tuloksia A*-algoritmilla saatuihin tuloksiin.
 - Pelialueiden on tarkoitus olla monimutkaisia ja dynaamisia, koska A*-algoritmi suoriutuu
 yksinkertaisista reitinhakutehtävistä moitteettomasti.
 
-\chapter{Kirjallisuuskartoitus}
+\chapter{Unity}
 
-- Artikkeleita on etsitty pääasiassa hakusanoilla pathfinding, path planning,
-machine learning, video games, Unity, reinforcement learning. Myöhemmin on tarkoitus etsiä myös
-artikkeleita tutkimusmetodista ja yleisesti koneoppimisesta jne.
+Unity on 3D pelinkehitysalusta, joka sisältää oman renderöinti- ja fysiikkamoottorin \parencite{juliani2018unity}. Unity 
 
-- Hakukoneena käytetty Google Scholaria (myöhemmin tietysti useampia eri hakukoneita esim. ACM, Sciencedirect jne.).
+\chapter{Koneoppiminen}
 
-- Ensimmäiset artikkelit valittu melko satunnaisesti avainsanojen ja aiheen samankaltaisuuden mukaan.
-
-\chapter{Tutkimusaihe/tutkimuskysymys}
-
-- Miten koneoppimisagentin suorittama reitinhaku vertautuu A*-algoritmiin nopeuden ja tarkkuuden osalta?
-
-- Onko mahdollinen vaikutus negatiivinen, positiivinen vai merkityksetön?
-
-- Onko mahdollista opettaa harjoitusdatan avulla agentti, joka suoriutuu reitinhakutehtävästä (tai -tehtävistä)
-paremmin kuin A*-algoritmi?
-
-- Löytyykö reitinhakutehtävä, jota A*-algoritmi ei pysty ratkaisemaan, mutta koneoppimisagentti pystyy?
+Soft Actor-Critic on Haarnojan ym. kehittämä syvä vahvistusoppimis algoritmi \parencite{haarnoja2018soft}. 
 
 \chapter{Tutkimusstrategia/metodi ja sen valintaperusteet}
 
@@ -156,15 +145,12 @@ asetetaan aika-arvoksi mitattu aika. Sama prosessi toistetaan A*-algoritmilla.
 
 \chapter{Lähdeluettelo}
 
+\printbibliography
+
 - Panov, A., Yakovlev, K. ja Suvorov, R., Grid Path Planning with Deep
 Reinforcement Learning: Preliminary Results, Procedia Computer Science
 Volume 123, Pages 347-353, 2018,
 https://doi.org/10.1016/j.procs.2018.01.054
-
-- Haarnoja, T., Pong, V., Hartikainen, K., Zhou, A., Dalal, M. ja Levine, S., Soft Actor Critic - Deep Reinforcement Learning with Real-World Robots, 2018,
-BAIR - Berkeley Artificial Intelligence Research, https://bair.berkeley.edu/blog/2018/12/14/sac/
-
--Juliani, A., Berges, V., Teng, E., Cohen, A., Harper, J., Elion, C., Goy, C., Gao, Y., Henry, H., Mattar, M. ja Lange, D., Unity: A General Platform for Intelligent Agents, 2020, arXiv preprint arXiv:1809.02627. https://github.com/Unity-Technologies/ml-agents.
 
 - X. Lei, Z. Zhang ja P. Dong, Dynamic Path Planning of Unknown
 Environment Based on Deep Reinforcement Learning, 2018,
