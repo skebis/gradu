@@ -1,0 +1,181 @@
+\documentclass[utf8]{gradu3}
+% Jos työ on kandidaatintutkielma eikä pro gradu, käytä ylläolevan asemesta
+%\documentclass[utf8,bachelor]{gradu3}
+% Jos kirjoitat englanniksi, käytä ylläolevan asemesta
+%\documentclass[utf8,english]{gradu3}
+% tai
+%\documentclass[utf8,bachelor,english]{gradu3}
+
+\usepackage{graphicx} % kuvien mukaan ottamista varten
+
+\usepackage{amsmath} % hyödyllinen jos tekstisi sisältää matikkaa,
+                     % ei pakollinen
+
+\usepackage{booktabs} % hyvä kauniiden taulukoiden tekemiseen
+
+% HUOM! Tämän tulee olla viimeinen \usepackage koko dokumentissa!
+\usepackage[bookmarksopen,bookmarksnumbered,linktocpage]{hyperref}
+
+\addbibresource{malliopas.bib} % Lähdetietokannan tiedostonimi
+
+\begin{document}
+
+\title{Tutkimussuunnitelma}
+\translatedtitle{Research plan}
+\studyline{Tietotekniikka}
+\tiivistelma{%
+TODO: tiivistelmä suomeksi
+}
+\abstract{%
+TODO: In english
+}
+
+\author{Emil Keränen}
+\contactinformation{\texttt{emil.a.keranen@student.jyu.fi}}
+% jos useita tekijöitä, anna useampi \author-komento
+\supervisor{Tommi Kärkkäinen}
+% jos useita ohjaajia, anna useampi \supervisor-komento
+\avainsanat{koneoppiminen, videopeli, reitinhaku, syvä vahvistusoppiminen}
+\keywords{machine learning, video game, pathfinding, deep reinforcement learning, Soft Actor Critic, Machine Learning Agents, Unity}
+
+\maketitle
+
+\bigskip
+
+\mainmatter
+
+\chapter{Johdanto}
+
+- Tutkimuksen kohteena koneoppimisen tehostama reitinhaku videopeleissä
+ ja sen vertaaminen heuristiseen A*-algoritmiin.
+
+- Yleisesti reitinhaulla tarkoitetaan alku- ja loppupisteen välisen reitin selvittämistä. Useimmiten tarkoituksena
+on löytää lyhin reitti väistellen samalla matkan varrella olevia esteitä.
+
+- Reitinhakua tarvitaan videopelien lisäksi myös mm. robotiikassa. 
+
+- Videopeleissä reitinhaku ilmenee pääasiassa tekoälyagenttien suorittamana toimintana, joten tässä tutkimuksessa keskitytään agentteihin.
+Näitä agentteja kutsutaan myös ei-pelaaja-hahmoiksi (engl. non-player-character, NPC).
+
+- Ei-pelaaja-hahmot ja itseasiassa videopelien reitinhaku vertautuvat hyvin robotiikkaan ja robottien reitinhakuun.
+
+- Sekä robotiikassa että videopeleissä toiminta-alue voi muuttua hyvinkin paljon reaaliajassa, jolloin reitinhaun täytyy
+sopeutua muutoksiin nopeasti. Käytetyt ratkaisut sen sijaan voivat vaihdella näiden kahden osa-alueen välillä: robotiikassa
+tarkkuus ja turvallisuus nousevat tärkeimmiksi ominaisuuksiksi ja vastaavasti videopeleissä nopeus määrittää reitinhaun "hyvyyden".
+
+- Reitinhaku on aina ollut vaativa ongelma videopeleissä, mutta nykyään reitinhaun ongelmallisuus voidaan
+useimmissa tapauksissa sivuuttaa laatimalla heuristinen ratkaisu A*-algoritmin avulla.
+
+- Koneoppiminen mahdollistaa aiemman kokemuksen hyödyntämisen myöhemmässä toiminnassa.
+Agentteja voidaan kouluttaa harjoitteludatan avulla, jolloin ne oppivat toimimaan tuntemattomissa tilanteissa.
+Koneoppimisen ansiosta reitinhaku-agentti voidaan opettaa toimimaan vaativissa ja
+dynaamisissa pelialueissa, joissa muuttuvat esteet ja alueen labyrinttimäisyys
+heikentävät A*-algoritmin toimintaa.
+
+- Tutkimuksen ideana on käyttää Unity-pelimoottorille luotuja koneoppimisagentteja (engl. Unity Machine Learning Agents)
+ja opettaa niitä erilaisten pelialueiden avulla. Opettamisen jälkeen agentteja testataan oikeilla
+pelialueilla ja verrataan tuloksia A*-algoritmilla saatuihin tuloksiin.
+
+- ML-agents perustuu PyTorch-kirjastoon ja mahdollistaa vahvistusoppimisen hyödyntämisen.
+
+- Tensorboard-lisäosan avulla voidaan visualisoida palkkioiden keskiarvot ja opetuksen edistyminen opetuksen aikana.
+
+- Pelialueiden on tarkoitus olla monimutkaisia ja dynaamisia, koska A*-algoritmi suoriutuu
+yksinkertaisista reitinhakutehtävistä moitteettomasti.
+
+\chapter{Kirjallisuuskartoitus}
+
+- Artikkeleita on etsitty pääasiassa hakusanoilla pathfinding, path planning,
+machine learning, video games, Unity, reinforcement learning. Myöhemmin on tarkoitus etsiä myös
+artikkeleita tutkimusmetodista ja yleisesti koneoppimisesta jne.
+
+- Hakukoneena käytetty Google Scholaria (myöhemmin tietysti useampia eri hakukoneita esim. ACM, Sciencedirect jne.).
+
+- Ensimmäiset artikkelit valittu melko satunnaisesti avainsanojen ja aiheen samankaltaisuuden mukaan.
+
+\chapter{Tutkimusaihe/tutkimuskysymys}
+
+- Miten koneoppimisagentin suorittama reitinhaku vertautuu A*-algoritmiin nopeuden ja tarkkuuden osalta?
+
+- Onko mahdollinen vaikutus negatiivinen, positiivinen vai merkityksetön?
+
+- Onko mahdollista opettaa harjoitusdatan avulla agentti, joka suoriutuu reitinhakutehtävästä (tai -tehtävistä)
+paremmin kuin A*-algoritmi?
+
+- Löytyykö reitinhakutehtävä, jota A*-algoritmi ei pysty ratkaisemaan, mutta koneoppimisagentti pystyy?
+
+\chapter{Tutkimusstrategia/metodi ja sen valintaperusteet}
+
+- Empiirinen vertaileva tutkimus?
+
+- Luodaan pelialueita, toteutetaan heuristinen A*-algoritmi, opetetaan koneoppimisagentit syvän vahvistetun oppimisen avulla (Soft Actor Critic -algoritmi)
+ja sijoitetaan koneoppimisagentit pelialueille. Tämän jälkeen ratkaistaan reitinhakutehtävä erikseen molemmilla menetelmillä ja verrataan saatuja tuloksia keskenään
+(mm. lasketaan tehtävään kulunut aika, suoriutuiko tehtävästä tietyssä ajassa vai ei).
+
+\chapter{Aineiston keruun suunnittelu}
+
+- Agentit koneopetetaan käyttäen Unity ML-agents -pakettia. Opetusprosessista saatu malli-tiedosto (model, .onnx-tiedosto) liitetään agentin
+komponentiksi, jolloin agentti voi toimia pelialueella itsenäisesti.
+
+- Tensorboardin avulla oppimisprosessia voidaan visualisoida esimerkiksi palkkioiden suhteen.
+
+- Aineisto kerätään peliagenteilta jokaisen reitinhakuongelman aikana. Vähintään aika ja tieto siitä onnistuiko agentti tai A*-algoritmi otetaan talteen.
+Myös Tensorboardin muodostamia kuvaajia voidaan käyttää apuna koneoppimista arvioidessa (mm. palkkioiden keskiarvo opetuksessa).
+
+- Ajan laskemiseen käytetään Unityn valmiita kirjastoja.
+
+\chapter{Aineiston keruu}
+
+- Reitinhakuongelmia on jokaista erilaista pelialuetta kohden yksi. Pelialueita luodaan ainakin muutama kymmen.
+
+- Malli-tiedostoja (model, .onnx-tiedosto) luodaan muutamia eri parametreilla, jolloin voidaan verrata parametrien vaikutusta agentin suoriutumiseen.
+
+- Ajan laskeminen alkaa, kun agentti käsketään siirtymään pisteestä A pisteeseen B.
+Ajan laskeminen loppuu, kun agentti saapuu pisteeseen B. Jos agentti ei syystä tai toisesta
+pysty ratkaisemaan ongelmaa eli ei saavuta pistettä B (esim. aikamaksimi saavutetaan, alueesta riippuen 20+ sekuntia), merkitään ratkaisun tilaksi "epätosi"
+ja jätetään aika-arvo tyhjäksi. Jos ratkaisu löytyy, merkitään ratkaisun tilaksi "tosi" ja
+asetetaan aika-arvoksi mitattu aika. Sama prosessi toistetaan A*-algoritmilla.
+
+- Jos koneoppimisagentteja opetetaan eri määrällä dataa, ilmoitetaan myös opetusdatan määrä.
+
+- Kaikki data kerätään yhteen tiedostoon ja käsitellään jälkikäteen.
+
+\chapter{Aineiston analyysi}
+
+- Kuvaajien avulla visualisoidaan kuluneita aikoja ja vertaillaan saatujen aikojen erotuksia.
+
+- TODO: lisätietoja analyysista
+
+\chapter{Tulokset}
+
+- TODO
+
+\chapter{Johtopäätökset}
+
+- TODO
+
+\chapter{Lähdeluettelo}
+
+- Panov, A., Yakovlev, K. ja Suvorov, R., Grid Path Planning with Deep
+Reinforcement Learning: Preliminary Results, Procedia Computer Science
+Volume 123, Pages 347-353, 2018,
+https://doi.org/10.1016/j.procs.2018.01.054
+
+- Haarnoja, T., Pong, V., Hartikainen, K., Zhou, A., Dalal, M. ja Levine, S., Soft Actor Critic - Deep Reinforcement Learning with Real-World Robots, 2018,
+BAIR - Berkeley Artificial Intelligence Research, https://bair.berkeley.edu/blog/2018/12/14/sac/
+
+-Juliani, A., Berges, V., Teng, E., Cohen, A., Harper, J., Elion, C., Goy, C., Gao, Y., Henry, H., Mattar, M. ja Lange, D., Unity: A General Platform for Intelligent Agents, 2020, arXiv preprint arXiv:1809.02627. https://github.com/Unity-Technologies/ml-agents.
+
+- X. Lei, Z. Zhang ja P. Dong, Dynamic Path Planning of Unknown
+Environment Based on Deep Reinforcement Learning, 2018,
+https://doi.org/10.1155/2018/5781591
+
+- TODO: oikea merkintätapa ja muita lähteitä.
+
+\chapter{Liitteet}
+
+- Kuvat tai mallinnokset pelialueesta.
+
+- Tensorboardin kuvaajat mm. agentin palkkioiden kehityksestä.
+
+\end{document}
