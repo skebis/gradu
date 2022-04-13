@@ -87,7 +87,19 @@ yksinkertaisista reitinhakutehtävistä moitteettomasti.
 
 \chapter{Reitinhaku videopeleissä}
 
-Reitinhaku on yksi videopelien tekoälyn tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo vuosikymmenten ajan. Entistä tehokkaammat laitteet ja laskennallisesti vaativammat reitinhakuongelmat ovat tuoneet monia eri ratkaisuja, joista tunnetuin on laajasti käytetty A*-algoritmi ja sen variaatiot, kuten Theta*- ja Phi*-algoritmit.
+Reitinhaku on yksi videopelien tekoälyn tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo vuosikymmenten ajan. Reitinhaulla tarkoitetaan yksinkertaisimmillaan alku- ja loppupisteen välisen reitin selvittämistä pelialueella. Usein reitinhakuongelmaan liittyy vaatimus reitin optimaalisuudesta eli nopeudesta ja laskennallisesta vaativuudesta. Reitinhaun optimaalisuus on tärkeää etenkin videopeleissä, koska reittien täytyy näyttää realistiselta pelaajalle eikä laskentaan saa kulua liikaa aikaa. Reitinhaun epärealistisuus ja hitaus voivat vaikuttaa pelaajan kokemaan immersioon.
+
+\section{Reitinhakualgoritmit}
+
+Entistä tehokkaammat laitteet ja laskennallisesti vaativammat reitinhakuongelmat ovat tuoneet monia eri ratkaisuja, joista vanhimmat ovat Djikstran algoritmi ja siihen perustuva A*-algoritmi. Djikstran algoritmi laskee kaikki mahdolliset reitinhakuongelman ratkaisut, jonka seurauksena sen laskennallinen vaativuus kasvaa eksponentiaalisesti pelialueen kokoon nähden. A*-algoritmi karsii käytetyn heuristiikan perusteella selvästi huonot ratkaisut pois ratkaisujen joukosta, jolloin sen laskennallinen vaativuus ja nopeus paranevat.
+
+Nykyään pelialueiden ollessa todella suuria A*-algoritmin tehokkuus ei ole osoittautunut riittäväksi. A*-algoritmi on siksi inspiroinut monien eri variaatioiden kehittämisen, kuten Theta*- ja Phi*-algoritmit.
+
+on laajasti käytetty A*-algoritmi ja sen variaatiot, kuten Theta*- ja Phi*-algoritmit.
+
+\section{Reitinhaun ongelmat}
+
+Yksinkertaisen, staattisen ruudukkoalueen reitinhaku on triviaalia ja se ratkaistaan usein heuristisella A*-algoritmilla. Nykyään reitinhaun tutkimus keskittyykin vaativampiin tilanteisiin, kuten useamman agentin samanaikainen reitinhaku ja dynaamisten alueiden reitinhaku.
 
 \chapter{Unity}
 
