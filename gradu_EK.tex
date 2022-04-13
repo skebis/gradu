@@ -87,19 +87,19 @@ yksinkertaisista reitinhakutehtävistä moitteettomasti.
 
 \chapter{Reitinhaku videopeleissä}
 
-Reitinhaku on yksi videopelien tekoälyn tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo vuosikymmenten ajan. Reitinhaulla tarkoitetaan yksinkertaisimmillaan alku- ja loppupisteen välisen reitin selvittämistä pelialueella. Usein reitinhakuongelmaan liittyy vaatimus reitin optimaalisuudesta eli nopeudesta ja laskennallisesta vaativuudesta. Reitinhaun optimaalisuus on tärkeää etenkin videopeleissä, koska reittien täytyy näyttää realistiselta pelaajalle eikä laskentaan saa kulua liikaa aikaa. Reitinhaun epärealistisuus ja hitaus voivat vaikuttaa pelaajan kokemaan immersioon.
+Reitinhaku on yksi videopelien tekoälyn tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo vuosikymmenten ajan. Reitinhaulla tarkoitetaan yksinkertaisimmillaan alku- ja loppupisteen välisen reitin selvittämistä pelialueella. Usein reitinhakuongelmaan liittyy vaatimus reitin optimaalisuudesta eli nopeudesta ja laskennallisesta vaativuudesta. Reitinhaun sujuvuus ja realistisuus voi nostattaa pelaajan kokemaa immersiota pelissä ja vastaavasti epärealistisuus voi laskea immersiota.
 
 \section{Reitinhakualgoritmit}
 
-Entistä tehokkaammat laitteet ja laskennallisesti vaativammat reitinhakuongelmat ovat tuoneet monia eri ratkaisuja, joista vanhimmat ovat Djikstran algoritmi ja siihen perustuva A*-algoritmi. Djikstran algoritmi laskee kaikki mahdolliset reitinhakuongelman ratkaisut, jonka seurauksena sen laskennallinen vaativuus kasvaa eksponentiaalisesti pelialueen kokoon nähden. A*-algoritmi karsii käytetyn heuristiikan perusteella selvästi huonot ratkaisut pois ratkaisujen joukosta, jolloin sen laskennallinen vaativuus ja nopeus paranevat.
+Entistä tehokkaammat laitteet ja laskennallisesti vaativammat reitinhakuongelmat ovat tuoneet monia eri ratkaisuja, joista vanhimmat ovat Dijkstran algoritmi ja A*-algoritmi (1968? lähde). Dijkstran algoritmi perustuu kaikkien mahdollisten ratkaisujen laskemiseen, jonka seurauksena reitinhaun laskennallinen vaativuus kasvaa eksponentiaalisesti(lähde) pelialueen kokoon nähden. Dijkstran algoritmin rajoitteet inspiroivat erilaisten muunnelmien kehittämisen, joista selvästi tunnetuin ja käytetyin on A*-algoritmi. A*-algoritmi karsii käytetyn heuristiikan perusteella selvästi huonot ratkaisut pois muiden ratkaisujen joukosta, jolloin reitinhaun laskennallinen vaativuus ja nopeus paranevat.
 
-Nykyään pelialueiden ollessa todella suuria A*-algoritmin tehokkuus ei ole osoittautunut riittäväksi. A*-algoritmi on siksi inspiroinut monien eri variaatioiden kehittämisen, kuten Theta*- ja Phi*-algoritmit.
-
-on laajasti käytetty A*-algoritmi ja sen variaatiot, kuten Theta*- ja Phi*-algoritmit.
+Videopelien lisäksi A*-algoritmi on tunnettu myös robotiikassa. Pelialueiden ja robottien toimialueiden ollessa suuria A*-algoritmin tehokkuus ei ole osoittautunut riittäväksi, jonka seurauksena A*-algoritmi on inspiroinut monien eri variaatioiden kehittämisen, kuten Theta*-, Phi*- ja HPA*-algoritmit. (path planning a star mobile robot).
 
 \section{Reitinhaun ongelmat}
 
-Yksinkertaisen, staattisen ruudukkoalueen reitinhaku on triviaalia ja se ratkaistaan usein heuristisella A*-algoritmilla. Nykyään reitinhaun tutkimus keskittyykin vaativampiin tilanteisiin, kuten useamman agentin samanaikainen reitinhaku ja dynaamisten alueiden reitinhaku.
+Yksinkertaisen, staattisen ruudukkoalueen reitinhaku on triviaalia(jokin muu sana?) ja se ratkaistaan usein heuristisella A*-algoritmilla. Nykyään reitinhaun tutkimus keskittyykin vaativampiin reitinhakuongelmiin, kuten useamman agentin samanaikaiseen reitinhakuun ja dynaamisten alueiden reitinhakuun.
+
+Useamman agentin samanaikaisessa reitinhaussa alueella on useampi kuin yksi agentti ja jokaisella niistä on oma aloitus- ja lopetuspisteensä. Jos jokaisen agentin reitinhakuun sovelletaan A*-algoritmia, on vaadittu laskennallinen teho eksponentiaalinen O(b potenssiin k) (tähän merkintätapa ja lähde). Laskennallisen tehon lisäksi jokaisen agentin täytyy väistää toisia agentteja ja mahdollisesti muita esteitä. A*-algoritmi osoittautuu riittämättömäksi ongelman ratkaisuun.
 
 \chapter{Unity}
 
