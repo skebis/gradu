@@ -91,7 +91,7 @@ Reitinhaulla tarkoitetaan yksinkertaisimmillaan aloitus- ja lopetuspisteen väli
 
 \section{Pelialueen esitystavat}
 
-Yleisin alueen esittämistapa on ruudukko (engl. grid), joka sisältää yksittäisiä ruutuja (engl. tile). Ruudut merkitään ennalta vapaiksi tai esteiksi. Vapaista ruuduista muodostetaan verkko, jolloin jokainen vapaa ruutu vastaa yhtä verkon solmuista. Vierekkäisiä solmuja yhdistävät linkit, joita pitkin liikkuminen tapahtuu. Solmujen vierekkäisyys voi tarkoittaa horisontaalista ja vertikaalista vierekkäisyyttä (neljä suuntaa) tai näiden lisäksi myös diagonaalista vierekkäisyyttä (kahdeksan suuntaa). \parencite{botea2013pathfinding,abd2015comprehensive}.
+Yleisin alueen esittämistapa on ruudukko (engl. grid), joka sisältää yksittäisiä ruutuja (engl. tile). Ruudut merkitään ennalta vapaiksi tai esteiksi. Vapaista ruuduista muodostetaan verkko, jolloin jokainen vapaa ruutu vastaa yhtä verkon solmuista. Vierekkäisiä solmuja yhdistävät linkit, joita pitkin reitinhaku tapahtuu. Solmujen vierekkäisyys voi tarkoittaa horisontaalista ja vertikaalista vierekkäisyyttä (neljä suuntaa) tai näiden lisäksi myös diagonaalista vierekkäisyyttä (kahdeksan suuntaa). \parencite{botea2013pathfinding,abd2015comprehensive}.
 
 (Kuva ruudukosta / verkosta?)
 
@@ -99,9 +99,11 @@ Vähemmän käytettyjä alueen esitystapoja ovat kolmiointi ja kuusikulmiointi (
 
 \section{Reitinhakualgoritmit}
 
-Entistä tehokkaammat laitteet ja laskennallisesti vaativammat reitinhakuongelmat ovat tuoneet monia eri ratkaisualgoritmeja, joista vanhimmat ovat Dijkstran algoritmi ja A*-algoritmi (1968? lähde). Dijkstran algoritmi perustuu kaikkien mahdollisten reittien laskemiseen, jonka seurauksena reitinhaun laskennallinen vaativuus kasvaa eksponentiaalisesti(lähde) pelialueen kokoon nähden. Dijkstran algoritmin rajoitteet inspiroivat tutkijoita erilaisten muunnelmien kehittämiseen, joista selvästi tunnetuin ja käytetyin on A*-algoritmi. A*-algoritmi karsii käytetyn heuristiikan perusteella selvästi huonot ratkaisut pois muiden ratkaisujen joukosta, jolloin reitinhaun laskennallinen vaativuus ja nopeus paranevat.
+Graafin lyhyimmän polun ongelmaa on tutkittu jo vuosikymmenten ajan. Vanhimmat ja tunnetuimmat algoritmit, Dijkstran algoritmi \parencite{dijkstra1959note} ja A*-algoritmi \parencite{hart1968formal}, esiteltiin jo 50- ja 60-luvuilla, mutta näistä A*-algoritmi on selvästi tunnetumpi videopelien ja robottien reitinhaussa \parencite{cui2011based,abd2015comprehensive}.
 
-A*-algoritmi on selvästi  Videopelien lisäksi A*-algoritmi on tunnettu myös robotiikassa. Pelialueiden ja robottien toimialueiden ollessa suuria A*-algoritmin tehokkuus ei ole osoittautunut riittäväksi, jonka seurauksena A*-algoritmi on inspiroinut monien eri variaatioiden kehittämisen, kuten Theta*-, Phi*- ja HPA*-algoritmit. (path planning a star mobile robot).
+A*-algoritmin toiminta perustuu lyhyimmän reitin etsimiseen heuristiikan avulla. Heuristiikkana käytetään usein Euklidista etäisyyttä, Manhattan-etäisyyttä tai Chebyshev-etäisyyttä. (KESKEN)
+
+Videopelien lisäksi A*-algoritmi on tunnettu myös robotiikassa. Pelialueiden ja robottien toimialueiden ollessa suuria A*-algoritmin tehokkuus ei ole osoittautunut riittäväksi, jonka seurauksena A*-algoritmi on inspiroinut monien eri variaatioiden kehittämisen, kuten Theta*-, Phi*- ja HPA*-algoritmit. (path planning a star mobile robot).
 
 \section{Reitinhaun ongelmat}
 
