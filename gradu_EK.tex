@@ -87,7 +87,7 @@ yksinkertaisista reitinhakutehtävistä moitteettomasti.
 
 \chapter{Reitinhaku videopeleissä}
 
-Reitinhaulla tarkoitetaan yksinkertaisimmillaan aloitus- ja lopetuspisteen välisen reitin selvittämistä. Se on yksi videopelien tekoälyn ja myös robotiikan tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo muutaman vuosikymmenen ajan \parencite{cui2011based,abd2015comprehensive}. Reitinhakua esiintyy monissa eri peligenreissä, kuten roolipeleissä ja reaaliaikaisissa strategiapeleissä, joissa ei-pelaaja-hahmoja (non-player-character, NPC) määrätään liikkumaan ennaltamäärättyyn tai pelaajan määräämään sijaintiin väistellen samalla vastaantulevia esteitä \parencite{cui2011based}.
+Reitinhaulla tarkoitetaan yksinkertaisimmillaan reitin selvittämistä kahden pisteen välillä. Se on yksi videopelien tekoälyn ja myös robotiikan tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo muutaman vuosikymmenen ajan \parencite{cui2011based,abd2015comprehensive}. Reitinhakua esiintyy monissa eri peligenreissä, kuten roolipeleissä ja reaaliaikaisissa strategiapeleissä, joissa ei-pelaaja-hahmoja (non-player-character, NPC) määrätään liikkumaan ennaltamäärättyyn tai pelaajan määräämään sijaintiin väistellen samalla vastaantulevia esteitä \parencite{cui2011based}.
 
 \section{Pelialueen esitystavat}
 
@@ -99,11 +99,17 @@ Vähemmän käytettyjä alueen esitystapoja ovat kolmiointi ja kuusikulmiointi (
 
 \section{Reitinhakualgoritmit}
 
-Graafin lyhyimmän polun ongelmaa on tutkittu jo vuosikymmenten ajan. Vanhimmat ja tunnetuimmat algoritmit, Dijkstran algoritmi \parencite{dijkstra1959note} ja A*-algoritmi \parencite{hart1968formal}, esiteltiin jo 50- ja 60-luvuilla, mutta näistä A*-algoritmi on selvästi tunnetumpi videopelien ja robottien reitinhaussa \parencite{cui2011based,abd2015comprehensive}.
+Graafin lyhyimmän polun ongelmaa on tutkittu jo vuosikymmenten ajan. Vanhimmat ja tunnetuimmat algoritmit, Dijkstran algoritmi \parencite{dijkstra1959note} ja A*-algoritmi \parencite{hart1968formal}, esiteltiin jo 50- ja 60-luvuilla. A*-algoritmi on selvästi tunnetumpi videopelien ja robottien reitinhaussa nopeutensa ansiosta \parencite{cui2011based,abd2015comprehensive,botea2013pathfinding}. Tässä tutkimuksessa keskitytään tarkemmin A*-algoritmiin ja sen variaatioihin.
 
-A*-algoritmin toiminta perustuu lyhyimmän reitin etsimiseen heuristiikan avulla. Heuristiikkana käytetään usein Euklidista etäisyyttä, Manhattan-etäisyyttä tai Chebyshev-etäisyyttä. (KESKEN)
+\subsection{A*-algoritmi}
 
-Videopelien lisäksi A*-algoritmi on tunnettu myös robotiikassa. Pelialueiden ja robottien toimialueiden ollessa suuria A*-algoritmin tehokkuus ei ole osoittautunut riittäväksi, jonka seurauksena A*-algoritmi on inspiroinut monien eri variaatioiden kehittämisen, kuten Theta*-, Phi*- ja HPA*-algoritmit. (path planning a star mobile robot).
+A*-algoritmi on hyvin tunnettu paras-ensin -reitinhakualgoritmi (termi kuntoon?), joka hyödyntää heuristista arviointifunktiota lyhimmän reitin etsimiseen \parencite{cui2011based,duchovn2014path}. Algoritmin toiminta tapahtuu seuraavasti: jokainen aloitussolmun vierekkäinen solmu arvioidaan kaavan f(n)=h(n)+g(n) mukaisesti, jossa n on solmu, h(n) on heuristinen etäisyys solmusta n maalisolmuun ja g(n) on todellinen etäisyys aloitussolmusta solmuun n. Näistä solmuista matalimman f(n)-arvon solmu käsitellään seuraavaksi, jolloin kyseisen solmun vierekkäisten solmujen f(n)-arvot lasketaan. Tämä prosessi jatkuu, kunnes maalisolmu saavutetaan. (oikeat matemaattiset merkinnät). Heuristiikan ollessa nolla A*-algoritmista tulee Dijkstran algoritmi.
+
+A*-algoritmilla on kolme esitettyä ominaisuutta \parencite{hart1968formal}. A*-algoritmi löytää reitin, jos sellainen on olemassa. Reitti on optimaalinen, jos heuristiikka on luvallinen(admissible?) eli arvioitu etäisyys on lyhyempi tai yhtä suuri kuin todellinen etäisyys. Lopuksi mikään muu algoritmi samalla heuristiikalla ei käy läpi vähemmän solmuja kuin A*-algoritmi eli A* käyttää heuristiikkaa tehokkaimmalla mahdollisella tavalla. \parencite{hart1968formal,cui2011based}. Luvallisia heuristiikkoja ovat solmujen vierekkäisyydestä riippuen Euklidinen etäisyys, Manhattan-etäisyys, Chebyshev-etäisyys tai Octile-etäisyys \parencite{duchovn2014path,botea2013pathfinding}. Manhattan-etäisyyttä käytetään pääasiassa neljän suunnan ja Octile-etäisyyttä kahdeksan suunnan vierekkäisyyksissä \parencite{botea2013pathfinding}.
+
+\subsection{A*-algoritmin variaatiot}
+
+A*-algoritmin heikkous on huono skaalautuvuus suurien alueiden reitinhakuun. Esimerkiksi kaksiulotteisessa ja esteettömässä 1000x1000 ruudukkoalueessa solmuja on miljoona, jolloin A*-algoritmin muistinkäyttö ja nopeus koituvat ongelmaksi. \parencite{cui2011based,duchovn2014path} Tämä ongelma esiintyy videopelien lisäksi etenkin robotiikassa, jonka seurauksena A*-algoritmi on inspiroinut tutkijoita monien eri variaatioiden kehittämiseen, kuten Theta*-, Phi*- ja HPA*-algoritmit \parencite{duchovn2014path}.
 
 \section{Reitinhaun ongelmat}
 
