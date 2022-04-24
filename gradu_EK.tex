@@ -131,68 +131,23 @@ Machine Learning Agents on Unitylle kehitetty koneoppimispaketti, jonka avulla p
 
 Soft Actor-Critic on Haarnojan ym. kehittämä syvä vahvistusoppimis algoritmi \parencite{haarnoja2018soft}. 
 
-\chapter{Tutkimusstrategia/metodi ja sen valintaperusteet}
+\section{Neuroverkot}
 
-- Empiirinen vertaileva tutkimus?
+\section{Vahvistusoppiminen ja syvä vahvistusoppiminen}
 
-- Luodaan pelialueita, toteutetaan heuristinen A*-algoritmi, opetetaan koneoppimisagentit syvän vahvistetun oppimisen avulla (Soft Actor Critic -algoritmi)
-ja sijoitetaan koneoppimisagentit pelialueille. Tämän jälkeen ratkaistaan reitinhakutehtävä erikseen molemmilla menetelmillä ja verrataan saatuja tuloksia keskenään
-(mm. lasketaan tehtävään kulunut aika, suoriutuiko tehtävästä tietyssä ajassa vai ei).
+\section{Soft-Actor Critic -algoritmi}
 
-\chapter{Aineiston keruun suunnittelu}
+\chapter{Tutkimuksen empiirinen osuus}
 
-- Agentit koneopetetaan käyttäen Unity ML-agents -pakettia. Opetusprosessista saatu malli-tiedosto (model, .onnx-tiedosto) liitetään agentin
-komponentiksi, jolloin agentti voi toimia pelialueella itsenäisesti.
+\section{Tutkimuksen kuvaus}
 
-- Tensorboardin avulla oppimisprosessia voidaan visualisoida esimerkiksi palkkioiden suhteen.
+\section{Tutkimusasetelma / Konfiguraatio}
 
-- Aineisto kerätään peliagenteilta jokaisen reitinhakuongelman aikana. Vähintään aika ja tieto siitä onnistuiko agentti tai A*-algoritmi otetaan talteen.
-Myös Tensorboardin muodostamia kuvaajia voidaan käyttää apuna koneoppimista arvioidessa (mm. palkkioiden keskiarvo opetuksessa).
+\chapter{Tulokset ja johtopäätökset}
 
-- Ajan laskemiseen käytetään Unityn valmiita kirjastoja.
-
-\chapter{Aineiston keruu}
-
-- Reitinhakuongelmia on jokaista erilaista pelialuetta kohden yksi. Pelialueita luodaan ainakin muutama kymmen.
-
-- Malli-tiedostoja (model, .onnx-tiedosto) luodaan muutamia eri parametreilla, jolloin voidaan verrata parametrien vaikutusta agentin suoriutumiseen.
-
-- Ajan laskeminen alkaa, kun agentti käsketään siirtymään pisteestä A pisteeseen B.
-Ajan laskeminen loppuu, kun agentti saapuu pisteeseen B. Jos agentti ei syystä tai toisesta
-pysty ratkaisemaan ongelmaa eli ei saavuta pistettä B (esim. aikamaksimi saavutetaan, alueesta riippuen 20+ sekuntia), merkitään ratkaisun tilaksi "epätosi"
-ja jätetään aika-arvo tyhjäksi. Jos ratkaisu löytyy, merkitään ratkaisun tilaksi "tosi" ja
-asetetaan aika-arvoksi mitattu aika. Sama prosessi toistetaan A*-algoritmilla.
-
-- Jos koneoppimisagentteja opetetaan eri määrällä dataa, ilmoitetaan myös opetusdatan määrä.
-
-- Kaikki data kerätään yhteen tiedostoon ja käsitellään jälkikäteen.
-
-\chapter{Aineiston analyysi}
-
-- Kuvaajien avulla visualisoidaan kuluneita aikoja ja vertaillaan saatujen aikojen erotuksia.
-
-- TODO: lisätietoja analyysista
-
-\chapter{Tulokset}
-
-- TODO
-
-\chapter{Johtopäätökset}
-
-- TODO
+\chapter{Yhteenveto}
 
 \printbibliography
-
-- Panov, A., Yakovlev, K. ja Suvorov, R., Grid Path Planning with Deep
-Reinforcement Learning: Preliminary Results, Procedia Computer Science
-Volume 123, Pages 347-353, 2018,
-https://doi.org/10.1016/j.procs.2018.01.054
-
-- X. Lei, Z. Zhang ja P. Dong, Dynamic Path Planning of Unknown
-Environment Based on Deep Reinforcement Learning, 2018,
-https://doi.org/10.1155/2018/5781591
-
-- TODO: oikea merkintätapa ja muita lähteitä.
 
 \chapter{Liitteet}
 
