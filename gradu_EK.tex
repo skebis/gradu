@@ -148,9 +148,30 @@ Machine Learning Agents on Unitylle kehitetty koneoppimispaketti, jonka avulla p
 
 \chapter{Tutkimuksen empiirinen osuus}
 
+Tässä kappaleessa käsitellään tutkimuksen empiiristä osuutta. Tutkimus toteutettiin empiirisenä vertailevana tutkimuksena. Vertailun kohteena olivat Unityn ML-agentin suorittama reitinhaku ja heuristiseen A*-algoritmiin perustuva reitinhaku. Kappaleessa \ref{sec:tutkimuksenkuvaus} kuvaillaan tutkimusta yleisellä tasolla ja esitellään tutkimuksessa käytetyt työkalut. Kappaleessa \ref{sec:tutkimusasetelma} käydään läpi simulaatioympäristöt ja koneoppimiseen liittyvät konfiguraatiot. Lopuksi kappaleessa \ref{sec:mittaaminen} käsitellään tulosten mittaamista ja käytettyjä suureita.
+
 \section{Tutkimuksen kuvaus}
+\label{sec:tutkimuksenkuvaus}
+
+Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten tilanteiden simuloimiseen. Unityllä luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja ja kävelykelpoisia ruutuja. Alueelle määrättiin alku- ja maaliruudut sattumanvaraisesti. Reitinhaun vertailua varten luotiin A*-algoritmi ja opetettiin koneoppimisagentti. Koneoppimisagentti käyttää syvää vahvistettua oppimista.
 
 \section{Tutkimusasetelma / Konfiguraatio}
+\label{sec:tutkimusasetelma}
+
+Koneoppimisagentin toiminta riippuu vahvasti sen asetuksista.
+
+- AddObservation()-funktion avulla agentti kerää tietoa omasta tilastaan ympäristössä. Tässä tutkimuksessa agentin täytyy kerätä tietoa sen omasta sijainnista (x ja y), mahdollisesti etäisyydestä maaliin (toimisiko esim. laskea manhattan-etäisyys?) ja maalin sijainnista (x ja y). Suositeltavaa kuitenkin on, että agentti keräisi tietoa vain näkemistään asioista eli tässä tapauksessa vain omasta sijainnistaan. Näiden havaintojen lisäksi käytetään RayPerceptionSensor2D-komponenttia, joka kerää ympäröivästä alueesta tietoa säteiden avulla. Tässä projektissa agentista lähetetään 12 sädettä, jotka yltävät vain yhden ruudun verran eteenpäin. Säteet pystyvät tunnistamaan vastaantulevia objekteja, joita ovat tässä tapauksessa esteet ja maaliruutu. Näiden havaintojen avulla agentti voi toimia älykkäämmin.
+
+- Actions, toiminnat, yksinkertaisen pelialueen takia käytetään Discrete Actions ja viittä eri vaihtoehtoa (ylös, alas, oikealle, vasemmalle, paikallaan). Jos pelialue olisi monimutkaisempi, voidaan käyttää Continuous Actions (suunta + nopeus).
+
+- Rewards, palkinnot, agentti saa positiivisen palkkion kun saapuu maaliin (+1). Agentti saa negatiivisen palkkion jokaisen liikkeen tai aikamääreen jälkeen (-0.01). Jos agentti törmäilee seiniin, eli yrittää liikkua suuntaan jossa on este, agentille annetaan negatiivinen palkkio (-0.001).
+
+- 
+
+\section{Tulosten mittaaminen}
+\label{sec:mittaaminen}
+
+- Reitinhakutehtävästä otetaan talteen aika (sekuntia) ja onnistuiko reitinhaku vai ei (onnistui/epäonnistui).
 
 \chapter{Tulokset ja johtopäätökset}
 
