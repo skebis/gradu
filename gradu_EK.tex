@@ -142,6 +142,36 @@ Unity on Unity Technologiesin kehittämä pelinkehitysalusta, joka sisältää o
 
 Viime vuosina Unityä on käytetty simulointialustana tekoälytutkimuksen parissa. Unity mahdollistaa lähes mielivaltaisten tilanteiden ja ympäristöjen simuloinnin 2D ruudukkokartoista monimutkaisiin pulmanratkaisutehtäviin, joka on sen suurimpia vahvuuksia simulointialustana. Kehitystyö ja prototypointi ovat Unityllä myös erityisen nopeaa. \parencite{juliani2018unity}.
 
+\section{Unityn hierarkia}
+
+Tässä luvussa käsitellään Unityn hierarkiaa. Aliluvuissa käydään läpi hierarkian osat ylimmästä lähtien.
+
+\subsection{Unity-projekti}
+
+Unityn hierarkian ylin osa on projekti, jonka luomisesta kehitystyö aina alkaa. Unityssä on mahdollista luoda projekti valmiista pohjista, joita ovat esimerkiksi 2D-, 3D- ja VR-pohjat. Pohjien avulla projekteihin saa lisättyä suoraan suositeltavat, parhaita käytäntöjä mukailevat asetukset.
+
+Unity-projekteja voidaan hallinnoida ja avata erillisellä Unity Hub -sovelluksella. Unity Hub kertoo muun muassa mitä Unityn versiota projekti tukee. Projekteja voi tarvittaessa siirtää (engl. migrate) toimimaan uusimmilla Unityn versioilla, mutta siirto voi aiheuttaa toiminnallisuuksien muutoksia tai virheitä projektissa.
+
+\subsection{Näkymät}
+
+Projektista seuraavana hierarkiassa on näkymät (engl. scene). Näkymät toimivat työskentelyalustoina projektissa. Projekti sisältää aina yhden tai useamman näkymän, koska ilman niitä mitään ei pysty luomaan. Tavallisesti yksittäinen näkymä kuvaa aina yhtä tasoa pelissä, ja siirryttäessä toiselle tasolle Unity pystyy lataamaan ajon aikana uuden skenen. Näkymän lataaminen voi tosin viedä aikaa, joten lataus peitetään useimmiten latausruuduilla, jotka voivat myös olla omia, yksinkertaisia näkymiä. Yksinkertaisimmillaan peli voi kuitenkin sisältää vain yhden näkymän joka muokkautuu ja jota muokataan ajon aikana.
+
+Projektin luonnin jälkeen Unity lisää siihen automaattisesti aloitusnäkymän, joka sisältää kameran ja valonlähteen. Tätä näkymää voi lähteä muokkaamaan lisäämällä siihen erilaisia objekteja, esimerkiksi maata ja erilaisia geometrisia muotoja.
+
+\subsection{Peliobjektit}
+
+Peliobjektit (engl. GameObject) ovat tärkein osa Unityn pelinkehitysprosessia, koska kaikki peliin luotavat objektit ovat taustaltaan peliobjekteja. Peliobjektit eivät itsessään tee mitään tai näytä miltään, vaan ne toimivat säiliöinä komponenteille. Peliobjekti on luonnin jälkeen muuten täysin tyhjä, mutta sillä on vähintään yksi Transform-komponentti, joka määrittää peliobjektin sijainnin, suunnan ja koon. Transform-komponenttia ei voi poistaa peliobjektilta.
+
+\subsection{Komponentit}
+
+Komponentit antavat peliobjekteille ominaisuuksia kuten muoto, pinta, kuvio, väri tai esimerkiksi fyysiset ominaisuudet. Komponentit mahdollistavat peliobjekteille myös erilaisia toiminnallisuuksia esimerkiksi skriptien kautta. Usein komponenteilla on myös arvoja, joita voi muokata. Muokkaus tapahtuu asetusnapin, pudotusvalikon tai tekstikentän avulla.
+
+\subsection{Skriptit}
+
+Ohjelmoinnin merkitys Unityn käytössä tulee skripteistä. Skriptit ovat ohjelmakooditiedostoja, joita voi lisätä peliobjektiin komponentin tavoin, jos valmiit komponentit eivät riitä toiminnallisuuksiltaan. Skripteissä voi esimerkiksi määritellä ominaisuuksia ja arvoja, joita voi muokata komponenttilistauksessa tai ajon aikana. Unity tukee tällä hetkellä vain C-\# -ohjelmointikieltä, mutta ennen myös Javascriptiin pohjautuvaa UnityScript-ohjelmointikieltä.
+
+Unity tarjoaa skripteihin MonoBehaviour-pohjaluokan, joka mahdollistaa pelinkehityksen tärkeimmät osat eli Start()-aloitusfunktion ja Update()-päivitysfunktion. Start()-funktio ajetaan ennen yhtäkään päivitysfunktiota, jolloin siinä voidaan määrittää ja alustaa tarvittavat alkuarvot. Update()-funktio ajetaan joka ruudunpäivityskerralla, joten siihen sijoitetaan usein pelilogiikka ja mahdollisesti fyysiset toiminnallisuudet.
+
 \section{Machine Learning Agents}
 
 Machine Learning Agents on Unitylle kehitetty koneoppimispaketti, jonka avulla peliin voidaan ottaa käyttöön koneoppimisagentteja.
