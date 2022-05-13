@@ -158,19 +158,23 @@ Projektista seuraavana hierarkiassa on näkymät (engl. scene). Näkymät toimiv
 
 Projektin luonnin jälkeen Unity lisää siihen automaattisesti aloitusnäkymän, joka sisältää kameran ja valonlähteen. Tätä näkymää voi lähteä muokkaamaan lisäämällä siihen erilaisia objekteja, esimerkiksi maata ja erilaisia geometrisia muotoja.
 
-\subsection{Peliobjektit}
+\subsection{Peliobjektit ja Prefabit}
 
-Peliobjektit (engl. GameObject) ovat tärkein osa Unityn pelinkehitysprosessia, koska kaikki peliin luotavat objektit ovat taustaltaan peliobjekteja. Peliobjektit eivät itsessään tee mitään tai näytä miltään, vaan ne toimivat säiliöinä komponenteille. Peliobjekti on luonnin jälkeen muuten täysin tyhjä, mutta sillä on vähintään yksi Transform-komponentti, joka määrittää peliobjektin sijainnin, suunnan ja koon. Transform-komponenttia ei voi poistaa peliobjektilta.
+Peliobjektit (engl. GameObject) ovat tärkein osa Unityn pelinkehitysprosessia, koska kaikki peliin luotavat objektit ovat taustaltaan peliobjekteja. Peliobjektit eivät itsessään tee mitään tai näytä miltään, vaan ne toimivat säiliöinä komponenteille. Peliobjekteja voidaan järjestellä vanhempi-lapsi -periaatteella. Lapsiobjektit liikkuvat vanhemman mukana, jolloin niitä ei tarvitse liikutella näkymässä erikseen.
+
+Prefabit ovat peliobjektien valmiita malleja, joita luodaan peliobjektien tavoin. Prefabit vähentävät toistuvaa työtä peliobjektien luomisen yhteydessä. Prefabeille voidaan lisätä komponentteja ja lapsiobjekteja kuten peliobjekteille. Kun prefabi lisätään näkymään, sen komponentteja ja arvoja voidaan muuttaa tarvittaessa ilman, että alkuperäisen prefabin arvot ja komponentit muuttuvat.
 
 \subsection{Komponentit}
 
-Komponentit antavat peliobjekteille ominaisuuksia kuten muoto, pinta, kuvio, väri tai esimerkiksi fyysiset ominaisuudet. Komponentit mahdollistavat peliobjekteille myös erilaisia toiminnallisuuksia esimerkiksi skriptien kautta. Usein komponenteilla on myös arvoja, joita voi muokata. Muokkaus tapahtuu asetusnapin, pudotusvalikon tai tekstikentän avulla.
+Komponentit antavat peliobjekteille ominaisuuksia ja toiminnallisuuksia kuten muoto, pinta, kuvio, väri tai fysiikka. Komponentteja voi olla rajattomasti, mutta peliobjektilla on luonnin jälkeen vähintään Transform-komponentti, joka määrittää peliobjektin sijainnin, suunnan ja koon. Transform-komponenttia ei voi poistaa peliobjektilta. Komponentit mahdollistavat peliobjekteille myös erilaisia toiminnallisuuksia skriptien kautta. Usein komponenteilla on arvoja, joita voi muokata asetusnapin, pudotusvalikon tai tekstikentän avulla. Komponentit voivat sisältää myös viittauksia muihin peliobjekteihin, tiedostoihin tai assetteihin(käännös?). Esimerkiksi Sprite Renderer -komponenttiin voidaan lisätä viittaus kuvatiedostoon, jolloin Unity renderöi peliobjektin kohdalle lisätyn kuvan.
 
 \subsection{Skriptit}
 
 Ohjelmoinnin merkitys Unityn käytössä tulee skripteistä. Skriptit ovat ohjelmakooditiedostoja, joita voi lisätä peliobjektiin komponentin tavoin, jos valmiit komponentit eivät riitä toiminnallisuuksiltaan. Skripteissä voi esimerkiksi määritellä ominaisuuksia ja arvoja, joita voi muokata komponenttilistauksessa tai ajon aikana. Unity tukee tällä hetkellä vain C-\# -ohjelmointikieltä, mutta ennen myös Javascriptiin pohjautuvaa UnityScript-ohjelmointikieltä.
 
-Unity tarjoaa skripteihin MonoBehaviour-pohjaluokan, joka mahdollistaa pelinkehityksen tärkeimmät osat eli Start()-aloitusfunktion ja Update()-päivitysfunktion. Start()-funktio ajetaan ennen yhtäkään päivitysfunktiota, jolloin siinä voidaan määrittää ja alustaa tarvittavat alkuarvot. Update()-funktio ajetaan joka ruudunpäivityskerralla, joten siihen sijoitetaan usein pelilogiikka ja mahdollisesti fyysiset toiminnallisuudet.
+Unity tarjoaa skripteihin MonoBehaviour-pohjaluokan, joka mahdollistaa pelinkehityksen tärkeimmät osat eli Start()-aloitusfunktion ja Update()-päivitysfunktion. Start()-funktio ajetaan ennen yhtäkään päivitysfunktiota, joten siinä voidaan määrittää ja alustaa tarvittavat alkuarvot. Update()-funktio ajetaan joka ruudunpäivityskerralla, joten siihen sijoitetaan usein pelilogiikka ja mahdollisesti fyysiset toiminnallisuudet.
+
+Skriptien avulla voidaan tehdä lähes kaikki samat asiat kuin Unity Editorissa. Peliobjekteja voidaan etsiä tagien tai nimien kautta ja niille voidaan lisätä ja poistaa komponentteja ajon aikana. Käyttämättömät peliobjektit voidaan tuhota tai asettaa epäaktiivisiksi jos niitä ei tarvita.
 
 \section{Machine Learning Agents}
 
