@@ -178,7 +178,13 @@ Skriptien avulla voidaan tehdä lähes kaikki samat asiat kuin Unity Editorissa.
 
 \section{Machine Learning Agents}
 
-Machine Learning Agents on Unitylle kehitetty koneoppimispaketti, jonka avulla peliin voidaan ottaa käyttöön koneoppimisagentteja.
+Machine Learning Agents on Unitylle kehitetty ilmainen koneoppimispaketti, joka mahdollistaa Unity Editorilla luotujen simulaatioympäristöjen ja Python APIn välisen vuorovaikutuksen. ML-Agents SDK (Software Development Kit) tarjoaa kaikki toiminnallisuudet ja skriptit toimivan koneoppimisympäristön luomiseen. \parencite{juliani2018unity}.
+
+\subsection{ML-Agents SDK}
+
+ML-Agents SDK sisältää kolme ydinosaa: sensorit, agentit ja akatemia. Agentti-komponentti voidaan lisätä suoraan Unityn peliobjektille, jolloin se pystyy keräämään havaintoja, suorittamaan toimintoja ja vastaanottamaan palkkioita. Sensorit mahdollistavat havaintojen keräämisen eri tavoin. Akatemia ylläpitää tietoa simulaation askelmäärästä ja ympäristön parametreista sekä ohjaa agenttien toimintaa.
+
+Agentin käytäntö määritellään Behavior Name -nimikkeen avulla. Useilla eri agenteilla voi olla sama käytäntö, jolloin agentit käyttävät kyseistä käytäntöä päätöksentekoon ja jakavat harjoitteludatan keskenään. Myös useiden erilaisten agenttien toiminta voidaan mahdollistaa erinimisillä käytännöillä.
 
 \chapter{Tutkimuksen empiirinen osuus}
 
