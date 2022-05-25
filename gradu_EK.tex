@@ -128,13 +128,15 @@ Useamman agentin samanaikaisessa reitinhaussa alueella on useampi kuin yksi agen
 
 \chapter{Koneoppiminen}
 
-Soft Actor-Critic on Haarnojan ym. kehittämä syvä vahvistusoppimis algoritmi \parencite{haarnoja2018soft}. 
+
 
 \section{Neuroverkot}
 
 \section{Vahvistusoppiminen ja syvä vahvistusoppiminen}
 
 \section{Soft-Actor Critic -algoritmi}
+
+Soft Actor-Critic on Haarnojan ym. kehittämä algoritmi, joka perustuu syvään vahvistusoppimiseen \parencite{haarnoja2018soft}. 
 
 \chapter{Unity}
 
@@ -199,20 +201,20 @@ Tässä kappaleessa käsitellään tutkimuksen empiiristä osuutta. Tutkimus tot
 \section{Tutkimuksen kuvaus}
 \label{sec:tutkimuksenkuvaus}
 
-Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten tilanteiden simuloimiseen. Unityllä luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja ja kävelykelpoisia ruutuja. Alueelle määrättiin alku- ja maaliruudut sattumanvaraisesti. Reitinhaun vertailua varten luotiin A*-algoritmi ja opetettiin koneoppimisagentti. Koneoppimisagentti käyttää syvää vahvistettua oppimista.
+Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten tilanteiden simuloimiseen. Tutkimusta varten luotiin valmis 2D-projekti, koska tarkoituksena on tutkia kaksiulotteista reitinhakua. Projektiin lisättiin Unity Package Managerin avulla ML-Agents -paketti, jotta tarvittavat toiminnallisuudet saatiin käyttöön koneoppimista varten. Unityllä luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja, kävelykelpoisia ruutuja ja maali- ja loppuruutu. Reitinhaun vertailua varten luotiin A*-algoritmi ja opetettiin koneoppimisagentti. Koneoppimisagentti käyttää syvään vahvistettuun oppimiseen perustuvaa SAC-algoritmia.
 
 \section{Tutkimusasetelma / Konfiguraatio}
 \label{sec:tutkimusasetelma}
 
 Koneoppimisagentin toiminta riippuu vahvasti sen asetuksista.
 
-- AddObservation()-funktion avulla agentti kerää tietoa omasta tilastaan ympäristössä. Tässä tutkimuksessa agentin täytyy kerätä tietoa sen omasta sijainnista (x ja y), mahdollisesti etäisyydestä maaliin (toimisiko esim. laskea manhattan-etäisyys?) ja maalin sijainnista (x ja y). Suositeltavaa kuitenkin on, että agentti keräisi tietoa vain näkemistään asioista eli tässä tapauksessa vain omasta sijainnistaan. Näiden havaintojen lisäksi käytetään RayPerceptionSensor2D-komponenttia, joka kerää ympäröivästä alueesta tietoa säteiden avulla. Tässä projektissa agentista lähetetään 12 sädettä, jotka yltävät vain yhden ruudun verran eteenpäin. Säteet pystyvät tunnistamaan vastaantulevia objekteja, joita ovat tässä tapauksessa esteet ja maaliruutu. Näiden havaintojen avulla agentti voi toimia älykkäämmin.
+- AddObservation()-funktion avulla agentti kerää tietoa omasta tilastaan ympäristössä. Tässä tutkimuksessa agentin täytyy kerätä tietoa sen omasta sijainnista (x ja y), mahdollisesti etäisyydestä maaliin (toimisiko esim. laskea manhattan-etäisyys?) ja maalin sijainnista (x ja y). Suositeltavaa kuitenkin on, että agentti keräisi tietoa vain näkemistään asioista eli tässä tapauksessa vain omasta sijainnistaan. Näiden havaintojen lisäksi käytetään RayPerceptionSensor2D-komponenttia, joka kerää ympäröivästä alueesta tietoa säteiden avulla. Tässä projektissa agentista lähetetään 12 sädettä, jotka yltävät vain yhden ruudun verran eteenpäin. Säteet pystyvät tunnistamaan vastaantulevia objekteja, joita ovat tässä tapauksessa esteet ja maaliruutu. Näiden havaintojen avulla agentti voi tehostaa päätöksentekoaan.
 
 - Actions, toiminnat, yksinkertaisen pelialueen takia käytetään Discrete Actions ja viittä eri vaihtoehtoa (ylös, alas, oikealle, vasemmalle, paikallaan). Jos pelialue olisi monimutkaisempi, voidaan käyttää Continuous Actions (suunta + nopeus).
 
-- Rewards, palkinnot, agentti saa positiivisen palkkion kun saapuu maaliin (+1). Agentti saa negatiivisen palkkion jokaisen liikkeen tai aikamääreen jälkeen (-0.01). Jos agentti törmäilee seiniin, eli yrittää liikkua suuntaan jossa on este, agentille annetaan negatiivinen palkkio (-0.001).
+- Rewards, palkinnot, agentti saa positiivisen palkkion kun saapuu maaliin (+1). Agentti saa negatiivisen palkkion jokaisen toiminnan (action) jälkeen (-0.01). Jos agentti törmäilee seiniin, eli yrittää liikkua suuntaan jossa on este, agentille annetaan negatiivinen palkkio (-0.001). Palkkiot määritellään skriptitiedostossa ja ovat helposti muutettavissa.
 
-- 
+- Agentin opettaminen aloitetaan komentoriviltä komennolla ml-agents "BehaviorName"... (myös jotain muuta, ml-agents -komento hyödyntää siis Python APIa). Komentorivi näyttää käyttäjän asettamien opetusaskelten välein mm. agentin keskiarvopalkkion askelten aikana. Tässä tutkimuksessa asetettiin väliksi 10000, tensorboard päivittyy myös 10000 välein ts. piirtää kuvaajan pisteen?
 
 \section{Tulosten mittaaminen}
 \label{sec:mittaaminen}
