@@ -128,11 +128,33 @@ Useamman agentin samanaikaisessa reitinhaussa alueella on useampi kuin yksi agen
 
 \chapter{Koneoppiminen}
 
+- Kuinka saada tietokone oppimaan kokemuksen kautta? Voidaanko oppimista jäljitellä?
 
+- Koneoppimisella pyritään luomaan tietokoneelle mahdollisuus oppia aiemmasta kokemuksesta.
+
+- Koneoppimisella ei ole selkeää omaa alaansa, vaan se sijoittuu tietotekniikan ja tilastotieteen välille. Se on kuitenkin selkeästi tekoälyn ja dataopin ytimessä.
+
+- Suurista datajoukoista oppiminen ja erilaisten ennusteiden tekeminen ja päätöksenteko vaatii tilastotieteellisiä menetelmiä.
+
+- Koneoppiminen on noussut vuosikymmenten saatossa tärkeäksi teknologiaksi sekä tutkimuksen että kaupallisten tuotteiden parissa.
+
+- Laskentatehon kasvu ja suuret datamäärät (big data) ovat sekä tuoneet tarpeen koneoppimisratkaisuille sekä mahdollistaneet koneoppimisen laajan hyödyntämisen.
+
+- Monet tieteenalat ovat alkaneet hyödyntämään koneoppimista eri sovellusten parissa.
+
+- Tunnettuja esimerkkejä ovat konenäkö, puheentunnistus ja robotiikka. Konenäköä etenkin terveydenhoidon alalla anomalioiden tunnistamiseen kuvissa. Mainonnassa koneoppimista käytetään personoitujen suositusten luomiseen ja markkinoinnissa erilaisissa ennusteissa.
+
+- Luokitteluongelmat (on/ei), ohjattu oppiminen eli tiedetään tulos ja ohjataan konetta siihen suuntaan, ohjaamaton oppiminen eli ei tiedetä ennalta mitään vaan mallit selviävät vasta oppimisen yhteydessä, vahvistusoppiminen (selitetään myöhemmin).
+
+LÄHDE: (\parencite{jordan2015machine} TODO: lisää lähde bibtex)
 
 \section{Neuroverkot}
 
 \section{Vahvistusoppiminen ja syvä vahvistusoppiminen}
+
+Vahvistusoppiminen on koneoppimisen alalaji, jonka tavoitteena on opettaa ja ohjata agentin käyttäytymistä yrityksen ja erehdyksen kautta (Reinforcement Learning: A Survey, Reinforcement learning: An introduction?). Agentille ei tarvitse opettaa miten ongelma ratkaistaan, vaan sitä ohjataan palkkioiden ja rangaistusten kautta. Perinteisiin koneoppimismenetelmiin verrattuna vahvistusoppiminen erottuu selkeästi. Esimerkiksi valvotussa oppimisessa kartoitetaan syötteitä ja tuloksia toisiinsa, mutta vahvistusoppimisessa agentille ei missään oppimisen vaiheessa kerrota parasta mahdollista ratkaisua tai toimintoa. TODO: lisää vertausta?
+
+Vahvistusoppimisen malli voidaan kuvata tilojen S, toimintojen A ja signaalien avulla. Agentti suorittaa yksittäisen toiminnan a, jolloin ympäristön tila muuttuu ja muutos viestitään agentille vahvistussignaalin kautta. Signaali kuvaa palkkiota, joka voi olla positiivinen tai negatiivinen. Tämän palkkion ja syötteen perusteella agentti valitsee jälleen seuraavan toimintonsa. TODO: matemaattiset merkinnät, kursiivi?
 
 \section{Soft-Actor Critic -algoritmi}
 
