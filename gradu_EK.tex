@@ -148,11 +148,11 @@ Useamman agentin samanaikaisessa reitinhaussa alueella on useampi kuin yksi agen
 
 - Oppimisongelman voi selittää lyhyesti jonkin mitattavan asian tai suorituskyvyn kohentamisena kokemuksen kautta. Luokitteluongelmat (on/ei) ovat yleisiä oppimiseen liittyviä ongelmia.
 
-- Tunnetuin koneoppimismenetelmä on ohjattu oppiminen, joka havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Oppijan tavoitteena on tuottaa ennuste \(y\) syötteen \(x\) perusteella.
+-Ohjattu oppiminen on koneoppimisen osa-alue, jossa oppiminen tapahtuu luokitellun aineiston perusteella. Ohjattu oppiminen havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Oppijan tavoitteena on tuottaa ennuste \(y\) syötteen \(x\) perusteella.
 
 - Ohjaamaton oppiminen mahdollistaa koneoppimisen ilman ihmisen apua tai väliintuloa. Ohjaamattomassa oppimisessa pyritään tunnistamaan datan rakenteet ja mallit ilman datan valmista luokittelua.
 
-- Vahvistusoppiminen sijoittuu ohjatun ja ohjaamattoman oppimisen väliin. Harjoitusdata on vain osittain luokiteltua, ja suurin osa oppimisesta tapahtuu kokeilemalla. Tietylle syötteelle \(x\) ei siis anneta valmiiksi oikeaa tulosta \(y\), vaan agentti saa jokaisesta toiminnasta positiivisen tai negatiivisen palautteen tai palkkion. Agentin tarkoituksena on maksimoida palkkioiden summa tehtävää suorittaessa. Vahvistusoppimisesta selitetään myöhemmässä luvussa lisää.
+- Vahvistusoppiminen sijoittuu ohjatun ja ohjaamattoman oppimisen väliin. Harjoitusdata on vain osittain luokiteltua, ja suurin osa oppimisesta tapahtuu kokeilemalla. Tietylle syötteelle \(x\) ei siis anneta valmiiksi oikeaa tulosta \(y\), vaan agentti saa jokaisesta toiminnasta positiivisen tai negatiivisen palautteen tai palkkion. Agentin tarkoituksena on maksimoida palkkioiden summa tehtävää suorittaessa. Vahvistusoppimisesta selitetään luvussa \ref{sec:vahvistusoppiminen} lisää.
 
 LÄHDE: (\parencite{jordan2015machine})
 
@@ -161,10 +161,13 @@ LÄHDE: (\parencite{jordan2015machine})
 - 
 
 \section{Vahvistusoppiminen ja syvä vahvistusoppiminen}
+\label{sec:vahvistusoppiminen}
 
-Vahvistusoppiminen on koneoppimisen alalaji, jonka tavoitteena on opettaa ja ohjata agentin käyttäytymistä yrityksen ja erehdyksen kautta (Reinforcement Learning: A Survey, Reinforcement learning: An introduction?). Agentille ei tarvitse opettaa miten ongelma ratkaistaan, vaan sitä ohjataan palkkioiden ja rangaistusten kautta. Perinteisiin koneoppimismenetelmiin verrattuna vahvistusoppiminen erottuu selkeästi. Esimerkiksi valvotussa oppimisessa kartoitetaan syötteitä ja tuloksia toisiinsa, mutta vahvistusoppimisessa agentille ei missään oppimisen vaiheessa kerrota parasta mahdollista ratkaisua tai toimintoa. TODO: lisää vertausta?
+Vahvistusoppiminen on koneoppimisen osa-alue, jonka tavoitteena on opettaa ja ohjata agentin käyttäytymistä yrityksen ja erehdyksen kautta (Reinforcement Learning: A Survey, Reinforcement learning: An introduction?). Agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa ja tarkkailee samalla toimintojensa vaikutusta ympäristössä. Agentin oppimisprosessia ja käyttäytymistä ohjataan palkkioilla (a brief survey of deep reinforcement learning).
 
-Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja signaalien avulla. Agentti suorittaa yksittäisen toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille vahvistussignaalin kautta. Signaali kuvaa palkkiota, joka voi olla positiivinen tai negatiivinen. Tämän palkkion ja syötteen perusteella agentti valitsee jälleen seuraavan toimintonsa.
+Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s+1\). Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän (a brief survey of drl).
+
+TODO: rise of drl eteenpäin, actor-critic menetelmästä asiaa?
 
 \section{Soft-Actor Critic -algoritmi}
 
