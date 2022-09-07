@@ -97,20 +97,22 @@ Pelialue esitetään reitinhakua varten aina graafina, joka koostuu solmuista ja
 
 Yleisesti ruudukot sisältävät yksittäisiä vapaita ruutuja tai esteruutuja (engl. tile). Vapaat ruudut muodostavat graafin, jolloin jokainen vapaa ruutu vastaa yhtä graafin solmuista. Vierekkäisiä ruutuja yhdistävät kaaret, joita pitkin reitinhaku ja liikkuminen tapahtuu. \parencite{botea2013pathfinding}. Solmujen vierekkäisyys voi tarkoittaa horisontaalista ja vertikaalista vierekkäisyyttä (neljä suuntaa) tai näiden lisäksi myös diagonaalista vierekkäisyyttä (kahdeksan suuntaa). \parencite{abd2015comprehensive,botea2013pathfinding}. Kuvio \ref{ruudukkokuva} havainnollistaa yksinkertaista ruudukkoaluetta, jossa liikkuminen tapahtuu neljään tai kahdeksaan suuntaan.
 
-Vaikka ruudukkoesitystä pidetään tunnetuimpana ja käytetyimpänä esitystapana, se voi kuitenkin osoittautua ongelmalliseksi tilanteessa, jossa hahmo voi liikkua diagonaalisesti, jolloin kaikki vierekkäiset ruudut eivät ole saman etäisyyden päässä toisistaan. Ruudukossa, jossa ruudut ovat kooltaan 1x1, diagonaalinen etäisyys on $\sqrt{2}$, kun taas vertikaalinen tai horisontaalinen etäisyys on 1. (tähän jotain lähdettä ongelmista)
+Vaikka neliöruudukkoa pidetään tunnetuimpana ja käytetyimpänä esitystapana, se voi kuitenkin osoittautua ongelmalliseksi tilanteessa, jossa hahmo voi liikkua diagonaalisesti, jolloin kaikki vierekkäiset ruudut eivät ole saman etäisyyden päässä toisistaan. Ruudukossa, jossa ruudut ovat kooltaan 1x1, diagonaalinen etäisyys on $\sqrt{2}$, kun taas vertikaalinen tai horisontaalinen etäisyys on 1. (TODO: tähän jotain lähdettä mahdollisista ongelmista)
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=15cm]{ruudukko_kuva.png}
-\caption{Ruudukko, jossa mustat ruudut ovat esteitä ja valkoiset ruudut vapaita. Vihreä ruutu on aloitusruutu ja punainen ruutu on maaliruutu.}
+\caption{Ruudukko, jossa mustat ruudut ovat esteruutuja ja valkoiset ruudut vapaita ruutuja. Vihreä ruutu on aloitusruutu ja punainen ruutu on maaliruutu.}
 \label{ruudukkokuva}
 \end{figure}
 
-Vähemmän tunnettuja pelialueen esitystapoja ovat kolmiointi ja kuusikulmiointi \parencite{abd2015comprehensive}. Alueen kolmiointi ja siihen perustuvat TA*- ja TRA*-algoritmi ovat kuitenkin osoittautuneet moninkertaisesti nopeammiksi suurissa pelialueissa verrattuna A*-algoritmiin \parencite{demyen2006efficient}. Kuusikulmioihin perustuvat alueet ja reitinhakualgoritmit ovat myös tuottaneet lupaavia tuloksia muun muassa robotiikan tutkimuksessa \parencite{abd2015comprehensive}.
+Vähemmän tunnettuja pelialueen esitystapoja ovat kolmiointi ja kuusikulmiointi \parencite{abd2015comprehensive}. Alueen kolmiointi ja siihen perustuvat TA*- ja TRA*-algoritmi ovat kuitenkin osoittautuneet moninkertaisesti nopeammiksi suurissa pelialueissa verrattuna A*-algoritmiin \parencite{demyen2006efficient}. Kuusikulmioihin perustuvat alueet ja reitinhakualgoritmit ovat myös tuottaneet lupaavia tuloksia robotiikan tutkimuksessa sekä yleisesti suoriutuneet paremmin muistinkäytön ja ajankäytön suhteen verrattuna neliöruudukkoihin \parencite{abd2015comprehensive,lawande2022systematic}. Epäsäännöllisistä ruudukoista navigointiverkkoa on käytetty suurimmaksi osin videopeleissä ja esimerkiksi Unity tarjoaa dokumentaatiossaan laajat ohjeet ja menetelmät navigaatioverkon luomiseen \parencite{lawande2022systematic,unitydocnavmesh}.
 
 \section{Reitinhakualgoritmit}
 
-Graafin lyhyimmän polun ongelmaa on tutkittu jo vuosikymmenten ajan. Vanhimmat ja tunnetuimmat algoritmit, Dijkstran algoritmi \parencite{dijkstra1959note} ja A*-algoritmi \parencite{hart1968formal}, esiteltiin jo 50- ja 60-luvuilla. A*-algoritmi on selvästi tunnetumpi videopelien ja robottien reitinhaussa nopeutensa ansiosta \parencite{cui2011based,abd2015comprehensive,botea2013pathfinding}. Tässä tutkimuksessa keskitytään tarkemmin A*-algoritmiin ja sen variaatioihin.
+Graafin lyhyimmän polun ongelmaa ja eri reitinhakualgoritmeja on tutkittu jo vuosikymmenten ajan. Vanhimmat ja tunnetuimmat algoritmit, Dijkstran algoritmi \parencite{dijkstra1959note} ja A*-algoritmi \parencite{hart1968formal}, esiteltiin jo 50- ja 60-luvuilla ja ne pystyivät ratkaisemaan lyhimmän polun ongelman staattisessa graafissa. Uudemmat reitinhaun sovellukset, kuten itseohjautuvat autot ja robotit, toivat kuitenkin alkuperäiselle ongelmanratkaisulle lisää vaatimuksia. Lyhimmän polun löytämisen lisäksi reitinhakualgoritmin täytyy ottaa huomioon sovelluksesta riippuen reitin turvallisuus, tehokkuus ja mahdollisten esteiden väistäminen \parencite{karur2021survey}.
+
+A*-algoritmi on selvästi tunnetuin videopelien ja robottien reitinhaussa nopeutensa ansiosta \parencite{cui2011based,abd2015comprehensive,botea2013pathfinding}. A*-algoritmista on kehitetty jo monia eri variaatioita, jotka pyrkivät vastaamaan jatkuvasti kasvaviin vaatimuksiin. Tässä tutkimuksessa keskitytään tarkemmin A*-algoritmiin ja sen variaatioihin. (TODO: tähän vielä muutoksia, kuulostaa toistolta)
 
 \subsection{A*-algoritmi}
 
