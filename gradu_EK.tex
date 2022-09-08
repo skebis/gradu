@@ -173,11 +173,17 @@ LÄHDE: (\parencite{jordan2015machine})
 \section{Vahvistusoppiminen ja syvä vahvistusoppiminen}
 \label{sec:vahvistusoppiminen}
 
-Vahvistusoppiminen on koneoppimisen osa-alue, jonka tavoitteena on opettaa ja ohjata agentin käyttäytymistä yrityksen ja erehdyksen kautta (Reinforcement Learning: A Survey, Reinforcement learning: An introduction?). Agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa ja tarkkailee samalla toimintojensa vaikutusta ympäristössä. Agentin oppimisprosessia ja käyttäytymistä ohjataan palkkioilla (a brief survey of deep reinforcement learning).
+Vahvistusoppiminen on koneoppimisen osa-alue, jonka tavoitteena on opettaa ja ohjata agentin käyttäytymistä yrityksen ja erehdyksen kautta. Agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa ja tarkkailee samalla toimintojensa vaikutusta ympäristössä. Agentin oppimisprosessia ja käyttäytymistä ohjataan palkkioilla. \parencite{arulkumaran2017brief}
 
-Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s+1\). Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän (a brief survey of drl).
+Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s+1\). Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän. \parencite{arulkumaran2017brief}. Kuvio \ref{reinflearning} havainnollistaa vahvistusoppimisen toimintaa. TODO: kuvion käyttäminen järkevämmin?
 
 TODO: rise of drl eteenpäin, actor-critic menetelmästä asiaa?
+
+\begin{figure}[h]
+\includegraphics[width=17cm]{reinflearning.png}
+\caption{Vahvistusoppimisympäristön oppimissilmukka yhdellä aika-askeleella.}
+\label{reinflearning}
+\end{figure}
 
 \section{Soft-Actor Critic -algoritmi}
 
@@ -226,7 +232,7 @@ Komponentit antavat peliobjekteille ominaisuuksia ja toiminnallisuuksia kuten mu
 
 Usein komponenteilla on erilaisia arvoja, kuten koko tai väri, joita voi muokata käyttöliittymäelementtien avulla. Komponentit voivat sisältää myös viittauksia muihin peliobjekteihin, tiedostoihin tai assetteihin(käännös?). Esimerkiksi Sprite Renderer -komponenttiin voidaan lisätä viittaus kuvatiedostoon, jolloin Unity renderöi peliobjektin kohdalle lisätyn kuvan. Kuviossa \ref{komponenttikuva} on lista peliobjektin komponenteista ja 
 
-\begin{figure}[h]
+\begin{figure}[t]
 \centering
 \includegraphics[width=14.8cm]{komponenttilistaus.png}
 \caption{Lista peliobjektin komponenteista.}
@@ -243,11 +249,18 @@ Skriptien avulla voidaan tehdä lähes kaikki samat asiat kuin Unity Editorissa.
 
 \section{Machine Learning Agents}
 
-Machine Learning Agents on Unitylle kehitetty ilmainen koneoppimispaketti, joka mahdollistaa Unity Editorilla luotujen simulaatioympäristöjen ja Python APIn välisen vuorovaikutuksen. ML-Agents SDK (Software Development Kit) tarjoaa kaikki toiminnallisuudet ja skriptit toimivan koneoppimisympäristön luomiseen. \parencite{juliani2018unity}.
+Machine Learning Agents on Unitylle kehitetty ilmainen koneoppimispaketti, joka mahdollistaa Unity Editorilla luotujen simulaatioympäristöjen ja Python APIn välisen vuorovaikutuksen. ML-Agents SDK (Software Development Kit) tarjoaa kaikki toiminnallisuudet ja skriptit toimivan koneoppimisympäristön luomiseen. \parencite{juliani2018unity}. Kuvio \ref{mlagentsstructure} havainnollistaa Unity Editorilla luodun yksinkertaisen ML-Agents koneoppimisympäristön toimintaa. TODO: "unity editorilla luodun" vai pelkästään "ML-agentsin toimintaa/rakennetta"
 
 \subsection{ML-Agents SDK}
 
 ML-Agents SDK sisältää kolme ydinosaa: sensorit, agentit ja akatemia. Agentti-komponentti voidaan lisätä suoraan Unityn peliobjektille, jolloin se pystyy keräämään havaintoja, suorittamaan toimintoja ja vastaanottamaan palkkioita. Sensorit mahdollistavat havaintojen keräämisen eri tavoin. Akatemia ylläpitää tietoa simulaation askelmäärästä ja ympäristön parametreista sekä ohjaa agenttien toimintaa.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=15cm]{mlagents_structure.png}
+\caption{Lohkokaavio Unity ML-Agents toiminnasta.}
+\label{mlagentsstructure}
+\end{figure}
 
 Agentin käytäntö määritellään Behavior Name -nimikkeen avulla. Eri agenteilla voi olla sama käytäntö, jolloin agentit käyttävät kyseistä käytäntöä päätöksentekoon ja jakavat harjoitteludatan keskenään. Myös useiden erilaisten agenttien toiminta voidaan mahdollistaa erinimisillä käytännöillä.
 
