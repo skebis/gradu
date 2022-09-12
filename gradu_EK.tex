@@ -89,7 +89,7 @@ yksinkertaisista reitinhakutehtävistä moitteettomasti.
 
 \chapter{Reitinhaku videopeleissä}
 
-Reitinhaulla tarkoitetaan yksinkertaisimmillaan reitin selvittämistä kahden pisteen välillä. Se on yksi videopelien tekoälyn ja myös robotiikan tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo muutaman vuosikymmenen ajan \parencite{cui2011based,abd2015comprehensive}. Reitinhakua esiintyy monissa eri peligenreissä, kuten roolipeleissä ja reaaliaikaisissa strategiapeleissä, joissa ei-pelaaja-hahmoja (engl. non-player-character tai NPC) määrätään liikkumaan ennaltamäärättyyn tai pelaajan määräämään sijaintiin väistellen samalla vastaantulevia esteitä. Suurimpia haasteita ovatkin esteiden järkevä väistäminen, tehokkaimman reitin löytäminen ja suoritustehon optimoiminen. \parencite{abd2015comprehensive,cui2011based}. Suoritustehoon liittyen etenkin muistinkäyttöä ja laskentatehoa pidetään yleisesti rajoittavina tekijöinä videopelien reitinhaussa \parencite{botea2013pathfinding}. Suoritustehoon liittyviä ongelmia voidaan ratkaista erilaisilla algoritmeilla tai pelialueen esitystapaan liittyvillä ratkaisuilla \parencite{botea2013pathfinding,cui2011based}.
+Reitinhaulla tarkoitetaan yksinkertaisimmillaan reitin selvittämistä kahden pisteen välillä. Se on yksi videopelien tekoälyn ja myös robotiikan tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo muutaman vuosikymmenen ajan \parencite{cui2011based,abd2015comprehensive}. Reitinhakua esiintyy monissa eri peligenreissä, kuten roolipeleissä ja reaaliaikaisissa strategiapeleissä, joissa ei-pelaaja-hahmoja (engl. non-player-character, NPC) määrätään liikkumaan ennaltamäärättyyn tai pelaajan määräämään sijaintiin väistellen samalla vastaantulevia esteitä. Suurimpia haasteita ovatkin esteiden järkevä väistäminen, tehokkaimman reitin löytäminen ja suoritustehon optimoiminen. \parencite{abd2015comprehensive,cui2011based}. Suoritustehoon liittyen etenkin muistinkäyttöä ja laskentatehoa pidetään yleisesti rajoittavina tekijöinä videopelien reitinhaussa \parencite{botea2013pathfinding}. Suoritustehoon liittyviä ongelmia voidaan ratkaista erilaisilla algoritmeilla tai pelialueen esitystapaan liittyvillä ratkaisuilla \parencite{botea2013pathfinding,cui2011based}.
 
 \section{Pelialueen esitystavat}
 
@@ -130,9 +130,13 @@ Stentz (1994, 1995) esitti 90-luvulla kaksi A*-algoritmin variaatiota: D*-algori
 
 Vuonna 2005 Koenig ja Likhachev (2005) esittelivät D* Lite -algoritmin, joka nimestään huolimatta ei varsinaisesti perustu suoraan D*-algoritmiin, vaan A*- ja LPA*-algoritmiin \parencite{koenig2005fast}. D* Lite -algoritmi osoittautui yksinkertaisemmaksi ja hieman tehokkaammaksi kuin D*- ja Focussed D*-algoritmit, jonka vuoksi sen toteuttaminen ja soveltaminen oli helpompaa \parencite{koenig2005fast}. (TODO: tämän kappaleen viilaus kuntoon, lainaukset, kieliasu, eteneminen jne.)
 
-\section{Reitinhaun ongelmat}
+\section{Reitinhaun haasteet}
 
-Reitinhaun on oltava videopeleissä nopeaa ja laskennallisesti tehokasta. Lisäksi reittien on näytettävä realistiselta pelaajalle. Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa nopeasti ja tehokkaasti heuristisella A*-algoritmilla, mutta nykyään videopeleissä reitinhakuongelmat ovat monimutkaisempia. Reitinhakuongelmat pitävät sisällään esimerkiksi useamman agentin samanaikaista reitinhakua ja reaaliajassa muuttuvien alueiden reitinhakua. Nykytutkimus keskittyykin pääasiassa monimutkaisiin reitinhakuongelmiin.
+Reitinhaun on oltava videopeleissä nopeaa, laskennallisesti tehokasta ja realistista, jotta pelaaja pystyy syventymään videopelin maailmaan eikä pelaajan kokema immersio keskeydy. Eri videopeleissä ilmenee usein erilaisia reitinhakuongelmia, joita ei mikään yksittäinen reitinhakualgoritmi pysty ratkaisemaan. Esimerkiksi reaaliaikaisissa strategiapeleissä pelaaja voi kontrolloida kymmeniä ellei jopa satoja hahmoja samanaikaisesti. Toisaalta roolipeleissä kaupungit ovat täynnä ei-pelaaja-hahmoja, jotka mahdollisesti vaeltelevat reitinhakualgoritmien avulla ja väistelevät vastaantulevia esteitä. Erityisesti kaupungeissa ajavat autot joutuvat reagoimaan pelaajan liikkeisiin tieosuuksilla.
+
+Suurimmat haasteet ovat vuosikymmenten aikana olleet suoritustehoihin liittyviä. Vaikka komponentit ovatkin kehittyneet vuosi vuodelta nopeasti, myös videopelit ovat monimutkaistuneet ja niiden laskennalliset vaatimukset kasvaneet. Reitinhakualgoritmeille varatut resurssit ovat videopeleissä rajatut, koska resursseja käytetään hyvin paljon esimerkiksi graafisiin ja fysikaalisiin ominaisuuksiin. TODO: tästä eteenpäin tarkistus ettei toistoa
+
+Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa optimaalisesti heuristisilla reitinhakualgoritmeilla, mutta nykyään videopeleissä reitinhakuongelmat ovat monimutkaisempia ja saattavat vaatia useiden eri kriteerien täyttymisen. Reitinhakuongelmat pitävät sisällään esimerkiksi useamman agentin samanaikaista reitinhakua, reaaliajassa muuttuvien alueiden reitinhakua tai tuntemattomien alueiden reitinhakua. Lisäksi reitinhakualgoritmin täytyy minimoida suoritustehon ja tallennustilan käyttö. Nykytutkimus keskittyykin pääasiassa monimutkaisiin reitinhakuongelmiin ja algoritmien vertailuun eri tilanteissa.
 
 Useamman agentin samanaikaisessa reitinhaussa alueella on useampi kuin yksi agentti ja jokaisella niistä on oma aloitus- ja lopetuspisteensä. Jos jokaisen agentin reitinhakuun sovelletaan A*-algoritmia suurella 1000x1000 pelialueella, muistiin joudutaan tallentamaan miljoona solmua yhtä agenttia kohden \parencite{cui2011based,duchovn2014path}. Muistinkäytön lisäksi jokaisen agentin täytyy tarvittaessa väistää toisia agentteja ja mahdollisesti muita esteitä. A*-algoritmi osoittautuu riittämättömäksi ongelman ratkaisuun.
 
@@ -180,7 +184,7 @@ Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja palk
 TODO: rise of drl eteenpäin, actor-critic menetelmästä asiaa?
 
 \begin{figure}[h]
-\includegraphics[width=17cm]{reinflearning.png}
+\includegraphics[width=15cm]{reinflearning.png}
 \caption{Vahvistusoppimisympäristön oppimissilmukka yhdellä aika-askeleella.}
 \label{reinflearning}
 \end{figure}
