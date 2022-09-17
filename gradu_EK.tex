@@ -132,13 +132,13 @@ Vuonna 2005 Koenig ja Likhachev (2005) esittelivät D* Lite -algoritmin, joka ni
 
 \section{Reitinhaun haasteet}
 
-Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa optimaalisesti heuristisilla reitinhakualgoritmeilla, mutta nykyään videopeleissä reitinhakuongelmat ovat monimutkaisempia ja saattavat vaatia useiden eri kriteerien täyttymisen. Suurimpia haasteita ovat esteiden järkevä väistäminen, tehokkaimman reitin löytäminen ja suorituskyvyn optimoiminen \parencite{abd2015comprehensive,cui2011based}. Näiden lisäksi reitinhakuongelmat pitävät sisällään esimerkiksi useamman agentin samanaikaista reitinhakua, reaaliajassa muuttuvien alueiden reitinhakua tai tuntemattomien alueiden reitinhakua. Siksi videopeleissä onkin käytössä monia eri reitinhakualgoritmeja, joista osa on kehitetty toimimaan dynaamisissa ympäristöissä, osa staattisissa ympäristöissä ja osa molemmissa \parencite{lawande2022systematic}. Reitinhakualgoritmin valinta voi olla siis riippuvainen käyttötarkoituksesta. Nykytutkimus keskittyy pääasiassa monimutkaisiin reitinhakuongelmiin ja algoritmien vertailuun eri tilanteissa.
+Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa optimaalisesti heuristisilla reitinhakualgoritmeilla, mutta nykyään videopeleissä reitinhakuongelmat ovat monimutkaisempia ja saattavat vaatia useiden eri kriteerien täyttymisen. Suurimpia haasteita ovat esteiden järkevä väistäminen, tehokkaimman reitin löytäminen ja suorituskyvyn optimoiminen \parencite{abd2015comprehensive,cui2011based}. Näiden lisäksi reitinhakuongelmat pitävät sisällään esimerkiksi useamman agentin samanaikaista reitinhakua, reaaliajassa muuttuvien alueiden reitinhakua tai tuntemattomien alueiden reitinhakua. Siksi videopeleissä onkin käytössä monia eri reitinhakualgoritmeja, joista osa on kehitetty toimimaan dynaamisissa ympäristöissä, osa staattisissa ympäristöissä ja osa molemmissa \parencite{lawande2022systematic}. Reitinhakualgoritmin valinta voi olla siis riippuvainen käyttötarkoituksesta. Nykytutkimus keskittyy pääasiassa monimutkaisiin reitinhakuongelmiin ja algoritmien vertailuun eri reitinhakutilanteissa.
 
 \subsection{Suorituskyky}
 
-Reitinhakualgoritmin täytyy minimoida suoritustehon ja tallennustilan käyttö. Vaikka komponentit ovatkin kehittyneet vuosi vuodelta nopeasti, myös videopelit ovat monimutkaistuneet ja niiden laskennalliset vaatimukset kasvaneet. Reitinhakualgoritmeille varatut resurssit ovat videopeleissä rajatut, koska resursseja käytetään hyvin paljon esimerkiksi graafisiin ja fysikaalisiin ominaisuuksiin \parencite{lawande2022systematic}. Suoritustehoon liittyen etenkin muistinkäyttöä ja laskentatehoa pidetään yleisesti rajoittavina tekijöinä videopelien reitinhaussa \parencite{botea2013pathfinding}. Ongelmia voidaan ratkaista erilaisilla algoritmeilla tai pelialueen esitystapaan liittyvillä ratkaisuilla \parencite{botea2013pathfinding,cui2011based}.
+Reitinhakualgoritmin täytyy minimoida suoritustehon ja tallennustilan käyttö. Vaikka komponentit ovatkin kehittyneet vuosi vuodelta nopeasti, myös videopelit ovat monimutkaistuneet ja niiden laskennalliset vaatimukset kasvaneet. Reitinhakualgoritmeille varatut resurssit ovat videopeleissä rajatut, koska resursseja käytetään hyvin paljon myös graafisiin ja fysikaalisiin ominaisuuksiin \parencite{lawande2022systematic}. Suoritustehoon liittyen etenkin muistinkäyttöä ja laskentatehoa pidetään yleisesti rajoittavina tekijöinä videopelien reitinhaussa \parencite{botea2013pathfinding}. Ongelmia voidaan ratkaista erilaisilla algoritmeilla tai pelialueen esitystapaan liittyvillä ratkaisuilla \parencite{botea2013pathfinding,cui2011based}.
 
-Yksi ongelmista on reitinhakualgoritmien huono skaalautuvuus. Useamman agentin samanaikaisessa reitinhaussa alueella on useampi kuin yksi agentti ja jokaisella niistä on oma aloitus- ja lopetuspisteensä. Jos jokaisen agentin reitinhakuun sovelletaan A*-algoritmia suurella 1000x1000 pelialueella, muistiin joudutaan tallentamaan jopa miljoona solmua yhtä agenttia kohden \parencite{cui2011based,duchovn2014path}. Muistinkäytön lisäksi jokaisen agentin täytyy tarvittaessa väistää toisia agentteja ja mahdollisesti muita esteitä. A*-algoritmi osoittautuu riittämättömäksi ongelman ratkaisuun.
+Yksi suorituskykyyn liittyvistä ongelmista on reitinhakualgoritmien huono skaalautuvuus. Jos agentin reitinhakuun sovelletaan A*-algoritmia suurella 1000x1000 pelialueella, muistiin joudutaan tallentamaan jopa miljoona solmua \parencite{cui2011based,duchovn2014path}. Ongelma moninkertaistuu, jos alueella liikkuu useita reitinhakuagentteja. Esimerkiksi A*-algoritmi osoittautuu riittämättömäksi ongelman ratkaisuun, joten tilanteeseen sovelletaan erilaisia menetelmiä tai algoritmien variaatioita.
 
 TODO: lisää esimerkkejä, lisää suorituskykyongelmia
 
@@ -147,6 +147,14 @@ TODO: lisää esimerkkejä, lisää suorituskykyongelmia
 \subsection{Muuttuvan alueen reitinhaku}
 
 TODO: artikkeleita dynaamisesta hausta ja sen ongelmista
+
+\subsection{Moniagenttireitinhaku}
+
+Useamman agentin samanaikaisessa reitinhaussa alueella on useampi kuin yksi agentti ja jokaisella niistä on oma aloitus- ja lopetuspisteensä graafissa. Agenttien täytyy liikkua lopetuspisteeseen ilman, että ne törmäävät toisiinsa matkalla. Moniagenttireitinhaun ongelmaa esiintyy videopelien lisäksi robotiikassa, ilmailussa ja liikennesuunnittelussa. \parencite{sharon2015conflict}.
+
+Moniagenttireitinhakuongelmaan on sekä optimaalisia että epäoptimaalisia ratkaisuja. Optimaaliset ratkaisut ovat luonteeltaan NP-kovia, koska agenttien lukumäärä kasvattaa ongelman tila-avaruutta eksponentiaalisesti. \parencite{sharon2015conflict}. Tämän vuoksi ongelmissa, joissa agentien lukumäärä on suuri, käytetään usein epäoptimaalisia ratkaisuja. 
+
+TODO: moniagenttireitinhaku oikea termi?
 
 \chapter{Koneoppiminen}
 
