@@ -95,7 +95,7 @@ Reitinhaulla tarkoitetaan yksinkertaisimmillaan reitin tai polun selvittämistä
 
 Pelialue esitetään reitinhakua varten aina graafina, joka koostuu solmuista ja kaarista. Kaaret yhdistävät solmut toisiinsa ja mahdollistavat liikkumisen solmujen välillä. Graafista voidaan muodostaa erilaisia kokonaisuuksia, joita kutsutaan ruudukoiksi (engl. grid). Ruudukot voivat olla kuvioltaan säännöllisiä tai epäsäännöllisiä. \parencite{lawande2022systematic}. Säännölliset ruudukot sisältävät esimerkiksi kolmioita, kuusikulmioita, neliöitä tai kuutioita riippuen onko kyseessä 2D- vai 3D-alue. Epäsäännölliset ruudukot voivat koostua esimerkiksi reittipisteistä (engl. waypoint) tai navigointiverkosta (engl. navigation mesh). Selvästi käytetyin esitystapa videopeleissä on 2D-neliöruudukko. \parencite{lawande2022systematic}.
 
-Yleisesti ruudukot sisältävät yksittäisiä vapaita ruutuja tai esteruutuja (engl. tile). Vapaat ruudut muodostavat graafin, jolloin jokainen vapaa ruutu vastaa yhtä graafin solmuista. Vierekkäisiä ruutuja yhdistävät kaaret, joita pitkin reitinhaku ja liikkuminen tapahtuu. \parencite{botea2013pathfinding}. Solmujen vierekkäisyys voi tarkoittaa horisontaalista ja vertikaalista vierekkäisyyttä (neljä suuntaa) tai näiden lisäksi myös diagonaalista vierekkäisyyttä (kahdeksan suuntaa). \parencite{abd2015comprehensive,botea2013pathfinding}. Kuvio \ref{ruudukkokuva} havainnollistaa yksinkertaista ruudukkoaluetta, jossa liikkuminen tapahtuu neljään tai kahdeksaan suuntaan.
+Yleisesti ruudukot sisältävät yksittäisiä vapaita ruutuja tai esteruutuja (engl. tile). Vapaat ruudut muodostavat graafin, jolloin jokainen vapaa ruutu vastaa yhtä graafin solmuista. Vierekkäisiä ruutuja yhdistävät kaaret, joita pitkin reitinhaku ja liikkuminen tapahtuu. \parencite{botea2013pathfinding}. Solmujen vierekkäisyys voi tarkoittaa horisontaalista ja vertikaalista vierekkäisyyttä (neljä suuntaa) tai näiden lisäksi myös diagonaalista vierekkäisyyttä (kahdeksan suuntaa). \parencite{abd2015comprehensive,botea2013pathfinding}. Kuva \ref{ruudukkokuva} havainnollistaa yksinkertaista ruudukkoaluetta, jossa liikkuminen tapahtuu neljään tai kahdeksaan suuntaan.
 
 Vaikka neliöruudukkoa pidetään tunnetuimpana ja käytetyimpänä esitystapana, se voi kuitenkin osoittautua ongelmalliseksi tilanteessa, jossa hahmo voi liikkua diagonaalisesti, jolloin kaikki vierekkäiset ruudut eivät ole saman etäisyyden päässä toisistaan. Ruudukossa, jossa ruudut ovat kooltaan 1x1, diagonaalinen etäisyys on $\sqrt{2}$, kun taas vertikaalinen tai horisontaalinen etäisyys on 1. (TODO: tähän jotain lähdettä mahdollisista ongelmista)
 
@@ -138,7 +138,16 @@ Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa opti
 
 Reitinhakualgoritmin täytyy minimoida suoritustehon ja tallennustilan käyttö. Vaikka komponentit ovatkin kehittyneet vuosi vuodelta nopeasti, myös videopelit ovat monimutkaistuneet ja niiden laskennalliset vaatimukset kasvaneet. Reitinhakualgoritmeille varatut resurssit ovat videopeleissä rajatut, koska resursseja käytetään hyvin paljon myös graafisiin ja fysikaalisiin ominaisuuksiin \parencite{lawande2022systematic}. Suoritustehoon liittyen etenkin muistinkäyttöä ja laskentatehoa pidetään yleisesti rajoittavina tekijöinä videopelien reitinhaussa \parencite{botea2013pathfinding}. Ongelmia voidaan ratkaista erilaisilla algoritmeilla tai pelialueen esitystapaan liittyvillä ratkaisuilla \parencite{botea2013pathfinding,cui2011based}.
 
-Yksi suorituskykyyn liittyvistä ongelmista on reitinhakualgoritmien huono skaalautuvuus. Jos agentin reitinhakuun sovelletaan A*-algoritmia suurella 1000x1000 pelialueella, muistiin joudutaan tallentamaan jopa miljoona solmua \parencite{cui2011based,duchovn2014path}. Ongelma moninkertaistuu, jos alueella liikkuu useita reitinhakuagentteja. Esimerkiksi A*-algoritmi osoittautuu riittämättömäksi ongelman ratkaisuun, joten tilanteeseen sovelletaan erilaisia menetelmiä tai algoritmien variaatioita.
+Yksi suorituskykyyn liittyvistä ongelmista on reitinhakualgoritmien huono skaalautuvuus etenkin muistinkäytön suhteen. Jos agentin reitinhakuun sovelletaan A*-algoritmia suurella 1000x1000 pelialueella, muistiin joudutaan tallentamaan jopa miljoona solmua \parencite{cui2011based,duchovn2014path}. Muistinkäyttöä havainnollistetaan kuvassa \ref{astarmemory}, jossa A*-algoritmia on käytetty esteitä sisältävän alueen reitinhakuun. Kuvan keltaiset ruudut ovat tallennettu muistiin reitinhaun aikana. Kuvasta huomaa, että A*-algoritmi käy läpi suuren määrän ylimääräisiä solmuja, koska alueella on esteitä. Ongelma moninkertaistuu, jos alueella liikkuu useita reitinhakuagentteja. Tässä tapauksessa A*-algoritmi osoittautuu riittämättömäksi ongelman ratkaisuun, joten tilanteeseen kannattaa soveltaa erilaisia menetelmiä tai algoritmien variaatioita.
+
+TODO: tarkista vielä kuva ja sen käyttö esim. tarvitaanko? havainnollistaako tarpeeksi?
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=15cm]{a_star_memory.png}
+\caption{Ruudukkoalue, jossa sininen reitti on A*-algoritmin laskema optimaalisin reitti. Keltaiset ruudut ovat käsitellyt solmut, jotka on tallennettu muistiin.}
+\label{astarmemory}
+\end{figure}
 
 TODO: lisää esimerkkejä, lisää suorituskykyongelmia
 
@@ -195,7 +204,7 @@ LÄHDE: (\parencite{jordan2015machine})
 
 Vahvistusoppiminen on koneoppimisen osa-alue, jonka tavoitteena on opettaa ja ohjata agentin käyttäytymistä yrityksen ja erehdyksen kautta. Agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa ja tarkkailee samalla toimintojensa vaikutusta ympäristössä. Agentin oppimisprosessia ja käyttäytymistä ohjataan palkkioilla. \parencite{arulkumaran2017brief}
 
-Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s+1\). Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän. \parencite{arulkumaran2017brief}. Kuvio \ref{reinflearning} havainnollistaa vahvistusoppimisen toimintaa. TODO: kuvion käyttäminen järkevämmin?
+Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s+1\). Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän. \parencite{arulkumaran2017brief}. Kuva \ref{reinflearning} havainnollistaa vahvistusoppimisen toimintaa. TODO: kuvan käyttäminen järkevämmin?
 
 TODO: rise of drl eteenpäin, actor-critic menetelmästä asiaa?
 
@@ -233,7 +242,7 @@ Projektin luonnin jälkeen Unity lisää siihen automaattisesti aloitusnäkymän
 
 \subsection{Peliobjektit ja Prefabit}
 
-Peliobjektit (engl. GameObject) ovat tärkein osa Unityn pelinkehitysprosessia, koska kaikki peliin luotavat objektit ovat taustaltaan peliobjekteja. Peliobjektit eivät itsessään tee mitään tai näytä miltään, vaan ne toimivat säiliöinä komponenteille. Peliobjekteja voidaan järjestellä vanhempi-lapsi -periaatteella. Lapsiobjektit liikkuvat vanhemman mukana, jolloin niitä ei tarvitse liikutella näkymässä erikseen. Kuvio \ref{peliobjektikuva} havainnollistaa esimerkkinäkymän peliobjekteja ja niiden vanhempi-lapsi -suhteita.
+Peliobjektit (engl. GameObject) ovat tärkein osa Unityn pelinkehitysprosessia, koska kaikki peliin luotavat objektit ovat taustaltaan peliobjekteja. Peliobjektit eivät itsessään tee mitään tai näytä miltään, vaan ne toimivat säiliöinä komponenteille. Peliobjekteja voidaan järjestellä vanhempi-lapsi -periaatteella. Lapsiobjektit liikkuvat vanhemman mukana, jolloin niitä ei tarvitse liikutella näkymässä erikseen. Kuva \ref{peliobjektikuva} havainnollistaa esimerkkinäkymän peliobjekteja ja niiden vanhempi-lapsi -suhteita.
 
 Prefabit ovat peliobjektien valmiita malleja, joita luodaan peliobjektien tavoin. Prefabit vähentävät toistuvaa työtä peliobjektien luomisen yhteydessä. Prefabeille voidaan lisätä komponentteja ja lapsiobjekteja kuten peliobjekteille. Kun prefabi lisätään näkymään, sen komponentteja ja arvoja voidaan muuttaa tarvittaessa ilman, että alkuperäisen prefabin arvot ja komponentit muuttuvat.
 
@@ -250,7 +259,7 @@ Peliobjekteja voi lisätä "GameObject"-valikosta Unityn ylävalikosta joko tyhj
 
 Komponentit antavat peliobjekteille ominaisuuksia ja toiminnallisuuksia kuten muodon, värin tai fysiikan. Komponentteja voi olla rajattomasti, mutta peliobjektilla on luonnin jälkeen vähintään Transform-komponentti, joka määrittää peliobjektin sijainnin, suunnan ja skaalan. Transform-komponenttia ei voi poistaa peliobjektilta. Esimerkiksi valmis 3D-objekti pallo (sphere) saa automaattisesti Mesh Filter-, Mesh Renderer- ja Sphere Collider-komponentit. Kaksi ensimmäistä komponenttia keskittyvät pallon graafisiin ominaisuuksiin ja Sphere Collider fyysisiin törmäysominaisuuksiin. Sphere Collider-komponentti asettuu automaattisesti pallon graafisen ulkomuodon kokoiseksi.
 
-Usein komponenteilla on erilaisia arvoja, kuten koko tai väri, joita voi muokata käyttöliittymäelementtien avulla. Komponentit voivat sisältää myös viittauksia muihin peliobjekteihin, tiedostoihin tai assetteihin(käännös?). Esimerkiksi Sprite Renderer -komponenttiin voidaan lisätä viittaus kuvatiedostoon, jolloin Unity renderöi peliobjektin kohdalle lisätyn kuvan. Kuviossa \ref{komponenttikuva} on lista peliobjektin komponenteista ja 
+Usein komponenteilla on erilaisia arvoja, kuten koko tai väri, joita voi muokata käyttöliittymäelementtien avulla. Komponentit voivat sisältää myös viittauksia muihin peliobjekteihin, tiedostoihin tai assetteihin(käännös?). Esimerkiksi Sprite Renderer -komponenttiin voidaan lisätä viittaus kuvatiedostoon, jolloin Unity renderöi peliobjektin kohdalle lisätyn kuvan. Kuvassa \ref{komponenttikuva} on lista peliobjektin komponenteista ja 
 
 \begin{figure}[t]
 \centering
@@ -269,7 +278,7 @@ Skriptien avulla voidaan tehdä lähes kaikki samat asiat kuin Unity Editorissa.
 
 \section{Machine Learning Agents}
 
-Machine Learning Agents on Unitylle kehitetty ilmainen koneoppimispaketti, joka mahdollistaa Unity Editorilla luotujen simulaatioympäristöjen ja Python APIn välisen vuorovaikutuksen. ML-Agents SDK (Software Development Kit) tarjoaa kaikki toiminnallisuudet ja skriptit toimivan koneoppimisympäristön luomiseen. \parencite{juliani2018unity}. Kuvio \ref{mlagentsstructure} havainnollistaa Unity Editorilla luodun yksinkertaisen ML-Agents koneoppimisympäristön toimintaa. TODO: "unity editorilla luodun" vai pelkästään "ML-agentsin toimintaa/rakennetta"
+Machine Learning Agents on Unitylle kehitetty ilmainen koneoppimispaketti, joka mahdollistaa Unity Editorilla luotujen simulaatioympäristöjen ja Python APIn välisen vuorovaikutuksen. ML-Agents SDK (Software Development Kit) tarjoaa kaikki toiminnallisuudet ja skriptit toimivan koneoppimisympäristön luomiseen. \parencite{juliani2018unity}. Kuva \ref{mlagentsstructure} havainnollistaa Unity Editorilla luodun yksinkertaisen ML-Agents koneoppimisympäristön toimintaa. TODO: "unity editorilla luodun" vai pelkästään "ML-agentsin toimintaa/rakennetta"
 
 \subsection{ML-Agents SDK}
 
