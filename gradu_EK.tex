@@ -123,6 +123,7 @@ Algoritmin toiminta tapahtuu seuraavasti: jokainen aloitussolmun vierekkäinen s
 A*-algoritmilla on kolme esitettyä ominaisuutta \parencite{hart1968formal}. Ensiksi A*-algoritmi löytää reitin, jos sellainen on olemassa. Toiseksi reitti on optimaalinen, jos heuristiikka on luvallinen eli arvioitu etäisyys on lyhyempi tai yhtä suuri kuin todellinen etäisyys. Viimeisenä mikään muu algoritmi samalla heuristiikalla ei käy läpi vähemmän solmuja kuin A*-algoritmi eli A* käyttää heuristiikkaa tehokkaimmalla mahdollisella tavalla. \parencite{hart1968formal,cui2011based}. Luvallisia heuristiikkoja ovat solmujen vierekkäisyydestä riippuen Euklidinen etäisyys, Manhattan-etäisyys, Chebyshev-etäisyys ja Octile-etäisyys \parencite{duchovn2014path,botea2013pathfinding}. Manhattan-etäisyyttä käytetään pääasiassa neljän suunnan ja Octile- sekä Chebyshev-etäisyyttä kahdeksan suunnan vierekkäisyyksissä \parencite{botea2013pathfinding}. Euklidista etäisyyttä voidaan käyttää tilanteessa, jossa agentti voi siirtyä seuraavaan soluun mistä kulmasta tahansa.
 
 \subsection{A*-algoritmin variaatiot}
+\label{avariaatiot}
 
 Reitinhakualgoritmeja toteutettiin alunperin valmiisiin ja tarkkoihin ympäristöihin, joka ei kuitenkaan ole verrattavissa reaalimaailman tilanteisiin, joissa ympäristö voi muuttua arvaamattomasti \parencite{lawande2022systematic}. A*-algoritmia ja sen rajoitteita onkin tutkittu jo useita vuosikymmeniä, joka on mahdollistanut useiden eri variaatioiden kehittämisen. Useimmiten variaatiot keskittyvät korjaamaan yleisimpiä A*-algoritmin reitinhakuongelmia, kuten suoritustehon optimointia ja sopeutumista muuttuviin alueisiin \parencite{stentz1994optimal}.
 
@@ -132,7 +133,7 @@ Vuonna 2005 Koenig ja Likhachev (2005) esittelivät D* Lite -algoritmin, joka ni
 
 \section{Reitinhaun haasteet}
 
-Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa optimaalisesti heuristisilla reitinhakualgoritmeilla, mutta nykyään videopeleissä reitinhakuongelmat ovat monimutkaisempia ja saattavat vaatia useiden eri kriteerien täyttymisen. Suurimpia haasteita ovat esteiden järkevä väistäminen, tehokkaimman reitin löytäminen ja suorituskyvyn optimoiminen \parencite{abd2015comprehensive,cui2011based}. Näiden lisäksi reitinhakuongelmat pitävät sisällään esimerkiksi useamman agentin samanaikaista reitinhakua, reaaliajassa muuttuvien alueiden reitinhakua tai tuntemattomien alueiden reitinhakua. Siksi videopeleissä onkin käytössä monia eri reitinhakualgoritmeja, joista osa on kehitetty toimimaan dynaamisissa ympäristöissä, osa staattisissa ympäristöissä ja osa molemmissa \parencite{lawande2022systematic}. Reitinhakualgoritmin valinta voi olla siis riippuvainen käyttötarkoituksesta. Nykytutkimus keskittyy pääasiassa monimutkaisiin reitinhakuongelmiin ja algoritmien vertailuun eri reitinhakutilanteissa.
+Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa optimaalisesti heuristisilla reitinhakualgoritmeilla, mutta nykyään videopeleissä reitinhakuongelmat ovat monimutkaisempia ja saattavat vaatia useiden eri kriteerien täyttymisen. Suurimpia haasteita ovat esteiden järkevä väistäminen, optimaalisen reitin löytäminen ja suorituskykyvaatimusten minimointi \parencite{abd2015comprehensive,cui2011based}. Näiden lisäksi reitinhakuongelmat pitävät sisällään esimerkiksi useamman agentin samanaikaista reitinhakua ja reaaliajassa muuttuvan alueen reitinhakua. Siksi videopeleissä onkin käytössä monia eri reitinhakualgoritmeja, joista osa on kehitetty toimimaan dynaamisissa ympäristöissä, osa staattisissa ympäristöissä ja osa molemmissa \parencite{lawande2022systematic}. Reitinhakualgoritmin valinta on siis riippuvainen käyttötarkoituksesta. Nykytutkimus keskittyy pääasiassa monimutkaisten reitinhakuongelmien ratkaisemiseen ja algoritmien vertailuun erilaisissa reitinhakutilanteissa.
 
 \subsection{Suorituskyky}
 
@@ -151,9 +152,13 @@ TODO: tarkista vielä kuva ja sen käyttö esim. tarvitaanko? havainnollistaako 
 
 TODO: lisää esimerkkejä, lisää suorituskykyongelmia
 
-(Toisaalta roolipeleissä kaupungit ovat täynnä ei-pelaaja-hahmoja, jotka mahdollisesti vaeltelevat reitinhakualgoritmien avulla ympäriinsä ja väistelevät vastaantulevia esteitä. Erityisesti pelimaailman kaupungeissa ajavat autot joutuvat reagoimaan pelaajan liikkeisiin tieosuuksilla, jolloin voidaan tarvita dynaamisia reitinhakualgoritmeja.)
+\subsection{Dynaamisen alueen reitinhaku}
 
-\subsection{Muuttuvan alueen reitinhaku}
+Dynaamisen eli muuttuvan alueen reitinhaussa pyritään löytämään optimaalisin reitti jatkuvasti muuttuvassa alueessa \parencite{lawande2022systematic}. Dynaamisen alueen reitinhakua esiintyy erityisesti robotiikassa, mutta myös videopeleissä. Robottien reitinhaussa ympäröivää tilaa mitataan erilaisten sensorien avulla, jonka perusteella reitinhakua suoritetaan. Videopeleissä pelialue on kokonaisuudessaan usein valmiiksi reitinhakuagentin tiedossa eikä erillisiä sensoreita käytetä pelialueen havainnoimiseen, ellei haluta vähentää epäreiluutta ja matkia ihmismäistä käyttäytymistä. \parencite{rahmani2022towards}.
+
+Videopeleissä pelialue voi muuttua toisten pelaajien, ei-pelaaja-hahmojen tai muuten vain liikkuvien esteiden takia. Esimerkiksi kilpa-ajoneuvopeleissä pelaaja voi kisata ei-pelaaja-hahmon kanssa, joka joutuu väistelemään sekä pelaajan ajoneuvoa että muita alueen muutoksia \parencite{sazaki2017pathfinding}. Jokainen alueen muutos rikkoo reitinhakugraafin rakenteen, jolloin graafi ja valittu reitti täytyy korjata. Graafin luominen voi olla isoissa pelialueissa kallis operaatio, joten jatkuva uudelleenluominen ja uuden reitin etsiminen ei välttämättä ole vaihtoehto. Nykyään videopelien reitinhaun tutkimuksissa painotetaankin dynaamista reitinhakua.
+
+Graafin jatkuva päivittäminen on tuonut erilaisia ideoita tutkimuksissa. Luvussa \ref{avariaatiot} mainittu D*-algoritmi on kehitetty juuri tuntemattoman ja muuttuvan alueen reitinhakuun.
 
 TODO: artikkeleita dynaamisesta hausta ja sen ongelmista
 
