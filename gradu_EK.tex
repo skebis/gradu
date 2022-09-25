@@ -174,27 +174,21 @@ TODO: moniagenttireitinhaku oikea termi?
 
 \chapter{Koneoppiminen}
 
-- Keskeiset koneoppimiseen liittyvät kysymykset: Kuinka saada tietokone oppimaan kokemuksen kautta? Voidaanko oppimista jäljitellä?
+Koneoppiminen on tällä hetkellä yksi teknisten tutkimusalojen suosituimmista aihealueista. Sen ydin rakentuu kysymykselle, pystyykö tietokone jäljittelemään ihmismielen oppimisprosessia ja täten oppia automaattisesti kokemuksen kautta. \parencite{das2017survey,jordan2015machine}. Automaattisella oppimisella pyritään vähentämään manuaalista, tapaus tapauksen perään ohjelmoimista. Sen sijaan konetta opetetaan syöte-tuloste -parien avulla. Vuosikymmenten aikana koneoppimisen tutkimus on edistynyt hyvin paljon eikä loppua ole toistaiseksi näkymässä. Uudet sovellukset ja jatkuvasti kasvavat datamäärät tuovat tarpeen sekä teorian tutkimukselle että kehittyneille käytännön ratkaisuille.
 
-- Koneoppimisella pyritään luomaan tietokoneelle mahdollisuus oppia aiemmasta kokemuksesta.
+\section{Koneoppimisen perusteet}
 
-- Koneoppimisella ei ole selkeää omaa alaansa, vaan se sijoittuu tietotekniikan ja tilastotieteen välille. Se on kuitenkin selkeästi tekoälyn ja dataopin ytimessä.
+Koneoppiminen on tieteenalana yhdistelmä tietotekniikkaa ja tilastotieteitä. Tietotekniikka ja tietokoneet mahdollistavat ongelmanratkaisun. Suurista datajoukoista oppiminen, erilaisten ennusteiden tekeminen ja päätöksenteko vaativat sen sijaan tilastotieteellisiä menetelmiä. \parencite{das2017survey,jordan2015machine}. Myös neurotieteiden ja psykologian roolit ovat kasvavamassa koneoppimisen tutkimuksessa. Esimerkiksi ihmisaivojen ja sitä kautta oppimisprosessin tutkiminen ja hyödyntäminen koneoppimisessa ovat tulevaisuudessa merkittäviä tutkimuksen kohteita. \parencite{das2017survey}.
 
-- Suurista datajoukoista oppiminen ja erilaisten ennusteiden tekeminen ja päätöksenteko vaatii tilastotieteellisiä menetelmiä.
+Koneoppimisella yritetään perinteisesti ratkaista luokitteluongelmia, joissa datajoukosta voidaan päätellä, kuuluuko kyseinen asia tiettyyn luokkaan vai ei \parencite{jordan2015machine}. Esimerkiksi sähköposti voidaan luokitella roskapostiksi tai aidoksi sähköpostiksi riippuen mitkä ovat luokittelun vaihtoehdot. Koneoppimisen avulla kasvatetaan luokittelun tarkkuutta, joka on kyseisen luokitteluongelman tärkein mittari. Esimerkkidata, jolla konetta opetetaan, voi koostua kokoelmasta erilaisia sähköposteja, jotka on valmiiksi luokiteltu roskapostiksi tai aidoksi sähköpostiksi. Koneoppimisen avulla kone opetetaan tunnistamaan malleja ja kuvioita datassa, jolloin se pystyy myöhemmin tunnistamaan samoja kuvioita oikeissa tilanteissa. \parencite{jordan2015machine}.
 
-- Koneoppiminen on noussut vuosikymmenten saatossa tärkeäksi teknologiaksi sekä tutkimuksen että kaupallisten tuotteiden parissa.
+TODO: tästä eteenpäin eri oppimisen osa-alueet ja loput alaotsikot.
 
 - Laskentatehon kasvu, uudet oppimisalgoritmit ja suuret datamäärät (big data) ovat sekä tuoneet tarpeen koneoppimisratkaisuille sekä mahdollistaneet koneoppimisen laajan hyödyntämisen.
 
-- Koneoppiminen ja syöte-tuloste -esimerkkien avulla opettaminen voi osoittautua paljon helpommaksi verrattuna manuaaliseen opettamiseen, jossa jokaiselle syötteelle asetetaan haluttu tulos. (tämä lause uusiksi)
-
-- Monet tieteenalat ovat alkaneet hyödyntämään koneoppimista eri sovellusten parissa.
-
 - Tunnettuja esimerkkejä ovat konenäkö, puheentunnistus ja robotiikka. Konenäköä hyödynnetään etenkin terveydenhoidon alalla anomalioiden tunnistamiseen kuvissa. Mainonnassa koneoppimista käytetään personoitujen suositusten luomiseen ja markkinoinnissa erilaisissa ennusteissa.
 
-- Oppimisongelman voi selittää lyhyesti jonkin mitattavan asian tai suorituskyvyn kohentamisena kokemuksen kautta. Luokitteluongelmat (on/ei) ovat yleisiä oppimiseen liittyviä ongelmia.
-
--Ohjattu oppiminen on koneoppimisen osa-alue, jossa oppiminen tapahtuu luokitellun aineiston perusteella. Ohjattu oppiminen havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Oppijan tavoitteena on tuottaa ennuste \(y\) syötteen \(x\) perusteella.
+- Ohjattu oppiminen on koneoppimisen osa-alue, jossa oppiminen tapahtuu luokitellun aineiston perusteella. Ohjattu oppiminen havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Oppijan tavoitteena on tuottaa ennuste \(y\) syötteen \(x\) perusteella.
 
 - Ohjaamaton oppiminen mahdollistaa koneoppimisen ilman ihmisen apua tai väliintuloa. Ohjaamattomassa oppimisessa pyritään tunnistamaan datan rakenteet ja mallit ilman datan valmista luokittelua.
 
