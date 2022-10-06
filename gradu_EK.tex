@@ -186,13 +186,31 @@ Koneoppimisella yritetään perinteisesti ratkaista luokitteluongelmia, joissa d
 
 \section{Koneoppimisen paradigmat}
 
-Koneoppimisen tutkimus voidaan jakaa ohjattuun oppimiseen, ohjaamattomaan oppimiseen ja vahvistusoppimiseen. Ohjatussa oppimisessa oppiminen tapahtuu luokitellun aineiston perusteella. Se havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu tai todennäköisyysjakauma. Oppijan tavoitteena on tuottaa ennuste \(y\) syötteen \(x\) perusteella. Ohjatun oppimisen heikkoutena voidaan pitää luokitellun datan saatavuutta. Data täytyy esikäsitellä ja luokitella ennalta muilla menetelmillä, joka nostaa lopullista kustannusta. \parencite{das2017survey}.
+Koneoppimisen tutkimus voidaan jakaa eri osiin oppimistyylin mukaan. Oppimistyylejä ovat esimerkiksi ohjattu oppiminen, puoliohjattu oppiminen, ohjaamaton oppiminen, transduktio ja vahvistusoppiminen \parencite{das2017survey}. Näistä tunnetuimpia ovat ohjattu oppiminen, ohjaamaton oppiminen ja vahvistusoppiminen.
 
-Ohjaamattomassa oppimisessa analysoidaan luokittelematonta dataa. Tarkoituksena on tehdä päätelmiä datan rakenteesta ja malleista ilman ihmisen väliintuloa ja ohjeistusta. Klusteroinniksi kutsutaan menetelmiä, joissa datapisteet jaetaan ominaispiirteidensä perusteella klustereihin. Yksittäiset klusterit sisältävät siis ominaisuuksiltaan samankaltaisen datan. \textit{K-means} -klusterointi on tunnettu klusterointimenetelmä, jossa datapisteet \(n\) jaetaan \(K\):hon klusteriin. Klusterin keskipistettä lähimpänä oleva datapiste toimii prototyyppinä, johon muiden datapisteiden etäisyyksiä verrataan. \textit{Dimensionality reduction}-menetelmät pyrkivät tihentämään datajoukkoa ja sen analysointia. Sen periaatteena on vähentää datajoukossa tarkasteltavia ominaispiirteitä ja näin ollen vähentää datajoukon ulottuvuutta, jolloin sen analysointi helpottuu. Uusi datajoukko pyritään pitämään samankaltaisena, jottei analysointiin tulisi muutoksia.
+\subsection{Ohjattu oppiminen}
 
-TODO: tähän vahvistusoppiminen, koska yksi paradigmoista. paradigma oikea termi näille "ala-lajeille"? alaotsikointi vielä kuntoon, mahdollisesti ala-ala-otsikoita mukaan.
+Käytetyin oppimistyyli on ohjattu oppiminen ja siihen liittyvät menetelmät \parencite{jordan2015machine}. Ohjatussa oppimisessa oppiminen tapahtuu luokitellun aineiston perusteella. Se havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Luokittelijan tavoitteena on tuottaa mahdollisimman tarkka ennuste \(y\) syötteen \(x\) perusteella. \parencite{jordan2015machine}.
 
-- Vahvistusoppiminen sijoittuu ohjatun ja ohjaamattoman oppimisen väliin. Harjoitusdata on vain osittain luokiteltua, ja suurin osa oppimisesta tapahtuu kokeilemalla. Tietylle syötteelle \(x\) ei siis anneta valmiiksi oikeaa tulosta \(y\), vaan agentti saa jokaisesta toiminnasta positiivisen tai negatiivisen palautteen tai palkkion. Agentin tarkoituksena on maksimoida palkkioiden summa tehtävää suorittaessa. Vahvistusoppimisesta selitetään luvussa \ref{sec:vahvistusoppiminen} lisää.
+Ohjatun oppimisen heikkoutena voidaan pitää luokitellun datan saatavuutta. Data täytyy esikäsitellä ja luokitella ennalta muilla menetelmillä, joka nostaa lopullista laskentakustannusta. \parencite{das2017survey}.
+
+TODO: hieman niukka kappale, mahdollisesti lisää tekstiä.
+
+\subsection{Ohjaamaton oppiminen}
+
+Ohjaamattomassa oppimisessa analysoidaan luokittelematonta dataa \parencite{das2017survey,jordan2015machine}. Tarkoituksena on tehdä päätelmiä datan rakenteesta ja malleista ilman ulkopuolista ohjeistusta. Klusterointi ja dimension redusointimenetelmät ovat yleisiä datan strukturointimenetelmiä (mikä muu termi tähän sopisi?).
+
+Klusteroinniksi kutsutaan menetelmiä, joissa datapisteet jaetaan ominaispiirteidensä perusteella klustereihin. Yksittäiset klusterit sisältävät siis ominaisuuksiltaan samankaltaiset datapisteet. \textit{K-means} -klusterointi on tunnettu klusterointimenetelmä, jossa datapisteet \(n\) jaetaan \(K\):hon klusteriin. Klusterin keskipistettä lähimpänä oleva datapiste toimii eräänlaisena prototyyppinä, johon muiden datapisteiden etäisyyksiä verrataan. Uusi datapiste katsotaan kuuluneeksi siihen klusteriin, jonka keskipisteeseen on pienin etäisyys.
+
+Dimension redusointimenetelmät (monimuuttujamenetelmät?) pyrkivät tihentämään datajoukkoa ja helpottamaan sen analysointia. Niiden periaatteena on vähentää datajoukossa tarkasteltavia ominaispiirteitä ja näin ollen vähentää datajoukon kokonaisulottuvuutta, jolloin datajoukon analysointi yksinkertaistuu. Uuteen datajoukkoon pyritään sisällyttämään keskeisimmät piirteet siten, ettei relevanttia informaatiota katoaisi. Pääkomponenttianalyysi on yksi tunnetuimmista ja vanhimmista dimension redusointimenetelmistä, jossa olemassaolevasta datajoukosta poimitaan tärkeimmät piirteet ja luodaan niistä pääkomponentteja (engl. principal components) \parencite{abdi2010principal}.
+
+\subsection{Vahvistusoppiminen}
+
+Vahvistusoppiminen sijoittuu ohjatun ja ohjaamattoman oppimisen väliin. Harjoitusdata on vain osittain luokiteltua, ja suurin osa oppimisesta tapahtuu kokemuksen kautta. Tietylle syötteelle \(x\) ei siis anneta valmiiksi oikeaa tulosta \(y\), vaan agentti saa jokaisesta toiminnasta positiivisen tai negatiivisen palautteen tai palkkion. Agentin tarkoituksena on maksimoida palkkioiden summa tehtävää suorittaessa.
+
+
+
+TODO: paradigma oikea termi näille "ala-lajeille"? jätetäänkö vahvistusoppiminen tähän vai siirretäänkö omaan kappaleeseen?
 
 \section{Neuroverkot ja syväoppiminen}
 
