@@ -186,11 +186,11 @@ Koneoppimisella yritetään perinteisesti ratkaista luokitteluongelmia, joissa d
 
 \section{Koneoppimisen paradigmat}
 
-Koneoppimisen tutkimus voidaan jakaa eri osiin oppimistyylin mukaan. Oppimistyylejä ovat esimerkiksi ohjattu oppiminen, puoliohjattu oppiminen, ohjaamaton oppiminen, transduktio ja vahvistusoppiminen \parencite{das2017survey}. Näistä tunnetuimpia ovat ohjattu oppiminen, ohjaamaton oppiminen ja vahvistusoppiminen.
+Koneoppiminen voidaan jakaa eri osiin oppimistyylin mukaan. Oppimistyylejä ovat esimerkiksi ohjattu oppiminen, puoliohjattu oppiminen, ohjaamaton oppiminen, transduktio ja vahvistusoppiminen \parencite{das2017survey}. Näistä tunnetuimpia ovat ohjattu oppiminen, ohjaamaton oppiminen ja vahvistusoppiminen.
 
 \subsection{Ohjattu oppiminen}
 
-Käytetyin oppimistyyli on ohjattu oppiminen ja siihen liittyvät menetelmät \parencite{jordan2015machine}. Ohjatussa oppimisessa oppiminen tapahtuu luokitellun aineiston perusteella. Se havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Luokittelijan tavoitteena on tuottaa mahdollisimman tarkka ennuste \(y\) syötteen \(x\) perusteella. \parencite{jordan2015machine}.
+Käytetyin oppimistyyli on ohjattu oppiminen ja siihen liittyvät menetelmät \parencite{jordan2015machine}. Ohjatussa oppimisessa oppiminen tapahtuu luokitellun aineiston perusteella. Se havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Oppijan tavoitteena on tuottaa mahdollisimman tarkka ennuste \(y\) syötteen \(x\) perusteella. \parencite{jordan2015machine}.
 
 Ohjatun oppimisen heikkoutena voidaan pitää luokitellun datan saatavuutta. Data täytyy esikäsitellä ja luokitella ennalta muilla menetelmillä, joka nostaa lopullista laskentakustannusta. \parencite{das2017survey}.
 
@@ -206,9 +206,11 @@ Dimension redusointimenetelmät (monimuuttujamenetelmät?) pyrkivät tihentämä
 
 \subsection{Vahvistusoppiminen}
 
-Vahvistusoppiminen sijoittuu ohjatun ja ohjaamattoman oppimisen väliin. Harjoitusdata on vain osittain luokiteltua, ja suurin osa oppimisesta tapahtuu kokemuksen kautta. Tietylle syötteelle \(x\) ei siis anneta valmiiksi oikeaa tulosta \(y\), vaan agentti saa jokaisesta toiminnasta positiivisen tai negatiivisen palautteen tai palkkion. Agentin tarkoituksena on maksimoida palkkioiden summa tehtävää suorittaessa.
+Vahvistusoppiminen on kolmas suuri koneoppimisen paradigma, jossa oppijana toimii agentti ja agentin toimintaa ohjaavat palkkiot \parencite{jordan2015machine}. Harjoitusdata eroaa muista paradigmoista siten, ettei tietylle syötteelle \(x\) anneta valmiiksi oikeaa tulosta \(y\) tai etsitä rakenteellisia malleja datajoukosta, vaan agentti saa jokaisesta suorittamastaan toiminnasta positiivisen tai negatiivisen palkkion \parencite{jordan2015machine}. Palkkiot ohjaavat agentin oppimisprosessia ja käyttäytymistä ympäristössä. Toimintojen ja niistä saatujen palkkioiden lisäksi agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa siten, että agentti tarkkailee toimintojensa vaikutuksia ympäristössä ja ympäristön tilamuutoksia. Näin agentti pystyy muokkaamaan toimintojaan saamiensa palkkioiden perusteella. \parencite{arulkumaran2017brief}. Vahvistusoppimistehtävän ideaaliratkaisu on palkkiot maksimoivan käytännön (engl. policy) selvittäminen \parencite{arulkumaran2017brief}.
 
+Vahvistusoppiminen voidaan kuvata Markovin päätösprosessina (engl. Markov decision process, MDP) tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s+1\). Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän. Vahvistusoppimiseen liittyy tasapainotus alueen tutkimisen (engl. exploration) ja olemassaolevan tiedon hyödyntämisen (engl. exploitation) välillä. \parencite{arulkumaran2017brief}. Kuva \ref{reinflearning} havainnollistaa vahvistusoppimisen toimintaa.
 
+Vahvistusoppimiseen liittyy haasteita optimaalisen käytännön löytämisessä, agentin toiminnoissa ja toimintojen pidemmän ajan seurauksista \parencite{arulkumaran2017brief}. Ensiksi optimaalinen käytäntö on mahdollista löytää vain jatkuvan yrittämisen kautta, ja ainoana oppimisen signaalina toimivat saadut palkkiot. Riippuen tehtävän haastavuudesta lukuisatkaan yritykset eivät välttämättä takaa optimaalisinta ratkaisua. Toiseksi havainnot agentin toiminnoista voivat sisältää ajallista korrelaatiota. Esimerkiksi robotin liikkuessa sisätiloissa sen havainnot riippuvat vahvasti siitä, kohtaako se matkalla umpikujia vai siirtyykö se satunnaisilla toiminnoilla suoraan kohteeseen. Viimeisenä agentin toiminnot voivat näkyä vasta monien ympäristön tilamuutoksien jälkeen. Tätä ongelmaa kutsutaan nimellä \textit{(temporal) credit assignment problem}. \parencite{arulkumaran2017brief}.
 
 TODO: paradigma oikea termi näille "ala-lajeille"? jätetäänkö vahvistusoppiminen tähän vai siirretäänkö omaan kappaleeseen?
 
@@ -216,12 +218,9 @@ TODO: paradigma oikea termi näille "ala-lajeille"? jätetäänkö vahvistusoppi
 
 - 
 
-\section{Vahvistusoppiminen ja syvä vahvistusoppiminen}
-\label{sec:vahvistusoppiminen}
+\section{Syvä vahvistusoppiminen}
+\label{sec:syvavahvistusoppiminen}
 
-Vahvistusoppiminen on koneoppimisen osa-alue, jonka tavoitteena on opettaa ja ohjata agentin käyttäytymistä yrityksen ja erehdyksen kautta. Agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa ja tarkkailee samalla toimintojensa vaikutusta ympäristössä. Agentin oppimisprosessia ja käyttäytymistä ohjataan palkkioilla. \parencite{arulkumaran2017brief}
-
-Vahvistusoppimisen malli voidaan kuvata tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnan \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s+1\). Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän. \parencite{arulkumaran2017brief}. Kuva \ref{reinflearning} havainnollistaa vahvistusoppimisen toimintaa. TODO: kuvan käyttäminen järkevämmin?
 
 TODO: rise of drl eteenpäin, actor-critic menetelmästä asiaa?
 
