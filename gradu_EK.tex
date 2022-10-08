@@ -212,23 +212,29 @@ Vahvistusoppiminen voidaan kuvata Markovin päätösprosessina (engl. Markov dec
 
 Vahvistusoppimiseen liittyy haasteita optimaalisen käytännön löytämisessä, agentin toiminnoissa ja toimintojen pidemmän ajan seurauksista \parencite{arulkumaran2017brief}. Ensiksi optimaalinen käytäntö on mahdollista löytää vain jatkuvan yrittämisen kautta, ja ainoana oppimisen signaalina toimivat saadut palkkiot. Riippuen tehtävän haastavuudesta lukuisatkaan yritykset eivät välttämättä takaa optimaalisinta ratkaisua. Toiseksi havainnot agentin toiminnoista voivat sisältää ajallista korrelaatiota. Esimerkiksi robotin liikkuessa sisätiloissa sen havainnot riippuvat vahvasti siitä, kohtaako se matkalla umpikujia vai siirtyykö se satunnaisilla toiminnoilla suoraan kohteeseen. Viimeisenä agentin toiminnot voivat näkyä vasta monien ympäristön tilamuutoksien jälkeen. Tätä ongelmaa kutsutaan nimellä \textit{(temporal) credit assignment problem}. \parencite{arulkumaran2017brief}.
 
+\begin{figure}[h]
+\includegraphics[width=15cm]{reinflearning.png}
+\caption{Vahvistusoppimisympäristön oppimissilmukka yhdellä aika-askeleella.}
+\label{reinflearning}
+\end{figure}
+
 TODO: paradigma oikea termi näille "ala-lajeille"? jätetäänkö vahvistusoppiminen tähän vai siirretäänkö omaan kappaleeseen?
 
-\section{Neuroverkot ja syväoppiminen}
+\section{Syväoppiminen}
 
-- 
+Syväoppimista on tutkittu tietotekniikan alalla jo useita vuosikymmeniä, mutta viime vuosina sen tutkimus on ottanut suurimpia harppauksia. Syväoppimisella ollaan onnistuttu ratkaisemaan ongelmia, joita tekoälyn tutkimuksessa on yritetty ratkaista vuosia \parencite{lecun2015deep}. Erityisesti tuloksia on tullut kuvantunnistuksessa, puheentunnistuksessa ja erilaisissa luonnollisen kielen prosessoinnin tehtävissä \parencite{lecun2015deep}.
+
+\subsection{Syväoppimisen perusteet}
+
+Syväoppimisen historia...
+
+TODO: mistä termi, neuronit, painoarvot, monitasoisuus, backpropagation, gradient descent..
 
 \section{Syvä vahvistusoppiminen}
 \label{sec:syvavahvistusoppiminen}
 
 
 TODO: rise of drl eteenpäin, actor-critic menetelmästä asiaa?
-
-\begin{figure}[h]
-\includegraphics[width=15cm]{reinflearning.png}
-\caption{Vahvistusoppimisympäristön oppimissilmukka yhdellä aika-askeleella.}
-\label{reinflearning}
-\end{figure}
 
 \section{Soft-Actor Critic -algoritmi}
 
