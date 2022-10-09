@@ -222,13 +222,18 @@ TODO: paradigma oikea termi näille "ala-lajeille"? jätetäänkö vahvistusoppi
 
 \section{Syväoppiminen}
 
-Syväoppimista on tutkittu tietotekniikan alalla jo useita vuosikymmeniä, mutta viime vuosina sen tutkimus on ottanut suurimpia harppauksia. Syväoppimisella ollaan onnistuttu ratkaisemaan ongelmia, joita tekoälyn tutkimuksessa on yritetty ratkaista vuosia \parencite{lecun2015deep}. Erityisesti tuloksia on tullut kuvantunnistuksessa, puheentunnistuksessa ja erilaisissa luonnollisen kielen prosessoinnin tehtävissä \parencite{lecun2015deep}.
+Koneoppimisen ja sitä kautta myös syväoppimisen tutkimus on ollut viime vuosina hyvin aktiivista \parencite{pouyanfar2018survey}. Syväoppimisella ollaan onnistuttu ratkaisemaan ongelmia, joita tekoälyn tutkimuksessa on yritetty ratkaista vuosia \parencite{lecun2015deep,pouyanfar2018survey}. Erityisesti tuloksia on tullut kuvantunnistuksessa, puheentunnistuksessa ja erilaisissa luonnollisen kielen prosessoinnin tehtävissä \parencite{lecun2015deep,pouyanfar2018survey}. Tässä luvussa kerrotaan syväoppimisen ja syvän vahvistusoppimisen perusteet sekä esitellään Soft Actor Critic -algoritmi, jota myöhemmin sovelletaan empiirisessä osuudessa.
 
-\subsection{Syväoppimisen perusteet}
+TODO: voiko tässä kertoa luvun sisältöä vai jätetäänkö pois
 
-Syväoppimisen historia...
+\subsection{Syväoppimisen historia}
 
-TODO: mistä termi, neuronit, painoarvot, monitasoisuus, backpropagation, gradient descent..
+Syväoppimisen historia juontaa alkunsa vuosituhansia kestäneestä kiinnostuksesta simuloida ihmisaivoja koneellisesti \parencite{pouyanfar2018survey}. Nykyiset tekoälylliset neuroverkot saivat kuitenkin alkunsa vasta vuonna 1943 esitellystä McCulloch-Pitts -mallista, joka pyrki matkimaan ihmisaivojen isoaivokuorta keinotekoisten neuroverkkojen avulla. Vuonna 1958 esiteltiin ensimmäinen elektroninen perseptroni-kone, jonka jälkeen syväoppimisen tutkimus koki ensimmäisen tekoälytalvensa. \parencite{pouyanfar2018survey}.
+
+Vasta vuonna 1986 syväoppimisessa koettiin seuraava suuri askel vastavirta-algoritmin (engl. backpropagation) nousun myötä. Vastavirta-algoritmi mahdollistaa virhearvojen käytön syväoppimismallien opettamisessa, joka toimii nykyisten neuroverkkojen yhtenä peruspilareista. \parencite{pouyanfar2018survey}. Vuonna 1980 esiteltiin neocogitron-neuroverkko, joka toimi konvoluutioneuroverkkojen (engl. convolutional neural network, CNN) inspiraationa, ja siitä hieman myöhemmin vuonna 1986 takaisinkytketty neuroverkko (engl. Recurrent Neural Network, RNN). Lopulta vuonna 2006 kehitettiin syvä uskomusverkko (engl. Deep Belief Network, DBN), joka mahdollisti entistä syvemmän oppimisen, ja jonka seurauksena siirryttiin käyttämään termiä syväoppiminen neuroverkkojen sijasta. \parencite{pouyanfar2018survey}.
+
+TODO: liikaa yhdestä lähteestä otettua tietoa? historia hieman tönkköä.. 
+neuronit, painoarvot, monitasoisuus, backpropagation, gradient descent..
 
 \section{Syvä vahvistusoppiminen}
 \label{sec:syvavahvistusoppiminen}
