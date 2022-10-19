@@ -222,7 +222,7 @@ TODO: paradigma oikea termi näille "ala-lajeille"? jätetäänkö vahvistusoppi
 
 \section{Syväoppiminen}
 
-Koneoppimisen ja sitä kautta myös syväoppimisen tutkimus on ollut viime vuosina hyvin aktiivista \parencite{pouyanfar2018survey}. Syväoppimisella ollaan onnistuttu ratkaisemaan ongelmia, joita tekoälyn tutkimuksessa on yritetty ratkaista vuosia \parencite{lecun2015deep,pouyanfar2018survey}. Erityisesti tuloksia on tullut kuvantunnistuksessa, puheentunnistuksessa ja erilaisissa luonnollisen kielen prosessoinnin tehtävissä \parencite{lecun2015deep,pouyanfar2018survey}. Suurimpia syväoppimisen tutkimuksen askeleita viime vuosikymmenillä ovat vastavirta-algoritmi (engl. backpropagation), konvoluutioneuroverkon (engl. Convolutional Neural Network, CNN) inspiraationa tunnettu neocogitron-neuroverkko, siitä hieman myöhemmin kehitetty takaisinkytketty neuroverkko (engl. Recurrent Neural Network, RNN) ja syvä uskomusverkko (engl. Deep Belief Network, DBM). Syvä uskomusverkko mahdollisti entistä syvemmän neuroverkon oppimisen, jonka seurauksena siirryttiin yleisesti käyttämään termiä syväoppiminen. Viime vuosien yksi tunnetuimpia syväoppimisen sovelluksia ovat muun muassa Googlen AlphaGo, joka onnistui päihittämään useita Go-pelin ammattilaisia pelin äärimmäisestä strategisesta haastavuudesta huolimatta. Tässä luvussa kerrotaan neuroverkkojen, syväoppimisen ja syvän vahvistusoppimisen toiminnan perusteet sekä esitellään Soft Actor Critic -algoritmi, jota myöhemmin sovelletaan tutkimuksen empiirisessä osuudessa.
+Koneoppimisen ja sitä kautta myös syväoppimisen tutkimus on ollut viime vuosina hyvin aktiivista \parencite{pouyanfar2018survey}. Syväoppimisella ollaan onnistuttu ratkaisemaan ongelmia, joita tekoälyn tutkimuksessa on yritetty ratkaista vuosia \parencite{lecun2015deep,pouyanfar2018survey}. Erityisesti tuloksia on tullut kuvantunnistuksessa, puheentunnistuksessa ja erilaisissa luonnollisen kielen prosessoinnin tehtävissä \parencite{lecun2015deep,pouyanfar2018survey}. Suurimpia syväoppimisen tutkimuksen askeleita viime vuosikymmenillä ovat vastavirta-algoritmi (engl. backpropagation), konvoluutioneuroverkon (engl. Convolutional Neural Network, CNN) inspiraationa tunnettu neocogitron-neuroverkko, siitä hieman myöhemmin kehitetty takaisinkytketty neuroverkko (engl. Recurrent Neural Network, RNN) ja syvä uskomusverkko (engl. Deep Belief Network, DBM). Syvä uskomusverkko mahdollisti entistä syvemmän neuroverkon oppimisen, jonka seurauksena siirryttiin yleisesti käyttämään termiä syväoppiminen. Viime vuosien yksi tunnetuimpia syväoppimisen sovelluksia on muun muassa Googlen AlphaGo, joka onnistui päihittämään useita Go-pelin ammattilaisia pelin äärimmäisestä strategisesta haastavuudesta huolimatta. Tässä luvussa kerrotaan neuroverkkojen, syväoppimisen ja syvän vahvistusoppimisen toiminnan perusteet sekä esitellään Soft Actor Critic -algoritmi, jota myöhemmin sovelletaan tutkimuksen empiirisessä osuudessa.
 
 TODO: voiko tässä kertoa luvun sisältöä vai jätetäänkö pois
 
@@ -247,11 +247,14 @@ Ylisovittamista voidaan hillitä myös säännöstelyllä (engl. regularization)
 TODO: Tarkista neuroverkkoteorian sisältö, onko riittävä?
 
 \section{Syvä vahvistusoppiminen}
-\label{sec:syvavahvistusoppiminen}
 
-TODO: rise of drl eteenpäin, actor-critic menetelmästä asiaa?
+Yksi tekoälyn tutkimuksen suurimpia tavoitteita on luoda täysin autonominen ja ohjailtava agentti, joka pystyy toimimaan erilaisissa ympäristöissä samalla oppien ja kehittäen käyttäytymistään paremmaksi \parencite{arulkumaran2017brief}. Alunperin vahvistusoppimisella pystyttiin kehittämään oppivia agentteja, mutta ongelmaksi osoittautui ongelmien ja ratkaisujen suppeus, koska vahvistusoppimisella ei pystytty käsittelemään moniulotteista dataa, kuten robotin sensoridataa tai kuvan pikseleitä. Syväoppimisella pystyttiin vastaamaan tähän vaatimukseen, ja pian syvän vahvistusoppimisen sovelluksilla pystyttiin pelaamaan Atari 2600:n videopelejä käyttämällä hyväksi kuvan pikselidataa.
 
-\section{Soft-Actor Critic -algoritmi}
+\subsection{Syvän vahvistusoppimisen perusteet}
+
+TODO: Value function (ennustus tulevasta palkkiosta, mikä järkevin toiminto), policy search, q-learning (deep q network), actor-critic..
+
+\subsection{Soft-Actor Critic}
 
 Soft Actor-Critic on Haarnojan ym. kehittämä algoritmi, joka perustuu syvään vahvistusoppimiseen \parencite{haarnoja2018soft}. 
 
