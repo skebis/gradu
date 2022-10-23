@@ -192,7 +192,7 @@ Koneoppiminen voidaan jakaa eri osiin oppimistyylin mukaan. Oppimistyylejä ovat
 
 Käytetyin oppimistyyli on ohjattu oppiminen ja siihen liittyvät menetelmät \parencite{jordan2015machine}. Ohjatussa oppimisessa oppiminen tapahtuu luokitellun aineiston perusteella. Se havainnollistaa lineaariapproksimaatiota ja siihen liittyviä ongelmia. Opetusaineisto tuodaan \((x,y)\) pareina, jossa \(x\) on syöte, esimerkiksi kuva, ja \(y\) on tulos, esimerkiksi lintu. Oppijan tavoitteena on tuottaa mahdollisimman tarkka ennuste \(y\) syötteen \(x\) perusteella. \parencite{jordan2015machine}.
 
-Ohjatun oppimisen heikkoutena voidaan pitää luokitellun datan saatavuutta. Data täytyy esikäsitellä ja luokitella ennalta muilla menetelmillä, joka nostaa lopullista laskentakustannusta. \parencite{das2017survey}.
+Ohjatun oppimisen heikkoutena voidaan pitää luokitellun datan saatavuutta \parencite{das2017survey}. Data täytyy esikäsitellä ja luokitella ennalta muilla menetelmillä, joka nostaa lopullista laskentakustannusta.
 
 TODO: hieman niukka kappale, mahdollisesti lisää tekstiä.
 
@@ -202,7 +202,7 @@ Ohjaamattomassa oppimisessa analysoidaan luokittelematonta dataa \parencite{das2
 
 Klusteroinniksi kutsutaan menetelmiä, joissa datapisteet jaetaan ominaispiirteidensä perusteella klustereihin. Yksittäiset klusterit sisältävät siis ominaisuuksiltaan samankaltaiset datapisteet. \textit{K-means} -klusterointi on tunnettu klusterointimenetelmä, jossa datapisteet \(n\) jaetaan \(K\):hon klusteriin. Klusterin keskipistettä lähimpänä oleva datapiste toimii eräänlaisena prototyyppinä, johon muiden datapisteiden etäisyyksiä verrataan. Uusi datapiste katsotaan kuuluneeksi siihen klusteriin, jonka keskipisteeseen on pienin etäisyys.
 
-Dimension redusointimenetelmät (monimuuttujamenetelmät?) pyrkivät tihentämään datajoukkoa ja helpottamaan sen analysointia. Niiden periaatteena on vähentää datajoukossa tarkasteltavia ominaispiirteitä ja näin ollen vähentää datajoukon kokonaisulottuvuutta, jolloin datajoukon analysointi yksinkertaistuu. Uuteen datajoukkoon pyritään sisällyttämään keskeisimmät piirteet siten, ettei relevanttia informaatiota katoaisi. Pääkomponenttianalyysi on yksi tunnetuimmista ja vanhimmista dimension redusointimenetelmistä, jossa olemassaolevasta datajoukosta poimitaan tärkeimmät piirteet ja luodaan niistä pääkomponentteja (engl. principal components) \parencite{abdi2010principal}.
+Dimension redusointimenetelmät pyrkivät tihentämään datajoukkoa ja helpottamaan sen analysointia. Niiden periaatteena on vähentää datajoukossa tarkasteltavia ominaispiirteitä ja näin ollen vähentää datajoukon kokonaisulottuvuutta, jolloin datajoukon analysointi yksinkertaistuu. Uuteen datajoukkoon pyritään sisällyttämään keskeisimmät piirteet siten, ettei relevanttia informaatiota katoaisi. Pääkomponenttianalyysi on yksi tunnetuimmista ja vanhimmista dimension redusointimenetelmistä, jossa olemassaolevasta datajoukosta poimitaan tärkeimmät piirteet ja luodaan niistä pääkomponentteja (engl. principal components) \parencite{abdi2010principal}.
 
 \subsection{Vahvistusoppiminen}
 
@@ -216,7 +216,7 @@ Vahvistusoppiminen voidaan kuvata Markovin päätösprosessina (engl. Markov dec
 \label{reinflearning}
 \end{figure}
 
-Oppiakseen optimaalisen käytännön agentin tekemät päätökset vaativat jonkin ennusteen tulevien toimintojen arvosta. Yleisesti tämän ennusteen laskemista kutsutaan nimellä \textit{action-value function}, ja yksi tunnettu menetelmä sen laskemiseen on Q-oppiminen (engl. Q-learning). Q-oppiminen on malliton (engl. model-free) menetelmä eli se ei tarvitse toimiakseen erillistä mallia ympäristöstä. Q-oppimisessa jokaisen tilan eri toimintoa arvioidaan kaavan \[Q(s,a) = r + \gamma max_a Q(s_t+1,a)\] mukaisesti, jossa \(s\) on tila, \(a\) on toiminto, $\gamma$ on erillinen vähennys, joka määrittelee tulevien toimintojen tärkeyden aiempiin verrattuna ja \(max_a Q(s_t+1,a)\) on toiminnon \(a\) suurin mahdollinen palkkio tilassa \(s\).
+Oppiakseen optimaalisen käytännön agentin tekemät päätökset vaativat jonkin ennusteen tulevien toimintojen arvosta. Yleisesti tämän ennusteen laskemista kutsutaan nimellä \textit{action-value function}, ja yksi tunnettu menetelmä sen laskemiseen on Q-oppiminen (engl. Q-learning). Q-oppiminen on malliton (engl. model-free) menetelmä eli se ei tarvitse toimiakseen erillistä mallia ympäristöstä. Q-oppimisessa jokaisen tilan eri toimintoa arvioidaan \cite{arulkumaran2017brief} esittämän kaavan \[Q(s,a) = r_t + \gamma max_a Q^\pi (s_{t+1},a)\] mukaisesti, jossa \(s\) on tila, \(a\) on toiminto, \(r_t\) on tilan palkkio, $\gamma$ on erillinen vähennys, joka määrittelee tulevien toimintojen tärkeyden aiempiin verrattuna ja \(max_a Q^\pi (s_{t+1},a)\) on ennakkoarvio tulevasta, optimaalisesta palkkiosta.
 
 TODO: tarkista vielä q-oppimiseen liittyvät asiat
 
@@ -250,19 +250,19 @@ TODO: Tarkista neuroverkkoteorian sisältö, onko riittävä?
 
 \section{Syvä vahvistusoppiminen}
 
-Yksi tekoälyn tutkimuksen suurimpia tavoitteita on luoda täysin autonominen ja ohjailtava agentti, joka pystyy toimimaan erilaisissa ympäristöissä samalla oppien ja kehittäen käyttäytymistään paremmaksi \parencite{arulkumaran2017brief}. Alunperin vahvistusoppimisella pystyttiin kehittämään oppivia agentteja, mutta ongelmaksi osoittautui ongelmien ja ratkaisujen suppeus, koska pelkällä vahvistusoppimisella ei pystytty käsittelemään ja hyödyntämään moniulotteista dataa, kuten robotin raakaa sensoridataa tai kuvan pikseleitä. Syväoppimisella pystyttiin vastaamaan tähän vaatimukseen, ja pian syvän vahvistusoppimisen sovelluksilla pystyttiin jo pelaamaan Atari 2600:n videopelejä käyttämällä hyväksi kuvan pikselidataa.
+Yksi tekoälyn tutkimuksen suurimpia tavoitteita on luoda täysin autonominen ja ohjailtava agentti, joka pystyy toimimaan erilaisissa ympäristöissä samalla oppien ja kehittäen käyttäytymistään paremmaksi \parencite{arulkumaran2017brief}. Alunperin vahvistusoppimisella pystyttiin kehittämään oppivia agentteja, mutta ongelmaksi osoittautui ongelmien ja ratkaisujen suppeus, koska pelkällä vahvistusoppimisella ei pystytty käsittelemään ja hyödyntämään moniulotteista dataa, kuten robotin raakaa sensoridataa tai kuvan pikseleitä. Syväoppimisella onnistuttiin vastaamaan tähän vaatimukseen, ja pian syvän vahvistusoppimisen sovelluksilla pystyttiin jo pelaamaan Atari 2600:n videopelejä käyttämällä hyväksi kuvan pikselidataa.
 
 \subsection{Syvän vahvistusoppimisen perusteet}
 
-Syvä vahvistusoppiminen hyödyntää syväoppimista ja neuroverkkoja suurten tila- ja havaintoavaruuksien tapauksissa sekä esimerkiksi arvofunktion approksimoinnissa \parencite{li2018deep}.
+Syvä vahvistusoppiminen hyödyntää syväoppimista ja neuroverkkoja suurten tila- ja havaintoavaruuksien vahvistusoppimistapauksissa \parencite{li2018deep}. Se eroaa vahvistusoppimisesta pääasiassa funktioapproksimaation suhteen. Esimerkiksi tavallisessa Q-oppimisessa muodostetaan taulu tila-toiminta -pareista ja niiden Q-arvoista, mutta syvässä Q-oppimisessa (engl. deep Q-learning) taulu korvataan neuroverkolla. Syvässä Q-oppimisessa tila, esimerkiksi pikselidata, syötetään neuroverkolle ja tuloksena saadaan mahdolliset toiminnot ja niiden arvot. Oppiminen tapahtuu neuroverkon tapaisesti eli selvitetään funktion maksimiarvot ja päivitetään neuroverkon painoarvoja sen mukaisesti.
 
-Syvässä Q-oppimisessa (engl. deep Q-learning) tila syötetään neuroverkolle ja tuloksena saadaan mahdollisten toimintojen Q-funktiot kyseisessä tilassa. Tarkoituksena on selvittää funktion maksimiarvot ja päivittää neuroverkon painoarvoja sen mukaisesti. TODO: tähän jotain järkevää ja lähteitä
+TODO: policy search, experience replay, bootstrapping..
 
-TODO: policy search, q-learning (deep q network), actor-critic.. (\parencite{li2018deep})
+\subsection{Soft actor-critic}
 
-\subsection{Soft-Actor Critic}
+Soft actor-aritic (SAC) on \cite{haarnoja2018soft} kehittämä malliton (oikea termi?) ja \textit{off-policy} syvä vahvistusoppimis-algoritmi. Se kehitettiin vastaamaan yleisiin vahvistusoppimis-algoritmien ongelmiin reaalimaailmassa, kuten harjoitusdatan kompleksisuuteen (engl. sample complexity) ja hyperparametrien herkkyyteen \parencite{haarnoja2018app}. Yksinkertaisetkin tehtävät saattoivat vaatia satoja tuhansia ellei jopa miljoonia opetusaskeleita ennen kuin sopiva lopputulos saavutettiin. Tämän lisäksi eri tehtävien välillä joutui virittelemään monien eri hyperparametrien arvoja, jotta oppiminen olisi edes mahdollista. SAC pyrkii mahdollisimman satunnaisiin toimintoihin samalla maksimoiden odotetun palkkiomäärän, jota kutsutaan myös nimellä \textit{maximum entropy}. Tavallisesti parhaimman käytännön löytämisessä halutaan maksimoida saatu palkkio, mutta \textit{maximum entropy} -periaatteessa yhtälöön lisätään erillinen entropia-termi. Entropian suuruutta kontrolloidaan erillisen kertoimen $\alpha$ avulla, joka voidaan asettaa myös nollaksi, jolloin yhtälö palauttaa jälleen maksimipalkkion antavan käytännön.
 
-Soft Actor-Critic on Haarnojan ym. kehittämä algoritmi, joka perustuu syvään vahvistusoppimiseen \parencite{haarnoja2018soft}. 
+TODO: SAC testauksesta, suoriutui paremmin kuin muut DRL-algoritmit, ehkä lisää teoriataustaa?
 
 \chapter{Unity}
 
