@@ -356,14 +356,14 @@ Tässä kappaleessa käsitellään tutkimuksen empiiristä osuutta. Tutkimus tot
 \section{Tutkimuksen kuvaus}
 \label{sec:tutkimuksenkuvaus}
 
-Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten tilanteiden simuloimiseen. Unity mahdollisti valmiit menetelmät ruudukkoalueen toteutukseen, jolloin ympäristön luomiseen ei mennyt liikaa aikaa. Tutkimusta varten luotiin valmis 2D-projekti ja projektiin lisättiin Unity Package Managerin avulla ML-Agents -paketti, jotta tarvittavat toiminnallisuudet saatiin käyttöön koneoppimista varten. Unityllä luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja, kävelykelpoisia ruutuja ja alku- ja loppuruudut sekä joissain alueissa liikkuvia esteitä. Reitinhaun vertailua varten luotiin A*-algoritmi ja erikseen opetettiin koneoppimisagentti. Koneoppimisagentti käyttää syvään vahvistettuun oppimiseen perustuvaa SAC-algoritmia.
+Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten ympäristöjen ja tilanteiden simuloimiseen. Tutkimusta varten Unity Hubissa luotiin valmis 2D-projekti ja projektiin lisättiin Unity Package Managerin kautta ML-Agents -paketti, jotta tarvittavat toiminnallisuudet saatiin käyttöön koneoppimista varten. Unityn valmiiden menetelmien avulla luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja, kävelykelpoisia ruutuja ja alku- ja loppuruudut sekä joihinkin alueisiin liikkuvia esteitä. Reitinhaun vertailua varten luotiin A*-algoritmi. Agentille annettiin yhteensä neljä liikkumissuuntaa vaaka- ja pystysuunnassa, joten A*-algoritmin heuristiikaksi valittiin Manhattan-etäisyys. ML-agents -paketin avulla agentille annettiin \textit{Behavior Parameters}, \textit{Agent Script}, \textit{Decision Requester} ja \textit{Ray Perception Sensor 2D} -skriptitiedostot, jotka antavat tarvittavat toiminnallisuudet koneoppimista varten. Agentin opettamiseen käytetään syvään vahvistettuun oppimiseen perustuvaa SAC-algoritmia.
 
-A*-algoritmia täytyi muokata tutkimukseen sopivaksi. Pelialueet ovat dynaamisia eli muuttuvat reaaliaikaisesti, joten perinteinen A*-algoritmi ei pysty reagoimaan muutoksiin välittömästi. Algoritmia muokattiin tutkimukseen siten, että esteen ilmestyessä laskelmoidulle reitille A*-algoritmi ajetaan uudestaan, mutta lähtöpisteeksi asetetaan agentin uusi sijainti. Uusi sijainti on agentin siihen asti etenemä matka, jolloin seuraava reitinhakuiteraatio vaatii lyhyemmän matkan. Jokainen iteraatio on myös suurimmassa osassa tapauksista kevyempiä muistinkäytön kannalta.
+A*-algoritmia täytyi muokata tutkimukseen sopivaksi. Pelialueet voivat muuttua reaaliaikaisesti, jolloin perinteinen A*-algoritmi ei pysty reagoimaan muutoksiin välittömästi. Algoritmia muokattiin tutkimukseen siten, että esteen ilmestyessä laskelmoidulle reitille A*-algoritmi ajetaan uudestaan, mutta lähtöpisteeksi asetetaan agentin uusi sijainti. Uusi sijainti on agentin siihen asti kulkema matka, jolloin seuraava reitinhakuiteraatio vaatii lyhyemmän matkan ja on kevyempi muistinkäytön kannalta.
 
-\section{Tutkimusasetelma / Konfiguraatio}
+\section{Tutkimusasetelma}
 \label{sec:tutkimusasetelma}
 
-Koneoppimisagentin toiminta riippuu vahvasti sen asetuksista.
+Koneoppimisagentin oppimista määrittää sen tekemät havainnot ja sen saamat palkkiot. Reitinhakutehtävässä agentti havainnoi omaa sijaintia ja etäisyyttä kohteeseen.
 
 - AddObservation()-funktion avulla agentti kerää tietoa omasta tilastaan ympäristössä. Tässä tutkimuksessa agentin täytyy kerätä tietoa sen omasta sijainnista (x ja y), mahdollisesti etäisyydestä maaliin (toimisiko esim. laskea manhattan-etäisyys?) ja maalin sijainnista (x ja y). Suositeltavaa kuitenkin on, että agentti keräisi tietoa vain näkemistään asioista eli tässä tapauksessa vain omasta sijainnistaan. Näiden havaintojen lisäksi käytetään RayPerceptionSensor2D-komponenttia, joka kerää ympäröivästä alueesta tietoa säteiden avulla. Tässä projektissa agentista lähetetään 12 sädettä, jotka yltävät vain yhden ruudun verran eteenpäin. Säteet pystyvät tunnistamaan vastaantulevia objekteja, joita ovat tässä tapauksessa esteet ja maaliruutu. Näiden havaintojen avulla agentti voi tehostaa päätöksentekoaan.
 
@@ -372,6 +372,10 @@ Koneoppimisagentin toiminta riippuu vahvasti sen asetuksista.
 - Rewards, palkinnot, agentti saa positiivisen palkkion kun saapuu maaliin (+1). Agentti saa negatiivisen palkkion jokaisen toiminnan (action) jälkeen (-0.01). Jos agentti törmäilee seiniin, eli yrittää liikkua suuntaan jossa on este, agentille annetaan negatiivinen palkkio (-0.001). Palkkiot määritellään skriptitiedostossa ja ovat helposti muutettavissa.
 
 - Agentin opettaminen aloitetaan komentoriviltä komennolla ml-agents "BehaviorName"... (myös jotain muuta, ml-agents -komento hyödyntää siis Python APIa). Komentorivi näyttää käyttäjän asettamien opetusaskelten välein mm. agentin keskiarvopalkkion askelten aikana. Tässä tutkimuksessa asetettiin väliksi 10000, tensorboard päivittyy myös 10000 välein ts. piirtää kuvaajan pisteen?
+
+\section{Agentin havainnot ja palkkiot}
+
+
 
 \section{Tulosten mittaaminen}
 \label{sec:mittaaminen}
