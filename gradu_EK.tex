@@ -50,42 +50,13 @@ TODO: In english
 
 \chapter{Johdanto}
 
-- Tutkimuksen kohteena koneoppimisen tehostama reitinhaku videopeleissä
- ja sen vertaaminen heuristiseen A*-algoritmiin.
+Reitinhaku on robotiikan ja videopelien tekoälyn yksi suurimmista ongelmista, jota on tutkittu jo vuosikymmeniä. Reitinhaulla tarkoitetaan kahden pisteen välisen reitin selvittämistä. Useimmissa tapauksissa halutaan etsiä nopein ja tehokkain reitti, mutta ongelman haastavuuden vuoksi voidaan tyytyä myös epäoptimaalisiin ratkaisuihin. Reitinhakuongelma on ajan mittaan muuttunut lyhyimmän reitin löytämisestä myös reitin selvittämiseen muuttuvassa eli dynaamisessa alueessa. Erityisesti robottien suorittamaa dynaamisen alueen reitinhakua on tutkittu viime vuosina itseohjautuvien ajoneuvojen suosion johdosta. Robotiikassa ja videopeleissä reitinhaun prioriteetit voivat vaihdella. Robotiikassa reitinhaun turvallisuus ja tarkkuus voivat olla tärkeimmät piirteet, kun taas videopeleissä nopeus ja tehokkuus.
 
-- Yleisesti reitinhaulla tarkoitetaan alku- ja loppupisteen välisen reitin selvittämistä. Useimmiten tarkoituksena
-on löytää lyhin reitti väistellen samalla matkan varrella olevia esteitä.
+Usein perinteinen reitinhakuongelma pystytään ratkaisemaan A*-algoritmilla, jota käytetään etenkin videopeleissä, mutta myös robotiikassa. A*-algoritmi löytää optimaalisen reitin heuristiikkafunktion ansiosta. Heuristiikkafunktion avulla algoritmin ei tarvitse tutkia selvästi huonompia vaihtoehtoja, jolloin reitinhausta saadaan kevyempää muistinkäytön kannalta.
 
-- Reitinhakua tarvitaan videopelien lisäksi myös mm. robotiikassa. 
+Videopeleissä reitinhaku ilmenee usein erillisten tekoälyagenttien toimintana. Näitä kutsutaan myös ei-pelaaja-hahmoiksi (engl. non-player-character, NPC). Videopelien reitinhaussa suorituskyky nousee suurimmaksi ongelmaksi. Tietokoneen suorituskyky osoittautuu rajalliseksi vaativien grafiikka- ja fysiikkalaskelmien vuoksi. Joissain peleissä, kuten reaaliaikaisissa strategiapeleissä (engl. Real-Time Strategy, RTS), pelaajan ohjaamia liikkuvia hahmoja voi olla samanaikaisesti jopa satoja, joten esimerkiksi pelkkä A*-algoritmi sovellettuna jokaiselle agentille osoittautuu äärimmäisen haastavaksi laskennallisesti. Siksi vuosien mittaan on kehitetty ratkaisuksi erilaisia pelialueen esitystavan muokkauksia, algoritmien variaatioita ja lopulta jopa koneoppimisratkaisuja.
 
-- Videopeleissä reitinhaku ilmenee pääasiassa tekoälyagenttien suorittamana toimintana, joten tässä tutkimuksessa keskitytään agentteihin.
-Näitä agentteja kutsutaan myös ei-pelaaja-hahmoiksi (engl. non-player-character, NPC).
-
-- Ei-pelaaja-hahmot ja itseasiassa videopelien reitinhaku vertautuvat hyvin robotiikkaan ja robottien reitinhakuun.
-
-- Sekä robotiikassa että videopeleissä toiminta-alue voi muuttua hyvinkin paljon reaaliajassa, jolloin reitinhaun täytyy
-sopeutua muutoksiin nopeasti. Käytetyt ratkaisut sen sijaan voivat vaihdella näiden kahden osa-alueen välillä: robotiikassa
-tarkkuus ja turvallisuus nousevat tärkeimmiksi ominaisuuksiksi ja vastaavasti videopeleissä nopeus määrittää reitinhaun "hyvyyden".
-
-- Reitinhaku on aina ollut vaativa ongelma videopeleissä, mutta nykyään reitinhaun ongelmallisuus voidaan
-useimmissa tapauksissa sivuuttaa laatimalla heuristinen ratkaisu A*-algoritmin avulla.
-
-- Koneoppiminen mahdollistaa aiemman kokemuksen hyödyntämisen myöhemmässä toiminnassa.
-Agentteja voidaan kouluttaa harjoitteludatan avulla, jolloin ne oppivat toimimaan tuntemattomissa tilanteissa.
-Koneoppimisen ansiosta reitinhaku-agentti voidaan opettaa toimimaan vaativissa ja
-dynaamisissa pelialueissa, joissa muuttuvat esteet ja alueen labyrinttimäisyys
-heikentävät A*-algoritmin toimintaa.
-
-- Tutkimuksen ideana on käyttää Unity-pelimoottorille luotuja koneoppimisagentteja (engl. Unity Machine Learning Agents)
-ja opettaa niitä erilaisten pelialueiden avulla. Opettamisen jälkeen agentteja testataan oikeilla
-pelialueilla ja verrataan tuloksia A*-algoritmilla saatuihin tuloksiin.
-
-- ML-agents perustuu PyTorch-kirjastoon ja mahdollistaa vahvistusoppimisen hyödyntämisen.
-
-- Tensorboard-lisäosan avulla voidaan visualisoida palkkioiden keskiarvot ja opetuksen edistyminen opetuksen aikana.
-
-- Pelialueiden on tarkoitus olla monimutkaisia ja dynaamisia, koska A*-algoritmi suoriutuu
-yksinkertaisista reitinhakutehtävistä moitteettomasti.
+Koneoppimista ja sen menetelmiä on myös tutkittu viime vuosina hyvin paljon eri sovellusten parissa. Koneoppimisen avulla pystytään hyödyntämään aiempaa kokemusta uusissa toiminnoissa. Etenkin neuroverkkoja ja syväoppimista on pystytty hyödyntämään monissa erilaisissa ongelmissa luokittelusta robotiikkaan. Tässä tutkimuksessa on tarkoitus soveltaa Unity-pelinkehitystyökalun valmista ML-agents -pakettia reitinhakuagenttien luomiseen. ML-agents käyttää PyTorch-kirjastoa syväoppimismallin luomiseen. ML-agents -paketin avulla agentteja voidaan opettaa reitinhakuun käyttäen syvää vahvistusoppimista ja siihen perustuvaa Soft Actor Critic -algoritmia. Tarkoitus on selvittää, pystyykö koneoppimisagentti suorittamaan reitinhakua yhtä tehokkaasti kuin A*-algoritmi. Tutkimuksessa pyritään myös huomioimaan mahdolliset tilanteet, joissa A*-algoritmilla olisi vaikeuksia suorittaa reitinhakua tehokkaasti. Agentin oppimista ja sen saamia palkkioita havainnoidaan Tensorboard-työkalun avulla.
 
 \chapter{Reitinhaku videopeleissä}
 
