@@ -334,19 +334,21 @@ A*-algoritmia täytyi muokata tutkimukseen sopivaksi. Pelialueet voivat muuttua 
 \section{Tutkimusasetelma}
 \label{sec:tutkimusasetelma}
 
-AddObservation()-funktion avulla agentti kerää tietoa omasta tilastaan ympäristössä. Tässä tutkimuksessa agentin täytyy kerätä tietoa sen omasta sijainnista (x ja y), mahdollisesti etäisyydestä maaliin (toimisiko esim. laskea manhattan-etäisyys?) ja maalin sijainnista (x ja y). Suositeltavaa kuitenkin on, että agentti keräisi tietoa vain näkemistään asioista eli tässä tapauksessa vain omasta sijainnistaan. Näiden havaintojen lisäksi käytetään RayPerceptionSensor2D -komponenttia, joka kerää ympäröivästä alueesta tietoa säteiden avulla. Tässä projektissa agentista lähetetään 12 sädettä, jotka yltävät vain yhden ruudun verran eteenpäin. Säteet pystyvät tunnistamaan vastaantulevia objekteja, joita ovat tässä tapauksessa esteet ja maaliruutu. Näiden havaintojen avulla agentti voi tehostaa päätöksentekoaan.
+AddObservation()-funktion avulla agentti kerää tietoa omasta tilastaan ympäristössä.
 
-Actions, toiminnat, yksinkertaisen pelialueen takia käytetään Discrete Actions ja viittä eri vaihtoehtoa (ylös, alas, oikealle, vasemmalle, paikallaan). Jos pelialue olisi monimutkaisempi, voidaan käyttää Continuous Actions (suunta + nopeus).
-
-Rewards, palkinnot, agentti saa positiivisen palkkion kun saapuu maaliin (+1). Agentti saa negatiivisen palkkion jokaisen toiminnan (action) jälkeen (-0.01). Jos agentti törmäilee seiniin, eli yrittää liikkua suuntaan jossa on este, agentille annetaan negatiivinen palkkio (-0.001). Palkkiot määritellään skriptitiedostossa ja ovat helposti muutettavissa.
+Actions, toiminnat, yksinkertaisen pelialueen takia käytetään Discrete Actions ja viittä eri vaihtoehtoa (ylös, alas, oikealle, vasemmalle, paikallaan).
 
 Agentin opettaminen aloitetaan komentoriviltä komennolla mlagents-learn (polku konfiguraatio -tiedostoon) --run-id=(opetussession nimi). Komentorivi näyttää käyttäjän asettamien opetusaskelten välein mm. agentin keskiarvopalkkion ja keskihajonnan(std of reward?) askelten aikana. Tässä tutkimuksessa asetettiin väliksi 10000, tensorboard päivittyy myös 10000 välein ts. piirtää kuvaajan pisteen?
 
+Beginner-aluetta 2712 sekuntia, 500 000 askelta.
+
+Intermediate-aluetta 5600 sekuntia, miljoona askelta.
+
 \section{Agentin havainnot ja palkkiot}
 
-Koneoppimisagentin oppimista ohjaavat sen tekemät havainnot ja sen saamat palkkiot. Havaintoja voi tallentaa suoraan skriptitiedostossa käsin \textit{AddObservation()}-metodilla, jolle annetaan parametrina datatyyppi ja sen arvo. Tämän tutkimuksen reitinhakutehtävissä agentti havainnoi omaa ja kohteen sijaintia kaksiulotteisessa vektorimuodossa \textit{(x,y)}, jolloin jokaisella askeleella neuroverkko saa tiedon näistä sijainneista. Tähän havaintoon käytetään Unityn omaa datatyyppiä \textit{Vector2}, joka sisältää \(x\) ja \(y\) arvot \textit{float}-tyyppisinä. Lisäksi agentille lisättiin kaksi \textit{RayPerceptionSensor2D}-komponenttia, jotka lähettävät agentista osumatietoja kerääviä säteitä. Ensimmäinen sensori sisältää kahdeksan sädettä, jotka jakautuvat tasaisesti agentin ympärille. Säteet ovat pituudeltaan kaksi yksikköä ja tunnistavat ainoastaan pelialueen esteitä. Tämä määritellään erillisen tagin avulla eli tässä tapauksessa esteillä on Collision-tagi ja säteet tunnistavat ainoastaan kyseisen tagin peliobjektit. Toinen sensori lähettää myös kahdeksan sädettä, jotka ovat 20 yksikköä pitkiä. Nämä säteet tunnistavat ainoastaan kohteen, joka on merkitty End-tagilla. Sensorit lähettävät automaattisesti datan \textit{float}-taulukkona neuroverkolle, joten sitä ei tarvitse itse toteuttaa skriptitiedostossa.
+Koneoppimisagentin oppimista ohjaavat sen tekemät havainnot ja sen saamat palkkiot. Havaintoja voi tallentaa suoraan skriptitiedostossa käsin \textit{AddObservation()}-metodilla, jolle annetaan parametrina datatyyppi ja sen arvo. Tämän tutkimuksen reitinhakutehtävissä agentti havainnoi omaa ja kohteen sijaintia kaksiulotteisessa vektorimuodossa \textit{(x,y)}, jolloin jokaisella askeleella neuroverkko saa tiedon näistä sijainneista. Tähän havaintoon käytetään Unityn omaa datatyyppiä \textit{Vector2}, joka sisältää \(x\) ja \(y\) arvot \textit{float}-tyyppisinä. Lisäksi agentti havainnoi sen etäisyyttä kohteeseen, jonka laskemiseen käytetään Unityn valmista Vector2.Distance()-funktiota. Agentille lisättiin myös kaksi \textit{RayPerceptionSensor2D}-komponenttia, jotka lähettävät agentista osumatietoja kerääviä säteitä. Ensimmäinen sensori sisältää kaksitoista sädettä, jotka ovat pituudeltaan 15 yksikköä ja tunnistavat ainoastaan kohderuudun. Toinen sensori sisältää kahdeksan sädettä etäisyydeltään viisi yksikköä ja tunnistavat vain esteruutuja. Tunnistaminen määritellään erillisen \textit{Detectable Tags}-kentän avulla, johon kirjoitetaan tunnistettavan kohteen tagi eli esteet ovat tagilla "Col" ja kohderuutu "End". Lisäksi sensorille annetaan \textit{Ray Layer Mask}-valintalistaan tieto, mihin alueen kerroksiin säteet voivat fyysisesti osua ja mitkä kerrokset jätetään huomiotta. Tässä tutkimuksessa esteet on asetettu kerrokselle "Collision" ja kohderuutu kerrokselle "End". Näiden tietojen perusteella sensori lähettää automaattisesti säteiden osumadatan \textit{float}-taulukkona neuroverkolle, jolloin sitä ei tarvitse itse toteuttaa skriptitiedostossa.
 
-Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agenttia palkitaan sen nopeuden ja suoriutumisen perusteella. Jokaisen agentin päätöksen yhteydessä annetaan pieni negatiivinen palkkio, jolloin agenttia ohjataan suorittamaan tehtävä niin nopeasti kuin mahdollista. Palkkio määritellään skriptitiedostossa \textit{AddReward(-1/MaxStep)}, jossa \textit{MaxStep} on yhden opetusjakson maksimipituus eli kuinka monta päätöstä agentti voi yhden jakson aikana tehdä. Tässä tutkimuksessa pelialueet ovat melko pieniä, joten maksimipituudeksi asetettiin 500. Jos agentti ei saa suoritettua tehtävää, se saa jaksosta kokonaispalkkioksi \[-1/MaxStep * MaxStep\] eli -1. Jos agentti osuu kohteeseen, sille annetaan palkkioksi +1 eli \textit{AddReward(1)}. Jos agentti osuu matkalla esteeseen, sille annetaan palkkioksi -1 ja jakso lopetetaan ja agentin sijainti asetetaan oletuksena jakson alkupisteeseen.
+Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agenttia palkitaan sen nopeuden ja yleisen suoriutumisen perusteella. Jokaisen agentin päätöksen yhteydessä annetaan pieni negatiivinen palkkio, jolloin agenttia ohjataan suorittamaan tehtävä niin nopeasti kuin mahdollista. Palkkio määritellään skriptitiedostossa \textit{AddReward(-1/MaxStep)}, jossa \textit{MaxStep} on yhden opetusjakson maksimipituus eli kuinka monta päätöstä agentti voi yhden jakson aikana tehdä. Tässä tutkimuksessa pelialueet ovat melko pieniä, joten maksimipituudeksi asetettiin 1000. Jos agentti ei saa suoritettua tehtävää ja maksimi askelmäärä saavutetaan, agentti saa palkkioksi yhteensä -1. Jos agentti osuu kohteeseen, sille annetaan palkkioksi +1 eli \textit{AddReward(1)}. Jos agentti yrittää liikkua matkalla esteruutuun, sille annetaan palkkioksi -1 ja jakso opetusjakso pysäytetään. Tällä halutaan estää agentin turha liikkuminen kohti esteitä.
 
 \section{Tulosten mittaaminen}
 \label{sec:mittaaminen}
@@ -355,26 +357,7 @@ Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agen
 
 \chapter{Tulokset ja johtopäätökset}
 
-\begin{figure}[h]
-%\centering
-\includegraphics[width=7cm]{Area4-cumulative-reward-sac.png}
-\caption{TESTIKUVA: Alueen 4 kumulatiivinen palkkio 2 miljoonan opetusaskeleen aikana Soft Actor Critic -algoritmilla.}
-\label{area4cumulativerewardsac}
-\end{figure}
-
-\begin{figure}[h]
-%\centering
-\includegraphics[width=7cm]{Area4-policy-loss-sac.png}
-\caption{TESTIKUVA: Alueen 4 käytännön menetys 2 miljoonan opetusaskeleen aikana Soft Actor Critic -algoritmilla.}
-\label{area4policylosssac}
-\end{figure}
-
-\begin{figure}[h]
-%\centering
-\includegraphics[width=7cm]{Area4-value-loss-sac.png}
-\caption{TESTIKUVA: Alueen 4 arvon menetys 2 miljoonan opetusaskeleen aikana Soft Actor Critic -algoritmilla.}
-\label{area4valuelosssac}
-\end{figure}
+TODO: Tähän oikeat Tensorboard-kuvat ja niiden selitys. Lopuksi vielä vertailua A*-algoritmin ratkaisuihin.
 
 \chapter{Yhteenveto}
 
@@ -385,5 +368,7 @@ Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agen
 - Kuvat tai mallinnokset pelialueesta.
 
 - Tensorboardin kuvaajat mm. agentin palkkioiden kehityksestä.
+
+- AgentScript-kooditiedosto?
 
 \end{document}
