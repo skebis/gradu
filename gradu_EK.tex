@@ -50,25 +50,28 @@ TODO: In english
 
 \chapter{Johdanto}
 
-Reitinhaku on robotiikan ja videopelien tekoälyn yksi suurimmista ongelmista, jota on tutkittu jo vuosikymmeniä. Reitinhaulla tarkoitetaan kahden pisteen välisen reitin selvittämistä. Useimmissa tapauksissa halutaan etsiä nopein ja tehokkain reitti, mutta ongelman haastavuuden vuoksi voidaan tyytyä myös epäoptimaalisiin ratkaisuihin. Reitinhakuongelma on ajan mittaan muuttunut lyhyimmän reitin löytämisestä myös reitin selvittämiseen muuttuvassa eli dynaamisessa alueessa. Erityisesti robottien suorittamaa dynaamisen alueen reitinhakua on tutkittu viime vuosina itseohjautuvien ajoneuvojen suosion johdosta. Robotiikassa ja videopeleissä reitinhaun prioriteetit voivat vaihdella. Robotiikassa reitinhaun turvallisuus ja tarkkuus voivat olla tärkeimmät piirteet, kun taas videopeleissä nopeus ja tehokkuus.
+Reitinhaku on robotiikan ja videopelien tekoälyn yksi suurimmista ongelmista, jota on tutkittu jo vuosikymmeniä \parencite{abd2015comprehensive,cui2011based}. Reitinhaulla tarkoitetaan kahden pisteen välisen reitin selvittämistä. Useimmissa tapauksissa halutaan etsiä nopein ja tehokkain reitti, mutta ongelman haastavuuden vuoksi voidaan tyytyä myös epäoptimaalisiin ratkaisuihin. Reitinhakuongelma on ajan mittaan muuttunut lyhyimmän reitin löytämisestä myös reitin selvittämiseen muuttuvassa eli dynaamisessa alueessa. Erityisesti robottien suorittamaa dynaamisen alueen reitinhakua on tutkittu viime vuosina. Robotiikassa ja videopeleissä reitinhaun prioriteetit voivat vaihdella. Robotiikassa reitinhaun turvallisuus ja tarkkuus voivat olla tärkeimmät piirteet, kun taas videopeleissä nopeus ja tehokkuus.
 
-Usein perinteinen reitinhakuongelma pystytään ratkaisemaan A*-algoritmilla, jota käytetään etenkin videopeleissä, mutta myös robotiikassa. A*-algoritmi löytää optimaalisen reitin heuristiikkafunktion ansiosta. Heuristiikkafunktion avulla algoritmin ei tarvitse tutkia selvästi huonompia vaihtoehtoja, jolloin reitinhausta saadaan kevyempää muistinkäytön kannalta.
+Usein perinteinen reitinhakuongelma pystytään ratkaisemaan A*-algoritmilla, jota käytetään etenkin videopeleissä, mutta myös robotiikassa \parencite{abd2015comprehensive,botea2013pathfinding,cui2011based}. A*-algoritmi löytää optimaalisen reitin heuristiikkafunktion ansiosta. Heuristiikkafunktion avulla algoritmin ei tarvitse tutkia selvästi huonompia vaihtoehtoja, jolloin reitinhausta saadaan kevyempää muistinkäytön kannalta.
 
-Videopeleissä reitinhaku ilmenee usein erillisten tekoälyagenttien toimintana. Näitä kutsutaan myös ei-pelaaja-hahmoiksi (engl. non-player-character, NPC). Videopelien reitinhaussa suorituskyky nousee suurimmaksi ongelmaksi. Tietokoneen suorituskyky osoittautuu rajalliseksi vaativien grafiikka- ja fysiikkalaskelmien vuoksi. Joissain peleissä, kuten reaaliaikaisissa strategiapeleissä (engl. Real-Time Strategy, RTS), pelaajan ohjaamia liikkuvia hahmoja voi olla samanaikaisesti jopa satoja, joten esimerkiksi pelkkä A*-algoritmi sovellettuna jokaiselle agentille osoittautuu äärimmäisen haastavaksi laskennallisesti. Siksi vuosien mittaan on kehitetty ratkaisuksi erilaisia pelialueen esitystavan muokkauksia, algoritmien variaatioita ja lopulta jopa koneoppimisratkaisuja.
+Videopeleissä reitinhaku ilmenee usein erillisten tekoälyagenttien toimintana. Näitä kutsutaan myös ei-pelaaja-hahmoiksi (engl. non-player-character, NPC) \parencite{cui2011based}. Videopelien reitinhaussa suorituskyky nousee suurimmaksi ongelmaksi. Tietokoneen suorituskyky osoittautuu rajalliseksi vaativien grafiikka- ja fysiikkalaskelmien vuoksi. Joissain peleissä, kuten reaaliaikaisissa strategiapeleissä (engl. Real-Time Strategy, RTS), pelaajan ohjaamia liikkuvia hahmoja voi olla samanaikaisesti jopa satoja, joten esimerkiksi pelkkä A*-algoritmi sovellettuna jokaiselle agentille osoittautuu äärimmäisen haastavaksi laskennallisesti. Siksi vuosien mittaan on kehitetty ratkaisuksi erilaisia pelialueen esitystavan muokkauksia, algoritmien variaatioita ja lopulta jopa koneoppimisratkaisuja.
 
 Koneoppimista ja sen menetelmiä on myös tutkittu viime vuosina hyvin paljon eri sovellusten parissa. Koneoppimisen avulla pystytään hyödyntämään aiempaa kokemusta uusissa toiminnoissa. Etenkin neuroverkkoja ja syväoppimista on pystytty hyödyntämään monissa erilaisissa ongelmissa luokittelusta robotiikkaan. Tässä tutkimuksessa on tarkoitus soveltaa Unity-pelinkehitystyökalun valmista ML-agents -pakettia reitinhakuagenttien luomiseen. ML-agents käyttää PyTorch-kirjastoa syväoppimismallin luomiseen. ML-agents -paketin avulla agentteja voidaan opettaa reitinhakuun käyttäen syvää vahvistusoppimista ja siihen perustuvaa Soft Actor Critic -algoritmia. Tarkoitus on selvittää, pystyykö koneoppimisagentti suorittamaan reitinhakua yhtä tehokkaasti kuin A*-algoritmi. Tutkimuksessa pyritään myös huomioimaan mahdolliset tilanteet, joissa A*-algoritmilla olisi vaikeuksia suorittaa reitinhakua tehokkaasti. Agentin oppimista ja sen saamia palkkioita havainnoidaan Tensorboard-työkalun avulla.
 
-\chapter{Reitinhaku videopeleissä}
+Luvussa \ref{reitinhakupeleis} kerrotaan yleisesti reitinhakuongelmasta videopeleissä pelialueiden esitystavan ja käytettyjen reitinhakualgoritmien muodossa. Luvussa \ref{koneoppiminen} käsitellään yleisesti koneoppimista, sen eri paradigmoja ja syväoppimista. Luvussa \ref{unity} esitellään pelinkehitysalusta Unity, sen rakenne ja tässä tutkimuksessa käytetyt paketit. Luvussa \ref{empiirinen} käydään läpi tutkimuksen empiirinen osuus menetelmien ja tutkimusasetelman kannalta. Luvussa \ref{tulokset} esitellään ja analysoidaan empiirisessä osuudessa saadut tulokset. Lopuksi luvussa \ref{yhteenveto} käydään läpi tutkimuksen yhteenveto lyhyesti.
 
-Reitinhaulla tarkoitetaan yksinkertaisimmillaan reitin tai polun selvittämistä kahden pisteen välillä. Se on yksi videopelien tekoälyn ja myös robotiikan tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo muutaman vuosikymmenen ajan \parencite{cui2011based,abd2015comprehensive}. Reitinhakua esiintyy monissa eri peligenreissä, kuten roolipeleissä ja reaaliaikaisissa strategiapeleissä, joissa ei-pelaaja-hahmoja (engl. non-player-character, NPC) määrätään liikkumaan ennaltamäärättyyn tai pelaajan määräämään sijaintiin väistellen samalla vastaantulevia esteitä. Reitinhaun ja yleisesti tekoälyn on oltava realistista, jotta pelaaja pystyy syventymään videopelin maailmaan eikä pelaajan kokema immersio keskeydy.
+\chapter{Reitinhaku videopeleissä}
+\label{reitinhakupeleis}
+
+Reitinhaulla tarkoitetaan yksinkertaisimmillaan reitin tai polun selvittämistä kahden pisteen välillä. Se on yksi videopelien tekoälyn ja myös robotiikan tunnetuimmista ja haastavimmista ongelmista, jota on tutkittu jo muutaman vuosikymmenen ajan \parencite{abd2015comprehensive,cui2011based}. Reitinhakua esiintyy monissa eri peligenreissä, kuten roolipeleissä ja reaaliaikaisissa strategiapeleissä, joissa ei-pelaaja-hahmoja määrätään liikkumaan ennaltamäärättyyn tai pelaajan määräämään sijaintiin väistellen samalla vastaantulevia esteitä. Reitinhaun ja yleisesti tekoälyn on oltava realistista, jotta pelaaja pystyy syventymään videopelin maailmaan eikä pelaajan kokema immersio esty.
 
 \section{Pelialueen esitystavat}
 
-Pelialue esitetään reitinhakua varten aina graafina, joka koostuu solmuista ja kaarista. Kaaret yhdistävät solmut toisiinsa ja mahdollistavat liikkumisen solmujen välillä. Graafista voidaan muodostaa erilaisia kokonaisuuksia, joita kutsutaan ruudukoiksi (engl. grid). Ruudukot voivat olla kuvioltaan säännöllisiä tai epäsäännöllisiä. \parencite{lawande2022systematic}. Säännölliset ruudukot sisältävät esimerkiksi kolmioita, kuusikulmioita, neliöitä tai kuutioita riippuen onko kyseessä 2D- vai 3D-alue. Epäsäännölliset ruudukot voivat koostua esimerkiksi reittipisteistä (engl. waypoint) tai navigointiverkosta (engl. navigation mesh). Selvästi käytetyin esitystapa videopeleissä on 2D-neliöruudukko. \parencite{lawande2022systematic}.
+Pelialue esitetään reitinhakua varten aina graafina, joka koostuu solmuista ja kaarista \parencite{lawande2022systematic}. Kaaret yhdistävät solmut toisiinsa ja mahdollistavat liikkumisen solmujen välillä. Graafista voidaan muodostaa erilaisia kokonaisuuksia, joita kutsutaan ruudukoiksi (engl. grid). Ruudukot voivat olla kuvioltaan säännöllisiä tai epäsäännöllisiä. Säännölliset ruudukot sisältävät esimerkiksi kolmioita, kuusikulmioita, neliöitä tai kuutioita riippuen onko kyseessä 2D- vai 3D-alue. Epäsäännölliset ruudukot voivat koostua esimerkiksi reittipisteistä (engl. waypoint) tai navigointiverkosta (engl. navigation mesh). Selvästi käytetyin esitystapa videopeleissä on 2D-neliöruudukko.
 
-Yleisesti ruudukot sisältävät yksittäisiä vapaita ruutuja tai esteruutuja (engl. tile). Vapaat ruudut muodostavat graafin, jolloin jokainen vapaa ruutu vastaa yhtä graafin solmuista. Vierekkäisiä ruutuja yhdistävät kaaret, joita pitkin reitinhaku ja liikkuminen tapahtuu. \parencite{botea2013pathfinding}. Solmujen vierekkäisyys voi tarkoittaa horisontaalista ja vertikaalista vierekkäisyyttä (neljä suuntaa) tai näiden lisäksi myös diagonaalista vierekkäisyyttä (kahdeksan suuntaa). \parencite{abd2015comprehensive,botea2013pathfinding}. Kuva \ref{ruudukkokuva} havainnollistaa yksinkertaista ruudukkoaluetta, jossa liikkuminen tapahtuu neljään tai kahdeksaan suuntaan.
+Yleisesti ruudukot sisältävät yksittäisiä vapaita ruutuja tai esteruutuja (engl. tile) \parencite{botea2013pathfinding}. Vapaat ruudut muodostavat graafin, jolloin jokainen vapaa ruutu vastaa yhtä graafin solmuista. Vierekkäisiä ruutuja yhdistävät kaaret, joita pitkin reitinhaku ja liikkuminen tapahtuu. Solmujen vierekkäisyys voi tarkoittaa horisontaalista ja vertikaalista vierekkäisyyttä (neljä suuntaa) tai näiden lisäksi myös diagonaalista vierekkäisyyttä (kahdeksan suuntaa) \parencite{abd2015comprehensive,botea2013pathfinding}. Kuva \ref{ruudukkokuva} havainnollistaa yksinkertaista ruudukkoaluetta, jossa liikkuminen tapahtuu neljään tai kahdeksaan suuntaan.
 
-Vaikka neliöruudukkoa pidetään tunnetuimpana ja käytetyimpänä esitystapana, se voi kuitenkin osoittautua ongelmalliseksi tilanteessa, jossa hahmo voi liikkua diagonaalisesti, jolloin kaikki vierekkäiset ruudut eivät ole saman etäisyyden päässä toisistaan. Ruudukossa, jossa ruudut ovat kooltaan 1x1, diagonaalinen etäisyys on $\sqrt{2}$, kun taas vertikaalinen tai horisontaalinen etäisyys on 1. (TODO: tähän jotain lähdettä mahdollisista ongelmista)
+Vaikka neliöruudukkoa pidetään tunnetuimpana ja käytetyimpänä esitystapana, se voi kuitenkin osoittautua ongelmalliseksi tilanteessa, jossa hahmo voi liikkua myös diagonaalisesti, jolloin kaikki vierekkäiset ruudut eivät ole saman etäisyyden päässä toisistaan. Ruudukossa, jossa ruudut ovat kooltaan 1x1, diagonaalinen etäisyys on $\sqrt{2}$, kun taas vertikaalinen ja horisontaalinen etäisyys on 1 \parencite{panov2018grid}. Jos yhdellä aika-askeleella hahmo voi liikkua vain yhden ruudun verran, niin diagonaalinen liikkuminen voi olla vaikea toteuttaa.
 
 \begin{figure}[h]
 \centering
@@ -144,6 +147,7 @@ Moniagenttireitinhakuongelmaan on sekä optimaalisia että epäoptimaalisia ratk
 TODO: moniagenttireitinhaku oikea termi?
 
 \chapter{Koneoppiminen}
+\label{koneoppiminen}
 
 Koneoppiminen on tällä hetkellä yksi teknisten tutkimusalojen suosituimmista aihealueista. Sen ydin rakentuu kysymykselle, pystyykö tietokone jäljittelemään ihmismielen oppimisprosessia ja täten oppia automaattisesti kokemuksen kautta. \parencite{das2017survey,jordan2015machine}. Automaattisella oppimisella pyritään vähentämään manuaalista, tapaus tapauksen perään ohjelmoimista. Sen sijaan konetta opetetaan syöte-tuloste -parien avulla. Vuosikymmenten aikana koneoppimisen tutkimus on edistynyt hyvin paljon eikä loppua ole toistaiseksi näkymässä. Uudet sovellukset ja algoritmit, laskentatehon kasvu ja big data eli hyvin suuret, keskittyneet datamäärät ovat tuoneet tarpeen sekä teorian tutkimukselle että kehittyneille käytännön ratkaisuille.
 
@@ -240,6 +244,7 @@ Soft actor-aritic (SAC) on \textcite{haarnoja2018soft} kehittämä malliton (oik
 TODO: SAC testauksesta, suoriutui paremmin kuin muut DRL-algoritmit, ehkä lisää teoriataustaa?
 
 \chapter{Unity}
+\label{unity}
 
 Unity on Unity Technologiesin kehittämä pelinkehitysalusta, joka sisältää oman renderöinti- ja fysiikkamoottorin sekä Unity Editor -nimisen graafisen käyttöliittymän \parencite{juliani2018unity}. Unityllä on mahdollista kehittää perinteisten 3D- ja 2D-pelien lisäksi myös esimerkiksi VR-pelejä tietokoneille, mobiililaitteille ja pelikonsoleille. Unitystä onkin vuosien mittaan tullut yksi tunnetuimmista pelinkehitysalustoista, jonka parissa työskentelee kuukausittain jopa 1.5 miljoonaa aktiivista käyttäjää \parencite{unityweb}.
 
@@ -321,6 +326,7 @@ Python APIa käytetään Unityllä tehdyn simulaatioympäristön ja koneoppimiss
 PyTorch on avoimen lähdekoodin koneoppimiskehys, johon pohjautuen Unity ML-agents -paketin koneoppimiseen liittyvät toteutukset on tehty (Unity ML agents docs). PyTorch sisältää kaikki syvän koneoppimisen perusosat datan kanssa työskentelystä ja koneoppimismallin luomisesta mallin parametrien optimointiin ja oppimismallien tallentamiseen (PyTorch docs).
 
 \chapter{Tutkimuksen empiirinen osuus}
+\label{empiirinen}
 
 Tässä kappaleessa käsitellään tutkimuksen empiiristä osuutta. Tutkimus toteutettiin empiirisenä vertailevana tutkimuksena. Vertailun kohteena olivat Unityn ML-agentin suorittama reitinhaku ja heuristiseen A*-algoritmiin perustuva reitinhaku. Kappaleessa \ref{sec:tutkimuksenkuvaus} kuvaillaan tutkimusta yleisellä tasolla ja esitellään tutkimuksessa käytetyt työkalut. Kappaleessa \ref{sec:tutkimusasetelma} käydään läpi simulaatioympäristöt ja koneoppimiseen liittyvät konfiguraatiot. Lopuksi kappaleessa \ref{sec:mittaaminen} käsitellään tulosten mittaamista ja käytettyjä suureita.
 
@@ -356,10 +362,12 @@ Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agen
 - Reitinhakutehtävästä otetaan talteen aika (sekuntia) ja onnistuiko reitinhaku vai ei (onnistui/epäonnistui).
 
 \chapter{Tulokset ja johtopäätökset}
+\label{tulokset}
 
 TODO: Tähän oikeat Tensorboard-kuvat ja niiden selitys. Lopuksi vielä vertailua A*-algoritmin ratkaisuihin.
 
 \chapter{Yhteenveto}
+\label{yhteenveto}
 
 \printbibliography
 
