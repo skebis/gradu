@@ -334,19 +334,19 @@ A*-algoritmia täytyi muokata tutkimukseen sopivaksi. Pelialueet voivat muuttua 
 
 Tässä osiossa kerrotaan, miten Unityn simulaatioympäristö konfiguroitiin tutkimuksen eri osioita varten.
 
+\subsection{Oppimisympäristö}
+
+Tutkimuksessa toteutettiin kolme eri tason oppimisympäristöä: aloittelija, keskivaikea ja vaikea. Aloittelija-tason ympäristö oli tehty tarkoituksella avaraksi ja alueella oli vain muutamia esteitä. Keskivaikea-tason ympäristössä oli useampia esteitä ja seiniä ja alueelle pyrittiin tekemään sekä kapeita käytäviä että erillisiä huoneita. Vaikea-tason ympäristöön tehtiin liikkuvia esteitä ja erillinen ovi, joka aukeaa ja sulkeutuu kahden sekunnin välein. Kohderuutu valittiin satunnaisesti vapaiden ruutujen seasta.
+
+Aloittelija-tason ympäristössä opettamista tehtiin 500000 askeleen ajan, joka kesti 2712 sekuntia. Keskivaikea-tason ympäristössä opetettiin miljoonan askeleen ajan, joka kesti 5600 sekuntia.
+
 \subsection{Koneoppiminen}
 
-Unity ML-Agents mahdollistaa saman pelialueen rinnakkaisen opettamisen yksinkertaisella drag-and-drop -menetelmällä. Pelialueesta luodaan Prefab eli valmis malli, joita voidaan siirtää useampi kappale samalle näkymälle. Kaikki agentit pystyvät keräämään kokemuksia samaan käytäntöön, kunhan jokaisella on sama Behavior Name. Opettaminen aloitetaan virtuaaliympäristössä komennolla \textit{mlagents-learn <polku konfiguraatio-tiedostoon> --run-id=<opetussession nimi>}. Opettaminen käynnistetään Unityssä Play-painikkeella.
+Agentilla voi olla käytössä sekä \textit{Continuous Actions}- että \textit{Discrete Actions}-taulukoita, jotka syötetään parametrina OnActionReceived()-funktioon. Continuous Actions -taulukon voivat olla mitä arvoja tahansa, mutta ne rajataan ennalta [-1,...,1] välille. Kyseiset arvot voidaan asettaa esimerkiksi agentin liikkumista varten, jolloin agentti pystyy oppimisen aikana kontrolloimaan arvoja. Toisena vaihtoehtona on Discrete Actions -taulukko, joka sisältää vain kokonaislukuja. Tässä tutkimuksessa agentilla on käytössä viiden elementin Discrete Actions -taulukko, jossa on arvot [0,1,2,3,4]. Agentin liikkuminen on toteutettu siten, että 0 on paikallaan pysyminen, 1 on liikkuminen vasemmalle, 2 on liikkuminen oikealle, 3 on liikkuminen alas ja 4 on liikkuminen ylös. Agentti pystyy liikkumaan kerralla yhden ruudun verran.
 
-Opettamista voidaan seurata komentoriviltä, joka näyttää 10000 askeleen välein kuluneen ajan sekunneissa ja palkkioiden keskiarvon ja keskihajonnan. Tämän lisäksi tarkempaa kehittymistä voi seurata Tensorboardin avulla komennolla \textit{tensorboard --logdir results --port 6006} ja menemällä selaimella sivulle localhost:6066. Tässä tutkimuksessa seurattiin 
+Unity ML-Agents mahdollistaa saman pelialueen rinnakkaisen opettamisen yksinkertaisella drag-and-drop -menetelmällä. Pelialueesta luodaan Prefab eli valmis malli, joita voidaan siirtää useampi kappale samalle näkymälle. Kaikki agentit pystyvät keräämään kokemuksia samaan käytäntöön, kunhan jokaisella on sama Behavior Name. Opettaminen aloitetaan virtuaaliympäristössä komennolla \textit{mlagents-learn <polku konfiguraatio-tiedostoon> --run-id=<opetustunnus>}. Opettaminen käynnistetään Unityssä Play-painikkeella. Yksi opetusjakso kestää 1000 askeletta tai kunnes agentti saapuu maaliin tai osuu esteeseen.
 
-Actions, toiminnat, yksinkertaisen pelialueen takia käytetään Discrete Actions ja viittä eri vaihtoehtoa (ylös, alas, oikealle, vasemmalle, paikallaan).
-
-Agentin opettaminen aloitetaan komentoriviltä komennolla . Komentorivi näyttää käyttäjän asettamien opetusaskelten välein mm. agentin keskiarvopalkkion ja keskihajonnan(std of reward?) askelten aikana. Tässä tutkimuksessa asetettiin väliksi 10000, tensorboard päivittyy myös 10000 välein ts. piirtää kuvaajan pisteen?
-
-Beginner-aluetta 2712 sekuntia, 500 000 askelta.
-
-Intermediate-aluetta 5600 sekuntia, miljoona askelta.
+Opettamista voidaan seurata komentoriviltä, joka näyttää 10000 askeleen välein kuluneen ajan sekunneissa ja palkkioiden keskiarvon ja keskihajonnan. Tämän lisäksi tarkempaa kehittymistä voi seurata Tensorboardin avulla komennolla \textit{tensorboard --logdir results --port 6006} ja menemällä selaimella sivulle localhost:6066. Tässä tutkimuksessa seurattiin agentin kumulatiivista palkkiota (engl. cumulative reward), entropian määrää mallissa eli kuinka satunnaisia agentin toiminnot ovat, kustannusfunktion häviön keskiarvoa (engl. policy loss) ja arvofunktion häviön keskiarvoa (engl. value loss). Näiden neljän mittarin perusteella voidaan arvioida agentin käytännön kehittymistä opetuksen aikana.
 
 \section{Agentin havainnot ja palkkiot}
 
