@@ -336,9 +336,22 @@ Tässä osiossa kerrotaan, miten Unityn simulaatioympäristö konfiguroitiin tut
 
 \subsection{Oppimisympäristö}
 
-Tutkimuksessa toteutettiin kolme eri tason oppimisympäristöä: aloittelija, keskivaikea ja vaikea. Aloittelija-tason ympäristö oli tehty tarkoituksella avaraksi ja alueella oli vain muutamia esteitä. Keskivaikea-tason ympäristössä oli useampia esteitä ja seiniä ja alueelle pyrittiin tekemään sekä kapeita käytäviä että erillisiä huoneita. Vaikea-tason ympäristöön tehtiin liikkuvia esteitä ja erillinen ovi, joka aukeaa ja sulkeutuu kahden sekunnin välein. Kohderuutu valittiin satunnaisesti vapaiden ruutujen seasta.
+Tutkimuksessa toteutettiin kolme eri tason oppimisympäristöä: helppo, keskivaikea ja vaikea. Helppo ympäristö oli tehty tarkoituksella avaraksi ja alueella oli vain muutamia esteitä. Keskivaikeassa ympäristössä oli useampia esteitä ja seiniä ja alueelle pyrittiin tekemään sekä kapeita käytäviä että erillisiä huoneita. Kuvassa \ref{areabeginnerintermediate} helppo ja keskivaikea pelialue rinnakkain. Vaikeaan ympäristöön tehtiin 1x1 suuruinen liikkuva este ja erillinen portti, joka aukeaa ja sulkeutuu kahden sekunnin välein. Liikkuva este etenee yhden sekunnin välein kuvan \ref{areadifficult} punaisella merkityllä alueella ja toinen merkitty alue kuvaa portin sijaintia ja kokoa. Kohderuutu valittiin Unityn valmiilla Random.Range()-funktiolla satunnaisesti vapaiden ruutujen seasta.
 
-Aloittelija-tason ympäristössä opettamista tehtiin 500000 askeleen ajan, joka kesti 2712 sekuntia. Keskivaikea-tason ympäristössä opetettiin miljoonan askeleen ajan, joka kesti 5600 sekuntia.
+\begin{figure}[h]
+\includegraphics[width=7cm]{area_beginner.png}
+\includegraphics[width=7cm]{area_intermediate.png}
+\centering
+\caption{Helppo ja keskivaikea pelialue. Violetti ruutu on agentti.}
+\label{areabeginnerintermediate}
+\end{figure}
+
+\begin{figure}[h]
+\includegraphics[width=13cm]{area_difficult.png}
+\centering
+\caption{Vaikea pelialue, jossa on merkitty punaisella tasaisin väliajoin aukeava portti ja liikkuva este. Violetti ruutu on agentti ja punainen ruutu on kohderuutu.}
+\label{areadifficult}
+\end{figure}
 
 \subsection{Koneoppiminen}
 
@@ -346,7 +359,9 @@ Agentilla voi olla käytössä sekä \textit{Continuous Actions}- että \textit{
 
 Unity ML-Agents mahdollistaa saman pelialueen rinnakkaisen opettamisen yksinkertaisella drag-and-drop -menetelmällä. Pelialueesta luodaan Prefab eli valmis malli, joita voidaan siirtää useampi kappale samalle näkymälle. Kaikki agentit pystyvät keräämään kokemuksia samaan käytäntöön, kunhan jokaisella on sama Behavior Name. Opettaminen aloitetaan virtuaaliympäristössä komennolla \textit{mlagents-learn <polku konfiguraatio-tiedostoon> --run-id=<opetustunnus>}. Opettaminen käynnistetään Unityssä Play-painikkeella. Yksi opetusjakso kestää 1000 askeletta tai kunnes agentti saapuu maaliin tai osuu esteeseen.
 
-Opettamista voidaan seurata komentoriviltä, joka näyttää 10000 askeleen välein kuluneen ajan sekunneissa ja palkkioiden keskiarvon ja keskihajonnan. Tämän lisäksi tarkempaa kehittymistä voi seurata Tensorboardin avulla komennolla \textit{tensorboard --logdir results --port 6006} ja menemällä selaimella sivulle localhost:6066. Tässä tutkimuksessa seurattiin agentin kumulatiivista palkkiota (engl. cumulative reward), entropian määrää mallissa eli kuinka satunnaisia agentin toiminnot ovat, kustannusfunktion häviön keskiarvoa (engl. policy loss) ja arvofunktion häviön keskiarvoa (engl. value loss). Näiden neljän mittarin perusteella voidaan arvioida agentin käytännön kehittymistä opetuksen aikana.
+Opettamista voidaan seurata komentoriviltä, joka näyttää 10000 askeleen välein kuluneen ajan sekunneissa ja palkkioiden keskiarvon ja keskihajonnan. Tämän lisäksi tarkempaa kehittymistä voi seurata Tensorboardin avulla komennolla \textit{tensorboard --logdir results --port 6006} ja menemällä selaimella sivulle localhost:6066. Tässä tutkimuksessa seurattiin agentin kumulatiivista palkkiota (engl. cumulative reward), entropian määrää mallissa eli kuinka satunnaisia agentin toiminnot ovat, kustannusfunktion häviön keskiarvoa (engl. policy loss) ja arvofunktion häviön keskiarvoa (engl. value loss). Näiden neljän mittarin perusteella voidaan arvioida agentin käytännön kehittymistä opetuksen aikana. Tässä tutkimuksessa kuvaajia ei tasoitettu ollenkaan.
+
+Helpon tason ympäristössä opettamista tehtiin 500000 askeleen ajan, joka kesti 2712 sekuntia. Keskivaikea-tason ympäristössä opetettiin miljoonan askeleen ajan, joka kesti 5600 sekuntia. Keskivaikea-tason koneoppimismallia sovellettiin vaikea-tason alueen reitinhakuun, jotta pystyttiin tarkastella agentin sopeutumista uusiin esteisiin.
 
 \section{Agentin havainnot ja palkkiot}
 
@@ -357,12 +372,14 @@ Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agen
 \section{Tulosten mittaaminen}
 \label{sec:mittaaminen}
 
-- Reitinhakutehtävästä otetaan talteen aika (sekuntia) ja onnistuiko reitinhaku vai ei (onnistui/epäonnistui).
+A*-algoritmin reitin selvittämistä ja koneoppimismallin toimintaa on vaikea mitata esimerkiksi ajallisesti, koska koneoppimismalli ei laske reittiä ennalta toisin kuin A*-algoritmi. Tässä tutkimuksessa tarkastellaan molempien vaihtoehtojen reitin optimaalisuutta eli tekeekö koneoppimisagentti turhia liikkeitä verrattuna A*-algoritmin optimaaliseen reittiin. Dynaamisissa alueissa tutkitaan koneoppimisagentin tekemiä ratkaisuja A*-algoritmin ratkaisuihin ja selitetään sanallisesti niiden eroja.
 
 \chapter{Tulokset ja johtopäätökset}
 \label{tulokset}
 
-TODO: Tähän oikeat Tensorboard-kuvat ja niiden selitys. Lopuksi vielä vertailua A*-algoritmin ratkaisuihin.
+Koneoppimisagentin opettaminen aloitettiin helposta pelialueesta. Kuvasta \ref{beginnercumulativeentropy} huomataan, että agentin kumulatiivinen keskiarvopalkkio nousi tasaisesti ylöspäin kohti maksimia eli yhtä, kunnes noin 220000 askeleen jälkeen kehitystä ei suuremmin tapahtunut. Aluksi agentti testasi satunnaisesti toimintoja ja sensoridataa huomatakseen eri toimintojen ja palkkioiden merkityksen. Seiniin osuminen aiheuttaa tässä tapauksessa ison menetyksen palkkiossa, joten agentti oppi nopeasti välttelemään osumia. Satunnaiset kontaktit maaliruutujen kanssa saivat agentin huomaamaan sijainti- ja sensoridatan merkityksen positiivisen palkkion saamiseen, joten agentti alkoi pyrkimään kohti lähimpiä maaliruutuja. Alueen kauimmaiset maaliruudut eivät kuitenkaan olleet helppoja tapauksia, joten niiden oppimiseen meni useita kymmeniä tuhansia opetusaskeleita. Lopulta agentti oppi kiertämään esteet ja saavutti jopa kauimmaiset maaliruudut vaivattomasti. Opettamista ei kuitenkaan kannata jatkaa liian pitkään, jotta liialliselta ylisovittamiselta vältyttäisiin. Opettaminen lopetettiin siksi ennenaikaisesti 500000 askeleen kohdalla. Kuvasta \ref{beginnercumulativeentropy} näkee myös, että agentin entropian määrä laski aluksi nopeasti, joka kertoo agentin toimintojen satunnaisuudesta. Onnistuneen oppimisen aikana entropian tulisi laskea samalla, kun palkkioiden määrä kasvaa. Helpon alueen tapauksessa tämä toteutui, joka viestii onnistuneesta oppimisesta. Kuvasta \ref{beginnerloss} nähdään virhefunktion ja arvofunktion keskiarvomenetykset.
+
+TODO: virhefunktio ja arvofunktio vielä tarkasteluun. Keskivaikea alue ja vaikean alueen testailua. Lopuksi vielä vertailua A*-algoritmin ratkaisuihin.
 
 \begin{figure}[h]
 \includegraphics[width=7cm]{B_Cumulative_Reward.png}
@@ -377,6 +394,8 @@ TODO: Tähän oikeat Tensorboard-kuvat ja niiden selitys. Lopuksi vielä vertail
 \caption{Vasemmalla helpon tason käytännön virhefunktion kehitys ja oikealla arvofunktion kehitys 500000 askeleen aikana.}
 \label{beginnerloss}
 \end{figure}
+
+Keskivaikeassa alueessa koneoppimisagentti kehittyi selvästi hitaammin. 
 
 \begin{figure}[h]
 \includegraphics[width=7cm]{I_Cumulative_Reward.png}
