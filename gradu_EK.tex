@@ -336,7 +336,7 @@ Tässä osiossa kerrotaan, miten Unityn simulaatioympäristö konfiguroitiin tut
 
 \subsection{Oppimisympäristö}
 
-Tutkimuksessa toteutettiin kolme eri tason oppimisympäristöä: helppo, keskivaikea ja vaikea. Helppo ympäristö oli tehty tarkoituksella avaraksi ja alueella oli vain muutamia esteitä. Keskivaikeassa ympäristössä oli useampia esteitä ja seiniä ja alueelle pyrittiin tekemään sekä kapeita käytäviä että erillisiä huoneita. Kuvassa \ref{areabeginnerintermediate} helppo ja keskivaikea pelialue rinnakkain. Vaikeaan ympäristöön tehtiin 1x1 suuruinen liikkuva este ja erillinen portti, joka aukeaa ja sulkeutuu kahden sekunnin välein. Liikkuva este etenee yhden sekunnin välein kuvan \ref{areadifficult} punaisella merkityllä alueella ja toinen merkitty alue kuvaa portin sijaintia ja kokoa. Kohderuutu valittiin Unityn valmiilla Random.Range()-funktiolla satunnaisesti vapaiden ruutujen seasta.
+Tutkimuksessa toteutettiin kolme eri tason oppimisympäristöä: helppo, keskivaikea ja vaikea. Helppo ympäristö oli tehty tarkoituksella avaraksi ja alueella oli vain muutamia esteitä. Keskivaikeassa ympäristössä oli useampia esteitä ja seiniä ja alueelle pyrittiin tekemään sekä kapeita käytäviä että erillisiä huoneita. Kuvassa \ref{areabeginnerintermediate} helppo ja keskivaikea pelialue rinnakkain. Vaikea ympäristö on sama kuin keskivaikea, mutta ympäristöön tehtiin 1x1 suuruinen liikkuva este ja erillinen portti, joka aukeaa ja sulkeutuu kahden sekunnin välein. Liikkuva este etenee yhden sekunnin välein kuvan \ref{areadifficult} punaisella merkityllä alueella ja toinen merkitty alue kuvaa portin sijaintia ja kokoa. Keskivaikean ympäristön koneoppimismallia käytettiin vaikean alueen testaamiseen, jotta voidaan testata agentin sopeutumista uusiin tilanteisiin. Koneoppimista varten kohderuutu valittiin Unityn valmiilla Random.Range()-funktiolla satunnaisesti vapaiden ruutujen seasta, mutta vaikean alueen testauksessa ruutuja valittiin esteiden läheisyydestä tai niiden toiselta puolelta.
 
 \begin{figure}[h]
 \includegraphics[width=7cm]{area_beginner.png}
@@ -374,12 +374,19 @@ Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agen
 
 A*-algoritmin reitin selvittämistä ja koneoppimismallin toimintaa on vaikea mitata esimerkiksi ajallisesti, koska koneoppimismalli ei laske reittiä ennalta toisin kuin A*-algoritmi. Tässä tutkimuksessa tarkastellaan molempien vaihtoehtojen reitin optimaalisuutta eli tekeekö koneoppimisagentti turhia liikkeitä verrattuna A*-algoritmin optimaaliseen reittiin. Dynaamisissa alueissa tutkitaan koneoppimisagentin tekemiä ratkaisuja A*-algoritmin ratkaisuihin ja selitetään sanallisesti niiden eroja.
 
+Tensorboardin kuvaajista kumulatiivinen palkkio kertoo agentin jaksojen palkkioiden keskiarvon, jonka tulisi kasvaa oppimisen yhteydessä. Entropia-kuvaaja esittää agentin toimintojen satunnaisuutta. Aluksi entropian kuuluisi olla suurta, mutta agentin oppiessa entropian tulisi tasaisesti laskea. SAC-algoritmin luonteeseen kuuluu entropian maksimointi, joten entropian kuuluisi hieman vaihdella agentin selvitellessä uusia tiloja. Käytännön virhefunktio kuvaa agentin käytännön muuttumista ja sen tulisi laskea onnistuneen oppimisen aikana. Arvofunktio kuvaa mallin kykyä ennustaa tilojen arvoja. Sen tulisi aluksi kasvaa oppimisen aikana ja lopuksi laskea kun palkkio tasoittuu.
+
 \chapter{Tulokset ja johtopäätökset}
 \label{tulokset}
 
-Koneoppimisagentin opettaminen aloitettiin helposta pelialueesta. Kuvasta \ref{beginnercumulativeentropy} huomataan, että agentin kumulatiivinen keskiarvopalkkio nousi tasaisesti ylöspäin kohti maksimia eli yhtä, kunnes noin 220000 askeleen jälkeen kehitystä ei suuremmin tapahtunut. Aluksi agentti testasi satunnaisesti toimintoja ja sensoridataa huomatakseen eri toimintojen ja palkkioiden merkityksen. Seiniin osuminen aiheuttaa tässä tapauksessa ison menetyksen palkkiossa, joten agentti oppi nopeasti välttelemään osumia. Satunnaiset kontaktit maaliruutujen kanssa saivat agentin huomaamaan sijainti- ja sensoridatan merkityksen positiivisen palkkion saamiseen, joten agentti alkoi pyrkimään kohti lähimpiä maaliruutuja. Alueen kauimmaiset maaliruudut eivät kuitenkaan olleet helppoja tapauksia, joten niiden oppimiseen meni useita kymmeniä tuhansia opetusaskeleita. Lopulta agentti oppi kiertämään esteet ja saavutti jopa kauimmaiset maaliruudut vaivattomasti. Opettamista ei kuitenkaan kannata jatkaa liian pitkään, jotta liialliselta ylisovittamiselta vältyttäisiin. Opettaminen lopetettiin siksi ennenaikaisesti 500000 askeleen kohdalla. Kuvasta \ref{beginnercumulativeentropy} näkee myös, että agentin entropian määrä laski aluksi nopeasti, joka kertoo agentin toimintojen satunnaisuudesta. Onnistuneen oppimisen aikana entropian tulisi laskea samalla, kun palkkioiden määrä kasvaa. Helpon alueen tapauksessa tämä toteutui, joka viestii onnistuneesta oppimisesta. Kuvasta \ref{beginnerloss} nähdään virhefunktion ja arvofunktion keskiarvomenetykset.
+Tässä kappaleessa esitellään tutkimuksen tulokset. Kappaleessa \ref{helppo} käsitellään helpon pelialueen koneoppimisen tuloksia. Kappaleessa \ref{keskivaikea} selitetään keskivaikean pelialueen koneoppimisen tulokset. Kappaleessa \ref{vaikea} kerrotaan keskivaikean koneoppimismallin sopeutumisesta vaikean pelialueen dynaamisuuteen. Lopuksi kappaleessa \ref{vertailu} esitellään A*-algoritmin ja koneoppimisagentin vertailun tulokset.
 
-TODO: virhefunktio ja arvofunktio vielä tarkasteluun. Keskivaikea alue ja vaikean alueen testailua. Lopuksi vielä vertailua A*-algoritmin ratkaisuihin.
+\section{Helppo pelialue}
+\label{helppo}
+
+Koneoppimisagentin opettaminen aloitettiin helposta pelialueesta. Kuvasta \ref{beginnercumulativeentropy} huomataan, että agentin kumulatiivinen keskiarvopalkkio nousi tasaisesti ylöspäin kohti maksimia eli yhtä, kunnes noin 220000 askeleen jälkeen kehitystä ei suuremmin tapahtunut. Aluksi agentti testasi satunnaisesti toimintoja ja sensoridataa huomatakseen eri toimintojen ja palkkioiden merkityksen. Seiniin osuminen aiheuttaa tässä tapauksessa ison menetyksen palkkiossa, joten agentti oppi nopeasti välttelemään osumia. Satunnaiset kontaktit maaliruutujen kanssa saivat agentin huomaamaan sijainti- ja sensoridatan merkityksen positiivisen palkkion saamiseen, joten agentti alkoi pyrkimään kohti lähimpiä maaliruutuja. Alueen kauimmaiset maaliruudut eivät kuitenkaan olleet helppoja tapauksia, joten niiden oppimiseen meni useita kymmeniä tuhansia opetusaskeleita. Lopulta agentti oppi kiertämään esteet ja saavutti jopa kauimmaiset maaliruudut vaivattomasti. Opettamista ei kuitenkaan kannattanut jatkaa liian pitkään, jotta liialliselta ylisovittamiselta vältyttäisiin. Opettaminen lopetettiin siksi ennenaikaisesti 500000 askeleen kohdalla.
+
+Kuvasta \ref{beginnercumulativeentropy} näkee myös, että agentin entropian määrä laski aluksi nopeasti. Onnistuneen oppimisen aikana entropian tulisi laskea samalla, kun palkkioiden määrä kasvaa. Helpon alueen tapauksessa tämä toteutui, joka viestii onnistuneesta oppimisesta. Kuvasta \ref{beginnerloss} nähdään agentin käytännön virhefunktion ja arvofunktion keskiarvohäviö. Käytännön virhefunktio laskee nopeasti 150000 askeleen kohdalla, kun agentti saa käsityksen oikeasta toiminnasta. Arvofunktion kuvaajassa esiintyy piikkimäisiä nousuja ja laskuja, mutta pitkällä aikavälillä sekin laskee tasaisesti. Kokonaisuudessaan agentti oppi maksimoimaan palkkion määrän ja onnistui suurimmaksi osin ratkaisemaan annetut reitinhakuongelmat.
 
 \begin{figure}[h]
 \includegraphics[width=7cm]{B_Cumulative_Reward.png}
@@ -395,7 +402,12 @@ TODO: virhefunktio ja arvofunktio vielä tarkasteluun. Keskivaikea alue ja vaike
 \label{beginnerloss}
 \end{figure}
 
-Keskivaikeassa alueessa koneoppimisagentti kehittyi selvästi hitaammin. 
+\section{Keskivaikea pelialue}
+\label{keskivaikea}
+
+Keskivaikeassa alueessa koneoppimisagentti kehittyi selvästi hitaammin, joka näkyy myös kuvasta \ref{intermediatecumulativeentropy}. Vasta 200000 askeleen kohdalla agentti alkoi saamaan keskiarvoltaan positiivista palkkiota. Oppiminen oli kuitenkin tehokasta 600000 askeleeseen asti, jonka jälkeen se hidastui merkittävästi saavuttaessaan noin 0.9 arvon. Keskivaikean alueen lisääntyneet esteet tekivät alun oppimisesta hidasta, koska agentti pyrki aluksi maksimoimaan palkkion määrän pysymällä kaukana esteistä. Agentti liikkui pitkään vain aloitusruudun ympärillä, mutta entropian kasvaessa se onnistui liikkumaan myös pidemmälle alkuruudusta. Entropian kuvaajasta huomaa, että entropian määrä laski nopeasti 200000 askeleeseen asti, jonka jälkeen se vaihteli loppuajan 0.3 ja 0.5 välillä.
+
+Kuvan \ref{intermediateloss} virhefunktion keskiarvo kasvaa jostain syystä alussa 300000 askeleeseen asti, jonka jälkeen se laskee hitaasti. Alussa oppimisessa on selvästi ollut hankalaa ja agentti ei välttämättä ole pystynyt oppimaan tehokkaasti, kuten palkkion kehityksestä myös huomattiin. Arvofunktio sen sijaan laskee alussa jyrkästi ja nousee sen jälkeen hieman 200000 ja 400000 askeleen välillä ja lopuksi laskee hitaasti ja tasoittuu opetuksen loppuun mennessä.
 
 \begin{figure}[h]
 \includegraphics[width=7cm]{I_Cumulative_Reward.png}
@@ -411,16 +423,22 @@ Keskivaikeassa alueessa koneoppimisagentti kehittyi selvästi hitaammin.
 \label{intermediateloss}
 \end{figure}
 
+\section{Vaikea pelialue}
+\label{vaikea}
+
+Keskivaikean tason opetuksen luomaa mallia käytettiin vaikean tason reitinhakuongelmiin, jolloin pystytään arvioimaan agentin sopeutumista dynaamisen alueen reitinhakuun. Agentti kohtaa reitillään uusia yllättäviä esteitä, joita ei opetusprosessissa esiintynyt. Reitinhakua testattiin aluksi portin toiselle puolelle. Agentti liikkui mallin mukaan kohti aukinaista porttia, mutta portin sulkeutuessa agentti pysähtyi muutaman ruudun päähän odottamaan. Kun portti avautui uudestaan, agentti eteni kohderuutuun normaalisti. Seuraavaksi testattiin agentin sopeutumista liikkuvaan esteeseen. Agentti varoi estettä monen ruudun päästä, joka johtui todennäköisesti liian pitkistä sensorisäteistä. Monissa tapauksissa agentti ei uskaltanut lähteä kiertämään estettä, vaan jäi liikkumaan esteen väärälle puolelle sivusuunnassa. Joissain tapauksissa agentti väisti esteen ja eteni kohderuuduun.
+
+\section{A*-algoritmin ja koneoppimisagentin vertailu}
+\label{vertailu}
+
+TODO: vielä vertailua A*-algoritmin ratkaisuihin.
+
 \chapter{Yhteenveto}
 \label{yhteenveto}
 
 \printbibliography
 
 \chapter{Liitteet}
-
-- Kuvat tai mallinnokset pelialueesta.
-
-- Tensorboardin kuvaajat mm. agentin palkkioiden kehityksestä.
 
 - AgentScript-kooditiedosto?
 
