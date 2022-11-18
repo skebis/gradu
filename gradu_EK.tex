@@ -181,7 +181,7 @@ Dimension redusointimenetelmät pyrkivät tihentämään datajoukkoa ja helpotta
 
 \subsection{Vahvistusoppiminen}
 
-Vahvistusoppiminen on kolmas suuri koneoppimisen paradigma, jossa oppijana toimii agentti ja agentin toimintaa ohjaavat palkkiot \parencite{arulkumaran2017brief,jordan2015machine}. Vahvistusoppimisen opetusaineisto eroaa muiden paradigmojen opetusaineistoista siten, ettei tietylle syötteelle \(x\) anneta valmiiksi oikeaa tulosta \(y\) tai etsitä rakenteellisia malleja datajoukosta, vaan agentti saa jokaisesta suorittamastaan toiminnosta positiivisen tai negatiivisen palkkion. Palkkiot ohjaavat agentin oppimisprosessia ja käyttäytymistä ympäristössä. Toimintojen ja niistä saatujen palkkioiden lisäksi agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa siten, että agentti tarkkailee toimintojensa vaikutuksia ja ympäristön tilamuutoksia. Näin agentti pystyy muokkaamaan toimintojaan saamiensa palkkioiden perusteella. Vahvistusoppimistehtävän ideaaliratkaisu on palkkiot maksimoivan käytännön (engl. policy) selvittäminen.
+Vahvistusoppiminen on kolmas suuri koneoppimisen paradigma, jossa oppijana toimii agentti ja agentin toimintaa ohjaavat palkkiot \parencite{arulkumaran2017brief,li2018deep,jordan2015machine}. Vahvistusoppimisen opetusaineisto eroaa muiden paradigmojen opetusaineistoista siten, ettei tietylle syötteelle \(x\) anneta valmiiksi oikeaa tulosta \(y\) tai etsitä rakenteellisia malleja datajoukosta, vaan agentti saa jokaisesta suorittamastaan toiminnosta positiivisen tai negatiivisen palkkion. Palkkiot ohjaavat agentin oppimisprosessia ja käyttäytymistä ympäristössä. Toimintojen ja niistä saatujen palkkioiden lisäksi agentti on jatkuvassa vuorovaikutuksessa ympäristönsä kanssa siten, että agentti tarkkailee toimintojensa vaikutuksia ja ympäristön tilamuutoksia. Näin agentti pystyy muokkaamaan toimintojaan saamiensa palkkioiden perusteella. Vahvistusoppimistehtävän ideaaliratkaisu on palkkiot maksimoivan käytännön (engl. policy) selvittäminen.
 
 Vahvistusoppiminen voidaan kuvata Markovin päätösprosessina (engl. Markov decision process, MDP) tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla \parencite{arulkumaran2017brief}. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnon \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s\) + 1. Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Markov-prosessi voi olla jaksollinen (engl. episodic), jolloin tila nollaantuu tietyn ajan jälkeen. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän. Kuva \ref{reinflearning} havainnollistaa vahvistusoppimisen toimintaa.
 
@@ -195,7 +195,7 @@ Oppiakseen optimaalisen käytännön agentin tekemät päätökset vaativat jonk
 
 Funktiosta saatuja arvoja päivitetään erillisessä Q-taulussa. Oppimisepisodien aikana agentti pystyy ennakoimaan Q-taulun avulla jokaisen mahdollisen toimintonsa tulevaa lopullista palkkiota ja tarvittaessa päivittämään Q-taulun arvoja. Ongelmaksi osoittautuu kuitenkin uuden tutkimisen (engl. exploration) ja olemassa olevan tiedon hyödyntämisen (engl. exploitation) tasapainotus \parencite{arulkumaran2017brief}. \textit{Epsilon-Greedy} on menetelmä, jossa tietyllä todennäköisyydellä $\epsilon$ agentti valitsee pienemmän arvon tilan, jolloin voidaan löytää uusia, parempia ratkaisuja haluttuun lopputulokseen. Agentti voi myös jatkaa aiemman käytännön hyödyntämistä todennäköisyydellä 1 - $\epsilon$.
 
-Vahvistusoppimiseen liittyy haasteita optimaalisen käytännön löytämisessä ja agentin satunnaisissa toiminnoissa \parencite{arulkumaran2017brief}. Optimaalinen käytäntö on mahdollista löytää vain jatkuvan yrittämisen kautta, ja ainoana oppimisen signaalina toimivat saadut palkkiot. Riippuen tehtävän haastavuudesta lukuisatkaan yritykset eivät välttämättä takaa optimaalisinta ratkaisua. Toiseksi agentin palkkioon johtavissa toiminnoissa saattaa olla paljon turhia toimintoja eli toisin sanoen agentti ei välttämättä tiedä, mitkä toiminnot oikeasti johtivat palkkion saamiseen. Esimerkiksi robotin liikkuessa sisätiloissa sen havainnot riippuvat vahvasti siitä, kohtaako se matkalla umpikujia vai siirtyykö se satunnaisilla toiminnoilla suoraan kohteeseen. Jos palkkio annetaan maaliin pääsyn yhteydessä, niin robotti olettaa, että umpikujaan päätyminen kuului palkkion saamiseen vaativien toimintojen joukkoon. Tätä ongelmaa kutsutaan nimellä \textit{(temporal) credit assignment problem}.
+Vahvistusoppimiseen liittyy haasteita optimaalisen käytännön löytämisessä ja agentin satunnaisissa toiminnoissa \parencite{arulkumaran2017brief}. Optimaalinen käytäntö on mahdollista löytää vain jatkuvan yrittämisen kautta, ja ainoana oppimisen signaalina toimivat saadut palkkiot. Riippuen tehtävän haastavuudesta lukuisatkaan yritykset eivät välttämättä takaa optimaalisinta ratkaisua. Toiseksi agentin palkkioon johtavissa toiminnoissa saattaa olla paljon turhia toimintoja eli toisin sanoen agentti ei välttämättä tiedä, mitkä toiminnot oikeasti johtivat palkkion saamiseen. Esimerkiksi robotin liikkuessa sisätiloissa sen havainnot riippuvat vahvasti siitä, kohtaako se matkalla umpikujia vai siirtyykö se satunnaisilla toiminnoilla suoraan kohteeseen. Jos palkkio annetaan maaliin pääsemisen yhteydessä, niin robotti voi olettaa, että umpikujaan päätyminen kuului palkkion saamiseen vaativien toimintojen joukkoon. Tätä ongelmaa kutsutaan nimellä \textit{(temporal) credit assignment problem}.
 
 \section{Syväoppiminen}
 
@@ -223,15 +223,17 @@ Ylisovittamista voidaan hillitä myös säännöstelyllä (engl. regularization)
 
 Yksi tekoälyn tutkimuksen suurimpia tavoitteita on luoda täysin autonominen ja ohjailtava agentti, joka pystyy toimimaan erilaisissa ympäristöissä samalla oppien ja kehittäen käyttäytymistään paremmaksi \parencite{arulkumaran2017brief}. Alunperin vahvistusoppimisella pystyttiin kehittämään oppivia agentteja, mutta ongelmaksi osoittautui ongelmien ja ratkaisujen suppeus, koska pelkällä vahvistusoppimisella ei pystytty käsittelemään ja hyödyntämään moniulotteista dataa, kuten robotin raakaa sensoridataa tai kuvan pikseleitä. Syväoppimisella onnistuttiin vastaamaan tähän vaatimukseen, ja pian syvän vahvistusoppimisen sovelluksilla pystyttiin jo pelaamaan Atari 2600:n videopelejä käyttämällä hyväksi kuvan pikselidataa.
 
-\subsection{Syvän vahvistusoppimisen perusteet}
+\subsection{Syvän vahvistusoppimisen menetelmät}
 
-Syvä vahvistusoppiminen hyödyntää syväoppimista ja neuroverkkoja suurten tila- ja havaintoavaruuksien vahvistusoppimistapauksissa \parencite{li2018deep}. Se eroaa vahvistusoppimisesta pääasiassa funktioapproksimaation suhteen. Esimerkiksi tavallisessa Q-oppimisessa muodostetaan taulu tila-toiminta -pareista ja niiden Q-arvoista, mutta syvässä Q-oppimisessa (engl. deep Q-learning) taulu korvataan neuroverkolla. Syvässä Q-oppimisessa tila, esimerkiksi pikselidata, syötetään neuroverkolle ja tuloksena saadaan mahdolliset toiminnot ja niiden arvot. Oppiminen tapahtuu neuroverkon tapaisesti eli selvitetään funktion maksimiarvot ja päivitetään neuroverkon painoarvoja sen mukaisesti.
+Syvä vahvistusoppiminen hyödyntää syväoppimista ja neuroverkkoja suurten tila- ja havaintoavaruuksien tapauksissa \parencite{arulkumaran2017brief,li2018deep}. Se eroaa vahvistusoppimisesta pääasiassa funktioapproksimaation suhteen. Esimerkiksi tavallisessa Q-oppimisessa muodostetaan taulu tila-toiminta -pareista ja niiden Q-arvoista, mutta syvässä Q-oppimisessa (engl. deep Q-learning) taulu korvataan neuroverkolla. Syvässä Q-oppimisessa tila, esimerkiksi pikselidata, syötetään neuroverkolle ja tuloksena saadaan mahdolliset toiminnot ja niiden arvot. Oppiminen tapahtuu neuroverkon tapaisesti eli pyritään maksimoimaan esimerkiksi palkkiofunktio ja päivitetään neuroverkon painoarvoja sen mukaisesti.
 
-TODO: policy search, experience replay, bootstrapping..
+Arvofunktioihin perustuvien menetelmien lisäksi voidaan käyttää \textit{policy search}-menetelmiä \parencite{arulkumaran2017brief}. Kyseisissä menetelmissä arvofunktiomallin ylläpitämisen sijaan etsitään suoraan optimaalisinta käytäntöä. 
+
+TODO: policy search, experience replay, bootstrapping, actor-critic
 
 \subsection{Soft actor-critic}
 
-Soft actor-aritic (SAC) on \textcite{haarnoja2018soft} kehittämä malliton (oikea termi?) ja \textit{off-policy} syvä vahvistusoppimis-algoritmi. Se kehitettiin vastaamaan yleisiin vahvistusoppimis-algoritmien ongelmiin reaalimaailmassa, kuten opetusaineiston kompleksisuuteen (engl. sample complexity) ja hyperparametrien herkkyyteen \parencite{haarnoja2018app}. Yksinkertaisetkin tehtävät saattoivat vaatia satoja tuhansia ellei jopa miljoonia opetusaskeleita ennen kuin sopiva lopputulos saavutettiin. Tämän lisäksi eri tehtävien välillä joutui virittelemään monien eri hyperparametrien arvoja, jotta oppiminen olisi edes mahdollista. SAC pyrkii mahdollisimman satunnaisiin toimintoihin samalla maksimoiden odotetun palkkiomäärän, jota kutsutaan myös nimellä \textit{maximum entropy}. Tavallisesti parhaimman käytännön löytämisessä halutaan maksimoida saatu palkkio, mutta \textit{maximum entropy} -periaatteessa yhtälöön lisätään erillinen entropia-termi. Entropian suuruutta kontrolloidaan erillisen kertoimen $\alpha$ avulla, joka voidaan asettaa myös nollaksi, jolloin yhtälö palauttaa jälleen maksimipalkkion antavan käytännön.
+Soft actor-aritic (SAC) on \textcite{haarnoja2018soft} kehittämä malli-vapaa (engl. model-free) ja \textit{off-policy} syvä vahvistusoppimis-algoritmi. Se kehitettiin vastaamaan yleisiin vahvistusoppimis-algoritmien ongelmiin reaalimaailmassa, kuten opetusaineiston kompleksisuuteen (engl. sample complexity) ja hyperparametrien herkkyyteen \parencite{haarnoja2018app}. Yksinkertaisetkin tehtävät saattoivat vaatia satoja tuhansia ellei jopa miljoonia opetusaskeleita ennen kuin sopiva lopputulos saavutettiin. Tämän lisäksi eri tehtävien välillä joutui virittelemään monien eri hyperparametrien arvoja, jotta oppiminen olisi edes mahdollista. SAC pyrkii mahdollisimman satunnaisiin toimintoihin samalla maksimoiden odotetun palkkiosumman, jota kutsutaan myös nimellä \textit{maximum entropy}. Tavallisesti parhaimman käytännön löytämisessä halutaan maksimoida saatu palkkio, mutta \textit{maximum entropy} -periaatteessa yhtälöön lisätään erillinen entropia-termi. Entropian suuruutta kontrolloidaan erillisen kertoimen $\alpha$ avulla, joka voidaan asettaa myös nollaksi, jolloin yhtälö palauttaa jälleen maksimipalkkion antavan käytännön.
 
 TODO: SAC testauksesta, suoriutui paremmin kuin muut DRL-algoritmit, ehkä lisää teoriataustaa?
 
@@ -426,12 +428,29 @@ Kuvan \ref{intermediateloss} virhefunktion keskiarvo kasvaa jostain syystä alus
 \section{Vaikea pelialue}
 \label{vaikea}
 
-Keskivaikean tason opetuksen luomaa mallia käytettiin vaikean tason reitinhakuongelmiin, jolloin pystytään arvioimaan agentin sopeutumista dynaamisen alueen reitinhakuun. Agentti kohtaa reitillään uusia yllättäviä esteitä, joita ei opetusprosessissa esiintynyt. Reitinhakua testattiin aluksi portin toiselle puolelle. Agentti liikkui mallin mukaan kohti aukinaista porttia, mutta portin sulkeutuessa agentti pysähtyi muutaman ruudun päähän odottamaan. Kun portti avautui uudestaan, agentti eteni kohderuutuun normaalisti. Seuraavaksi testattiin agentin sopeutumista liikkuvaan esteeseen. Agentti varoi estettä monen ruudun päästä, joka johtui todennäköisesti liian pitkistä sensorisäteistä. Monissa tapauksissa agentti ei uskaltanut lähteä kiertämään estettä, vaan jäi liikkumaan esteen väärälle puolelle sivusuunnassa. Joissain tapauksissa agentti väisti esteen ja eteni kohderuuduun.
+Keskivaikean tason opetuksen luomaa mallia käytettiin vaikean tason reitinhakuongelmiin, jolloin pystytään arvioimaan agentin sopeutumista dynaamisen alueen reitinhakuun. Agentti kohtaa reitillään uusia yllättäviä esteitä, joita ei opetusprosessissa esiintynyt. Reitinhakua testattiin aluksi portin toiselle puolelle. Agentti liikkui oppimansa mukaan kohti aukinaista porttia, mutta portin sulkeutuessa agentti pysähtyi muutaman ruudun päähän odottamaan. Kun portti avautui uudestaan, agentti eteni kohderuutuun normaalisti. Kuvasta \ref{agentgate} nähdään agentin päätöksentekoa portin ollessa auki ja kiinni. Seuraavaksi testattiin agentin sopeutumista liikkuvaan esteeseen. Agentti varoi estettä monen ruudun päästä, joka johtui todennäköisesti liian pitkistä sensorisäteistä. Monissa tapauksissa agentti ei uskaltanut lähteä kiertämään estettä, vaan jäi liikkumaan esteen väärälle puolelle sivusuunnassa. Joissain tapauksissa agentti väisti esteen ja eteni kohderuuduun.
 
 \section{A*-algoritmin ja koneoppimisagentin vertailu}
 \label{vertailu}
 
-TODO: vielä vertailua A*-algoritmin ratkaisuihin.
+A*-algoritmi suoriutuu staattisista pelialueista moitteettomasti, joten helpon ja keskivaikean pelialueen vertailua oli turha toteuttaa. Vaikean pelialueen reitinhakutehtävissä hyödynnettiin portin olemassaoloa, joten kohderuutu asetettiin portin toiselle puolelle. Luvussa \ref{vaikea} selitettiin agentin toimintaa portin ympärillä. Kuvasta \ref{astargate} nähdään, että A*-algoritmi päätyi sen sijaan valitsemaan aluksi portin läpi kulkevan reitin, mutta kohdatessaan sulkeutuneen portin se vaihtoi kokonaan reittiään. Kiertoreitin kulkeminen vei tässä tapauksessa selvästi pidemmän ajan, jolloin koneoppimisagentti päätyi suorittamaan reitinhakutehtävän nopeammin.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=7cm]{agent_avoid_gate.png}
+\includegraphics[width=7cm]{agent_through_gate.png}
+\caption{Agentti osasi odottaa portin avautumista ja käytti portin läpi kulkevaa reittiä kohteeseen. Siniset ruudut kuvaavat agentin kulkemaa reittiä.}
+\label{agentgate}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=7cm]{a_star_gate_collision.png}
+\includegraphics[width=7cm]{a_star_detour.png}
+\includegraphics[width=7cm]{a_star_detour_no_gate.png}
+\caption{A*-algoritmin valitsema reitti portin ollessa auki ja kiinni.}
+\label{astargate}
+\end{figure}
 
 \chapter{Yhteenveto}
 \label{yhteenveto}
