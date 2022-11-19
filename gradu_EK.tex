@@ -56,7 +56,7 @@ Usein perinteinen reitinhakuongelma pystytään ratkaisemaan A*-algoritmilla, jo
 
 Videopeleissä reitinhaku ilmenee usein erillisten tekoälyagenttien toimintana. Näitä kutsutaan myös ei-pelaaja-hahmoiksi (engl. non-player-character, NPC) \parencite{cui2011based}. Videopelien reitinhaussa suorituskyky nousee suurimmaksi ongelmaksi. Tietokoneen suorituskyky osoittautuu rajalliseksi vaativien grafiikka- ja fysiikkalaskelmien vuoksi. Joissain peleissä, kuten reaaliaikaisissa strategiapeleissä (engl. Real-Time Strategy, RTS), pelaajan ohjaamia liikkuvia hahmoja voi olla samanaikaisesti jopa satoja, joten esimerkiksi pelkkä A*-algoritmi sovellettuna jokaiselle agentille osoittautuu äärimmäisen haastavaksi laskennallisesti. Siksi vuosien mittaan on kehitetty ratkaisuksi erilaisia pelialueen esitystavan muokkauksia, algoritmien variaatioita ja lopulta jopa koneoppimisratkaisuja.
 
-Koneoppimista ja sen menetelmiä on myös tutkittu viime vuosina hyvin paljon eri sovellusten parissa. Koneoppimisen avulla pystytään hyödyntämään aiempaa kokemusta uusissa toiminnoissa. Etenkin neuroverkkoja ja syväoppimista on pystytty hyödyntämään monissa erilaisissa ongelmissa luokittelusta robotiikkaan. Tässä tutkimuksessa on tarkoitus soveltaa Unity-pelinkehitystyökalun valmista ML-agents -pakettia reitinhakuagenttien luomiseen. ML-agents käyttää PyTorch-kirjastoa syväoppimismallin luomiseen. ML-agents -paketin avulla agentteja voidaan opettaa reitinhakuun käyttäen syvää vahvistusoppimista ja siihen perustuvaa Soft Actor Critic -algoritmia. Tarkoitus on selvittää, pystyykö koneoppimisagentti suorittamaan reitinhakua yhtä tehokkaasti kuin A*-algoritmi. Tutkimuksessa pyritään myös huomioimaan mahdolliset tilanteet, joissa A*-algoritmilla olisi vaikeuksia suorittaa reitinhakua tehokkaasti. Agentin oppimista ja sen saamia palkkioita havainnoidaan Tensorboard-työkalun avulla.
+Koneoppimista ja sen menetelmiä on myös tutkittu viime vuosina hyvin paljon eri sovellusten parissa. Koneoppimisen avulla pystytään hyödyntämään aiempaa kokemusta uusissa toiminnoissa. Etenkin neuroverkkoja ja syväoppimista on pystytty hyödyntämään monissa erilaisissa ongelmissa luokittelusta robotiikkaan. Tässä tutkimuksessa on tarkoitus soveltaa Unity-pelinkehitystyökalun valmista ML-agents -pakettia reitinhakuagenttien luomiseen. ML-agents käyttää PyTorch-kirjastoa neuroverkkomallin luomiseen. ML-agents -paketin avulla agentteja voidaan opettaa reitinhakuun käyttäen syvää vahvistusoppimista ja siihen perustuvaa Soft Actor Critic -algoritmia. Tarkoitus on selvittää, pystyykö koneoppimisagentti suorittamaan reitinhakua yhtä tehokkaasti kuin A*-algoritmi. Tutkimuksessa pyritään myös huomioimaan mahdolliset tilanteet, joissa A*-algoritmilla olisi vaikeuksia suorittaa reitinhakua tehokkaasti. Agentin oppimista ja sen saamia palkkioita havainnoidaan Tensorboard-työkalun avulla.
 
 Luvussa \ref{reitinhakupeleis} kerrotaan yleisesti reitinhakuongelmasta videopeleissä pelialueiden esitystavan ja käytettyjen reitinhakualgoritmien muodossa. Luvussa \ref{koneoppiminen} käsitellään yleisesti koneoppimista, sen eri paradigmoja ja syväoppimista. Luvussa \ref{unity} esitellään pelinkehitysalusta Unity, sen rakenne ja tässä tutkimuksessa käytetyt paketit. Luvussa \ref{empiirinen} käydään läpi tutkimuksen empiirinen osuus menetelmien ja tutkimusasetelman kannalta. Luvussa \ref{tulokset} esitellään ja analysoidaan empiirisessä osuudessa saadut tulokset. Lopuksi luvussa \ref{yhteenveto} käydään läpi tutkimuksen yhteenveto lyhyesti.
 
@@ -116,8 +116,6 @@ Yhden agentin staattisen ruudukkoalueen reitinhakuongelma on ratkaistavissa opti
 Reitinhakualgoritmin täytyy minimoida suoritustehon ja tallennustilan käyttö. Vaikka komponentit ovatkin kehittyneet vuosi vuodelta nopeasti, myös videopelit ovat monimutkaistuneet ja niiden laskennalliset vaatimukset kasvaneet. Reitinhakualgoritmeille varatut resurssit ovat videopeleissä rajatut, koska resursseja käytetään hyvin paljon myös graafisiin ja fysikaalisiin ominaisuuksiin \parencite{lawande2022systematic}. Suoritustehoon liittyen etenkin muistinkäyttöä ja laskentatehoa pidetään yleisesti rajoittavina tekijöinä videopelien reitinhaussa \parencite{botea2013pathfinding}. Ongelmia voidaan ratkaista erilaisilla algoritmeilla tai pelialueen esitystapaan liittyvillä ratkaisuilla \parencite{botea2013pathfinding,cui2011based}.
 
 Yksi suorituskykyyn liittyvistä ongelmista on reitinhakualgoritmien huono skaalautuvuus etenkin muistinkäytön suhteen. Jos agentin reitinhakuun sovelletaan A*-algoritmia suurella 1000x1000 pelialueella, muistiin joudutaan tallentamaan pahimmassa tapauksessa miljoona solmua \parencite{cui2011based,duchovn2014path}. Muistinkäyttöä havainnollistetaan kuvassa \ref{astarmemory}, jossa A*-algoritmia on käytetty esteitä sisältävän alueen reitinhakuun. Kuvan keltaiset ruudut ovat tallennettu muistiin reitinhaun aikana. Kuvasta huomaa, että A*-algoritmi käy läpi suuren määrän ylimääräisiä solmuja, koska alueella on esteitä. Ongelma moninkertaistuu, jos alueella liikkuu useita reitinhakuagentteja. Tässä tapauksessa A*-algoritmi osoittautuu riittämättömäksi ongelman ratkaisemisessa, joten tilanteeseen kannattaa soveltaa erilaisia menetelmiä tai algoritmien variaatioita.
-
-TODO: Kuvan mittasuhteet kuntoon
 
 \begin{figure}[h]
 \centering
@@ -186,12 +184,13 @@ Vahvistusoppiminen on kolmas suuri koneoppimisen paradigma, jossa oppijana toimi
 Vahvistusoppiminen voidaan kuvata Markovin päätösprosessina (engl. Markov decision process, MDP) tilojen \(S\), toimintojen \(A\) ja palkkiosignaalien \(r\) avulla \parencite{arulkumaran2017brief}. Jokaisella aika-askeleella \(t\) agentti suorittaa toiminnon \(a\), jolloin ympäristön tila \(s\) muuttuu ja muutos viestitään agentille palkkiosignaalin \(r\) kautta. Palkkiosignaalin lisäksi ympäristö viestii agentille tilamuutoksesta, jolloin agentti saa tiedon uudesta tilasta \(s\) + 1. Palkkion ja uuden tilan perusteella agentti valitsee jälleen seuraavan toimintonsa. Markov-prosessi voi olla jaksollinen (engl. episodic), jolloin tila nollaantuu tietyn ajan jälkeen. Agentin lopullisena tavoitteena on saavuttaa paras mahdollinen käytäntö (engl. policy), joka maksimoi saadun palkkion määrän. Kuva \ref{reinflearning} havainnollistaa vahvistusoppimisen toimintaa.
 
 \begin{figure}[h]
-\includegraphics[width=10cm]{reinflearning.png}
+\centering
+\includegraphics[width=12cm]{reinflearning.png}
 \caption{Vahvistusoppimisympäristön oppimissilmukka yhdellä aika-askeleella.}
 \label{reinflearning}
 \end{figure}
 
-Oppiakseen optimaalisen käytännön agentin tekemät päätökset vaativat jonkin ennusteen tulevien toimintojen arvosta. Yleisesti tämän ennusteen laskemista kutsutaan nimellä \textit{action-value function}, ja yksi tunnettu menetelmä sen laskemiseen on Q-oppiminen (engl. Q-learning). Q-oppiminen on malliton (engl. model-free) menetelmä eli se ei tarvitse toimiakseen erillistä mallia ympäristöstä. Q-oppimisessa jokaisen tilan eri toimintoa arvioidaan \textcite{arulkumaran2017brief} esittämän kaavan \[Q(s,a) = r_t + \gamma max_a Q^\pi (s_{t+1},a)\] mukaisesti, jossa \(s\) on tila, \(a\) on toiminto, \(r_t\) on tilan palkkio, $\gamma$ on erillinen vähennys, joka määrittelee tulevien toimintojen tärkeyden aiempiin verrattuna ja \(max_a Q^\pi (s_{t+1},a)\) on ennakkoarvio tulevasta, optimaalisesta palkkiosta.
+Oppiakseen optimaalisen käytännön agentin tekemät päätökset vaativat jonkin ennusteen tulevien toimintojen arvosta. Yleisesti tämän ennusteen laskemista kutsutaan nimellä \textit{action-value function}, ja yksi tunnettu menetelmä sen laskemiseen on Q-oppiminen (engl. Q-learning). Q-oppiminen on \textit{model-free} menetelmä eli se ei tarvitse toimiakseen erillistä mallia ympäristöstä. Q-oppimisessa jokaisen tilan eri toimintoa arvioidaan \textcite{arulkumaran2017brief} esittämän kaavan \[Q(s,a) = r_t + \gamma max_a Q^\pi (s_{t+1},a)\] mukaisesti, jossa \(s\) on tila, \(a\) on toiminto, \(r_t\) on tilan palkkio, $\gamma$ on erillinen vähennys, joka määrittelee tulevien toimintojen tärkeyden aiempiin verrattuna ja \(max_a Q^\pi (s_{t+1},a)\) on ennakkoarvio tulevasta, optimaalisesta palkkiosta.
 
 Funktiosta saatuja arvoja päivitetään erillisessä Q-taulussa. Oppimisepisodien aikana agentti pystyy ennakoimaan Q-taulun avulla jokaisen mahdollisen toimintonsa tulevaa lopullista palkkiota ja tarvittaessa päivittämään Q-taulun arvoja. Ongelmaksi osoittautuu kuitenkin uuden tutkimisen (engl. exploration) ja olemassa olevan tiedon hyödyntämisen (engl. exploitation) tasapainotus \parencite{arulkumaran2017brief}. \textit{Epsilon-Greedy} on menetelmä, jossa tietyllä todennäköisyydellä $\epsilon$ agentti valitsee pienemmän arvon tilan, jolloin voidaan löytää uusia, parempia ratkaisuja haluttuun lopputulokseen. Agentti voi myös jatkaa aiemman käytännön hyödyntämistä todennäköisyydellä 1 - $\epsilon$.
 
@@ -225,15 +224,15 @@ Yksi tekoälyn tutkimuksen suurimpia tavoitteita on luoda täysin autonominen ja
 
 \subsection{Syvän vahvistusoppimisen menetelmät}
 
-Syvä vahvistusoppiminen hyödyntää syväoppimista ja neuroverkkoja suurten tila- ja havaintoavaruuksien tapauksissa \parencite{arulkumaran2017brief,li2018deep}. Se eroaa vahvistusoppimisesta pääasiassa funktioapproksimaation suhteen. Esimerkiksi tavallisessa Q-oppimisessa muodostetaan taulu tila-toiminta -pareista ja niiden Q-arvoista, mutta syvässä Q-oppimisessa (engl. deep Q-learning) taulu korvataan neuroverkolla. Syvässä Q-oppimisessa tila, esimerkiksi pikselidata, syötetään neuroverkolle ja tuloksena saadaan mahdolliset toiminnot ja niiden arvot. Oppiminen tapahtuu neuroverkon tapaisesti eli pyritään maksimoimaan esimerkiksi palkkiofunktio ja päivitetään neuroverkon painoarvoja sen mukaisesti.
+Syvä vahvistusoppiminen hyödyntää syväoppimista ja neuroverkkoja suurten tila- ja havaintoavaruuksien tapauksissa \parencite{arulkumaran2017brief,li2018deep}. Se eroaa vahvistusoppimisesta pääasiassa funktioapproksimaation suhteen. Esimerkiksi tavallisessa Q-oppimisessa muodostetaan taulu tila-toiminta -pareista ja niiden Q-arvoista, mutta syvässä Q-oppimisessa (engl. deep Q-learning) taulu korvataan neuroverkolla. Syvässä Q-oppimisessa tila, esimerkiksi pikselidata, syötetään neuroverkolle ja tuloksena saadaan mahdolliset toiminnot ja niiden arvot. Oppiminen tapahtuu neuroverkon tapaisesti eli pyritään maksimoimaan esimerkiksi palkkiofunktio ja päivitetään neuroverkon painoarvoja sen mukaisesti. Syvän Q-verkon ongelmaksi voi muodostua epävakautta, jota voidaan korjata \textit{Experience replay}-menetelmällä. Menetelmässä tallennetaan muistiin satunnaisesti aiempia kokemuksia, joita agentti voi myöhemmin käyttää oppimiseen. Menetelmän hyöty perustuu siihen, että opettamisesta pyritään poistamaan ajalliset korrelaatiot.
 
-Arvofunktioihin perustuvien menetelmien lisäksi voidaan käyttää \textit{policy search}-menetelmiä \parencite{arulkumaran2017brief}. Kyseisissä menetelmissä arvofunktiomallin ylläpitämisen sijaan etsitään suoraan optimaalisinta käytäntöä. 
+Arvofunktioiden approksimaation perustuvat menetelmät kohtaavat suuria haasteita moniulotteisissa tila- ja toimintoavaruuksissa, kuten robotiikassa esiintyvissä ongelmissa on tapana olla \parencite{arulkumaran2017brief,deisenroth2013survey}. Vaihtoehtoisina menetelminä ovat \textit{policy search}-menetelmät, joissa arvofunktiomallin ylläpitämisen sijaan käytetään parametrisoituja käytäntöjä. Parametreja päivittämällä pyritään maksimoimaan odotettu tulos ja löytämään paras käytäntö. Policy search -menetelmät voivat olla \textit{model-based} tai \textit{model-free} eli joko ylläpidetään mallia ympäristöstä tai opetellaan suoraan käytäntö. Usein käytännön opetteleminen on helpompaa kuin tarkan mallin oppiminen.
 
-TODO: policy search, experience replay, bootstrapping, actor-critic
+Arvofunktioita ja \textit{policy search}-menetelmiä voidaan hyödyntää myös yhdessä, joita kutsutaan tekijä-kriitikko -menetelmiksi (engl. actor-critic) \parencite{arulkumaran2017brief}. Tässä kontekstissa sana tekijä viittaa käytäntöön ja kriitikko arvofunktioon. Tekijä käyttää kriitikolta saamaa palautetta oppimiseen. Toisin sanoen, tekijä saa ympäristöltä tilan ja valitsee sen perusteella toiminnon ja samaan aikaan kriitikko saa ympäristöltä tilan ja edellisen aika-askeleen palkkion. Kriitikko laskee tämän perusteella ennustevirheen (engl. temporal difference) ja päivittää itsensä ja tekijän.
 
 \subsection{Soft actor-critic}
 
-Soft actor-aritic (SAC) on \textcite{haarnoja2018soft} kehittämä malli-vapaa (engl. model-free) ja \textit{off-policy} syvä vahvistusoppimis-algoritmi. Se kehitettiin vastaamaan yleisiin vahvistusoppimis-algoritmien ongelmiin reaalimaailmassa, kuten opetusaineiston kompleksisuuteen (engl. sample complexity) ja hyperparametrien herkkyyteen \parencite{haarnoja2018app}. Yksinkertaisetkin tehtävät saattoivat vaatia satoja tuhansia ellei jopa miljoonia opetusaskeleita ennen kuin sopiva lopputulos saavutettiin. Tämän lisäksi eri tehtävien välillä joutui virittelemään monien eri hyperparametrien arvoja, jotta oppiminen olisi edes mahdollista. SAC pyrkii mahdollisimman satunnaisiin toimintoihin samalla maksimoiden odotetun palkkiosumman, jota kutsutaan myös nimellä \textit{maximum entropy}. Tavallisesti parhaimman käytännön löytämisessä halutaan maksimoida saatu palkkio, mutta \textit{maximum entropy} -periaatteessa yhtälöön lisätään erillinen entropia-termi. Entropian suuruutta kontrolloidaan erillisen kertoimen $\alpha$ avulla, joka voidaan asettaa myös nollaksi, jolloin yhtälö palauttaa jälleen maksimipalkkion antavan käytännön.
+Soft actor-aritic (SAC) on \textcite{haarnoja2018soft} kehittämä \textit{model-free} ja \textit{off-policy} syvä vahvistusoppimis-algoritmi. Se kehitettiin vastaamaan yleisiin vahvistusoppimis-algoritmien ongelmiin reaalimaailmassa, kuten opetusaineiston kompleksisuuteen (engl. sample complexity) ja hyperparametrien herkkyyteen \parencite{haarnoja2018app}. Yksinkertaisetkin tehtävät saattoivat vaatia satoja tuhansia ellei jopa miljoonia opetusaskeleita ennen kuin sopiva lopputulos saavutettiin. Tämän lisäksi eri tehtävien välillä joutui virittelemään monien eri hyperparametrien arvoja, jotta oppiminen olisi edes mahdollista. SAC pyrkii mahdollisimman satunnaisiin toimintoihin samalla maksimoiden odotetun palkkiosumman, jota kutsutaan myös nimellä \textit{maximum entropy}. Tavallisesti parhaimman käytännön löytämisessä halutaan maksimoida saatu palkkio, mutta \textit{maximum entropy} -periaatteessa yhtälöön lisätään erillinen entropia-termi. Entropian suuruutta kontrolloidaan erillisen kertoimen $\alpha$ avulla, joka voidaan asettaa myös nollaksi, jolloin yhtälö palauttaa jälleen maksimipalkkion antavan käytännön.
 
 TODO: SAC testauksesta, suoriutui paremmin kuin muut DRL-algoritmit, ehkä lisää teoriataustaa?
 
@@ -298,7 +297,7 @@ Skriptien avulla voidaan tehdä lähes kaikki samat asiat kuin Unity Editorissa.
 
 \section{Machine Learning Agents}
 
-Machine Learning Agents on Unitylle kehitetty ilmainen koneoppimispaketti, joka mahdollistaa Unity Editorilla luotujen simulaatioympäristöjen ja Python APIn välisen vuorovaikutuksen \parencite{juliani2018unity}. ML-Agents SDK (Software Development Kit) tarjoaa kaikki toiminnallisuudet ja skriptit toimivan koneoppimisympäristön luomiseen. Kuva \ref{mlagentsstructure} havainnollistaa Unity Editorilla luodun yksinkertaisen ML-Agents koneoppimisympäristön toimintaa. TODO: "unity editorilla luodun" vai pelkästään "ML-agentsin toimintaa/rakennetta"
+Machine Learning Agents on Unitylle kehitetty ilmainen koneoppimispaketti, joka mahdollistaa Unity Editorilla luotujen simulaatioympäristöjen ja Python APIn välisen vuorovaikutuksen \parencite{juliani2018unity}. ML-Agents SDK (Software Development Kit) tarjoaa kaikki toiminnallisuudet ja skriptit toimivan koneoppimisympäristön luomiseen. Kuva \ref{mlagentsstructure} havainnollistaa yksinkertaisen ML-Agents koneoppimisympäristön toimintaa.
 
 \subsection{ML-Agents SDK}
 
@@ -327,7 +326,7 @@ Tässä kappaleessa käsitellään tutkimuksen empiiristä osuutta. Tutkimus tot
 \section{Tutkimuksen kuvaus}
 \label{sec:tutkimuksenkuvaus}
 
-Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten ympäristöjen ja tilanteiden simuloimiseen. Tutkimusta varten Unity Hubissa luotiin valmis 2D-projekti ja projektiin lisättiin Unity Package Managerin kautta ML-Agents -paketti, jotta tarvittavat toiminnallisuudet saatiin käyttöön koneoppimista varten. Unityn valmiiden menetelmien avulla luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja, kävelykelpoisia ruutuja ja alku- ja loppuruudut sekä joihinkin alueisiin liikkuvia esteitä. Reitinhaun vertailua varten luotiin A*-algoritmi. Agentille annettiin yhteensä neljä liikkumissuuntaa vaaka- ja pystysuunnassa, joten A*-algoritmin heuristiikaksi valittiin Manhattan-etäisyys. ML-agents -paketin avulla agentille annettiin \textit{Behavior Parameters}, \textit{Agent Script}, \textit{Decision Requester} ja \textit{Ray Perception Sensor 2D} -skriptitiedostot, jotka antavat tarvittavat toiminnallisuudet koneoppimista varten. Agentin opettamiseen käytetään syvään vahvistettuun oppimiseen perustuvaa SAC-algoritmia.
+Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten ympäristöjen ja tilanteiden simuloimiseen. Tutkimusta varten Unity Hubissa luotiin valmis 2D-projekti ja projektiin lisättiin Unity Package Managerin kautta ML-Agents -paketti, jotta tarvittavat toiminnallisuudet saatiin käyttöön koneoppimista varten. Unityn valmiiden menetelmien avulla luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja, kävelykelpoisia ruutuja ja alku- ja loppuruudut sekä joihinkin alueisiin liikkuvia esteitä. Reitinhaun vertailua varten luotiin A*-algoritmi. Agentille annettiin yhteensä neljä liikkumissuuntaa vaaka- ja pystysuunnassa, joten A*-algoritmin heuristiikaksi valittiin Manhattan-etäisyys. ML-agents -paketin avulla agentille annettiin \textit{Behavior Parameters}, \textit{Agent Script}, \textit{Decision Requester} ja \textit{Ray Perception Sensor 2D} -komponentit, jotka antavat tarvittavat toiminnallisuudet koneoppimista varten. Agentin opettamiseen käytetään syvään vahvistettuun oppimiseen perustuvaa SAC-algoritmia.
 
 A*-algoritmia täytyi muokata tutkimukseen sopivaksi. Pelialueet voivat muuttua reaaliaikaisesti, jolloin perinteinen A*-algoritmi ei pysty reagoimaan muutoksiin välittömästi. Algoritmia muokattiin tutkimukseen siten, että esteen ilmestyessä laskelmoidulle reitille A*-algoritmi ajetaan uudestaan, mutta lähtöpisteeksi asetetaan agentin uusi sijainti. Uusi sijainti on agentin siihen asti kulkema matka, jolloin seuraava reitinhakuiteraatio vaatii lyhyemmän matkan ja on kevyempi muistinkäytön kannalta. Ratkaisu ei kuitenkaan ole järkevä suuremmissa pelialueissa, mutta soveltuu hyvin tämän tutkimuksen esimerkkeihin.
 
@@ -357,13 +356,15 @@ Tutkimuksessa toteutettiin kolme eri tason oppimisympäristöä: helppo, keskiva
 
 \subsection{Koneoppiminen}
 
-Agentilla voi olla käytössä sekä \textit{Continuous Actions}- että \textit{Discrete Actions}-taulukoita, jotka syötetään parametrina OnActionReceived()-funktioon. Continuous Actions -taulukon voivat olla mitä arvoja tahansa, mutta ne rajataan ennalta [-1,...,1] välille. Kyseiset arvot voidaan asettaa esimerkiksi agentin liikkumista varten, jolloin agentti pystyy oppimisen aikana kontrolloimaan arvoja. Toisena vaihtoehtona on Discrete Actions -taulukko, joka sisältää vain kokonaislukuja. Tässä tutkimuksessa agentilla on käytössä viiden elementin Discrete Actions -taulukko, jossa on arvot [0,1,2,3,4]. Agentin liikkuminen on toteutettu siten, että 0 on paikallaan pysyminen, 1 on liikkuminen vasemmalle, 2 on liikkuminen oikealle, 3 on liikkuminen alas ja 4 on liikkuminen ylös. Agentti pystyy liikkumaan kerralla yhden ruudun verran.
+Agentilla voi olla käytössä sekä \textit{Continuous Actions}- että \textit{Discrete Actions}-taulukoita, jotka syötetään parametrina OnActionReceived()-funktioon. Continuous Actions -taulukon voivat olla mitä arvoja tahansa, mutta ne rajataan ennalta [-1,...,1] välille. Kyseiset arvot voidaan asettaa esimerkiksi agentin liikkumista varten, jolloin agentti pystyy oppimisen aikana kontrolloimaan arvoja. Toisena vaihtoehtona on Discrete Actions -taulukko, joka sisältää vain kokonaislukuja. Tässä tutkimuksessa agentilla on käytössä vain viiden elementin Discrete Actions -taulukko, jossa on arvot [0,1,2,3,4]. Agentin liikkuminen on toteutettu siten, että 0 on paikallaan pysyminen, 1 on liikkuminen vasemmalle, 2 on liikkuminen oikealle, 3 on liikkuminen alas ja 4 on liikkuminen ylös. Agentti pystyy liikkumaan kerralla yhden ruudun verran.
 
-Unity ML-Agents mahdollistaa saman pelialueen rinnakkaisen opettamisen yksinkertaisella drag-and-drop -menetelmällä. Pelialueesta luodaan Prefab eli valmis malli, joita voidaan siirtää useampi kappale samalle näkymälle. Kaikki agentit pystyvät keräämään kokemuksia samaan käytäntöön, kunhan jokaisella on sama Behavior Name. Opettaminen aloitetaan virtuaaliympäristössä komennolla \textit{mlagents-learn <polku konfiguraatio-tiedostoon> --run-id=<opetustunnus>}. Opettaminen käynnistetään Unityssä Play-painikkeella. Yksi opetusjakso kestää 1000 askeletta tai kunnes agentti saapuu maaliin tai osuu esteeseen.
+Unity ML-Agents mahdollistaa saman pelialueen rinnakkaisen opettamisen yksinkertaisella drag-and-drop -menetelmällä. Pelialueesta luodaan Prefab eli valmis malli, joita voidaan siirtää useampi kappale samalle näkymälle. Kaikki agentit pystyvät keräämään kokemuksia samaan käytäntöön, kunhan jokaisella on sama Behavior Name -arvo. Opettaminen aloitetaan virtuaaliympäristössä komennolla \textit{mlagents-learn <polku konfiguraatio-tiedostoon> --run-id=<opetustunnus>}. Opettaminen käynnistetään Unityssä Play-painikkeella. Yksi opetusjakso kestää 1000 askeletta tai kunnes agentti saapuu maaliin tai osuu esteeseen.
+
+Agentin opettamisessa käytettiin samoja hyperparametreja eli konfiguraatio-tiedostoa kuin Unityn valmiissa koneoppimisesimerkissä nimeltä \textit{FoodCollector}. FoodCollector-pelissä koneoppimisagentti pyrki keräämään pelialueelta vain tiettyjä ruokia ja oppi väistelemään kiellettyjä ruokia. Pelin ajatus oli hyvin lähellä tämän tutkimuksen esimerkkiä, joten tässä tutkimuksessa päädyttiin samoihin hyperparametreihin. Ainoastaan \textit{max\_steps} asetettiin miljoonaan, jolloin oppiminen pysäytettiin automaattisesti siihen. Myös \textit{summary\_freq}-arvoksi vaihdettiin 10000, jolloin opetusta pystyttiin seuraamaan tiheemmin aikavälein. Kokonaisuudessaan konfiguraatio-tiedoston sisältö löytyy liitteenä tutkimuksen lopusta luvusta \ref{liitteet} ja hyperparametrien kuvaukset Unity ML-agents GitHubista \footnote{https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Training-Configuration-File.md}.
 
 Opettamista voidaan seurata komentoriviltä, joka näyttää 10000 askeleen välein kuluneen ajan sekunneissa ja palkkioiden keskiarvon ja keskihajonnan. Tämän lisäksi tarkempaa kehittymistä voi seurata Tensorboardin avulla komennolla \textit{tensorboard --logdir results --port 6006} ja menemällä selaimella sivulle localhost:6066. Tässä tutkimuksessa seurattiin agentin kumulatiivista palkkiota (engl. cumulative reward), entropian määrää mallissa eli kuinka satunnaisia agentin toiminnot ovat, kustannusfunktion häviön keskiarvoa (engl. policy loss) ja arvofunktion häviön keskiarvoa (engl. value loss). Näiden neljän mittarin perusteella voidaan arvioida agentin käytännön kehittymistä opetuksen aikana. Tässä tutkimuksessa kuvaajia ei tasoitettu ollenkaan.
 
-Helpon tason ympäristössä opettamista tehtiin 500000 askeleen ajan, joka kesti 2712 sekuntia. Keskivaikea-tason ympäristössä opetettiin miljoonan askeleen ajan, joka kesti 5600 sekuntia. Keskivaikea-tason koneoppimismallia sovellettiin vaikea-tason alueen reitinhakuun, jotta pystyttiin tarkastella agentin sopeutumista uusiin esteisiin.
+Helpon tason ympäristössä opettamista tehtiin 500000 askeleen ajan, joka kesti 2712 sekuntia. Keskivaikea-tason ympäristössä opetettiin miljoonan askeleen ajan, joka kesti 5600 sekuntia. Molemmista alueista muodostui .nn-päätteinen neuroverkko-tiedosto, jonka pystyy asettamaan agentille käyttöön. Keskivaikea-tason luomaa neuroverkkoa sovellettiin vaikea-tason alueen reitinhakuun, jotta pystyttiin tarkastella agentin sopeutumista uusiin esteisiin.
 
 \section{Agentin havainnot ja palkkiot}
 
@@ -374,14 +375,14 @@ Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agen
 \section{Tulosten mittaaminen}
 \label{sec:mittaaminen}
 
-A*-algoritmin reitin selvittämistä ja koneoppimismallin toimintaa on vaikea mitata esimerkiksi ajallisesti, koska koneoppimismalli ei laske reittiä ennalta toisin kuin A*-algoritmi. Tässä tutkimuksessa tarkastellaan molempien vaihtoehtojen reitin optimaalisuutta eli tekeekö koneoppimisagentti turhia liikkeitä verrattuna A*-algoritmin optimaaliseen reittiin. Dynaamisissa alueissa tutkitaan koneoppimisagentin tekemiä ratkaisuja A*-algoritmin ratkaisuihin ja selitetään sanallisesti niiden eroja.
+A*-algoritmin reitin selvittämistä ja koneoppimisagentin toimintaa on vaikea mitata esimerkiksi ajallisesti, koska agentti ei laske reittiä ennalta toisin kuin A*-algoritmi. Tässä tutkimuksessa tarkastellaan molempien vaihtoehtojen reitin optimaalisuutta eli tekeekö koneoppimisagentti turhia liikkeitä verrattuna A*-algoritmin optimaaliseen reittiin. Dynaamisissa alueissa tutkitaan koneoppimisagentin tekemiä ratkaisuja A*-algoritmin ratkaisuihin ja selitetään sanallisesti niiden eroja.
 
 Tensorboardin kuvaajista kumulatiivinen palkkio kertoo agentin jaksojen palkkioiden keskiarvon, jonka tulisi kasvaa oppimisen yhteydessä. Entropia-kuvaaja esittää agentin toimintojen satunnaisuutta. Aluksi entropian kuuluisi olla suurta, mutta agentin oppiessa entropian tulisi tasaisesti laskea. SAC-algoritmin luonteeseen kuuluu entropian maksimointi, joten entropian kuuluisi hieman vaihdella agentin selvitellessä uusia tiloja. Käytännön virhefunktio kuvaa agentin käytännön muuttumista ja sen tulisi laskea onnistuneen oppimisen aikana. Arvofunktio kuvaa mallin kykyä ennustaa tilojen arvoja. Sen tulisi aluksi kasvaa oppimisen aikana ja lopuksi laskea kun palkkio tasoittuu.
 
 \chapter{Tulokset ja johtopäätökset}
 \label{tulokset}
 
-Tässä kappaleessa esitellään tutkimuksen tulokset. Kappaleessa \ref{helppo} käsitellään helpon pelialueen koneoppimisen tuloksia. Kappaleessa \ref{keskivaikea} selitetään keskivaikean pelialueen koneoppimisen tulokset. Kappaleessa \ref{vaikea} kerrotaan keskivaikean koneoppimismallin sopeutumisesta vaikean pelialueen dynaamisuuteen. Lopuksi kappaleessa \ref{vertailu} esitellään A*-algoritmin ja koneoppimisagentin vertailun tulokset.
+Tässä kappaleessa esitellään tutkimuksen tulokset. Kappaleessa \ref{helppo} käsitellään helpon pelialueen koneoppimisen tuloksia. Kappaleessa \ref{keskivaikea} selitetään keskivaikean pelialueen koneoppimisen tulokset. Kappaleessa \ref{vaikea} kerrotaan keskivaikean neuroverkkomallin sopeutumisesta vaikean pelialueen dynaamisuuteen. Lopuksi kappaleessa \ref{vertailu} esitellään A*-algoritmin ja koneoppimisagentin vertailun tulokset.
 
 \section{Helppo pelialue}
 \label{helppo}
@@ -428,27 +429,30 @@ Kuvan \ref{intermediateloss} virhefunktion keskiarvo kasvaa jostain syystä alus
 \section{Vaikea pelialue}
 \label{vaikea}
 
-Keskivaikean tason opetuksen luomaa mallia käytettiin vaikean tason reitinhakuongelmiin, jolloin pystytään arvioimaan agentin sopeutumista dynaamisen alueen reitinhakuun. Agentti kohtaa reitillään uusia yllättäviä esteitä, joita ei opetusprosessissa esiintynyt. Reitinhakua testattiin aluksi portin toiselle puolelle. Agentti liikkui oppimansa mukaan kohti aukinaista porttia, mutta portin sulkeutuessa agentti pysähtyi muutaman ruudun päähän odottamaan. Kun portti avautui uudestaan, agentti eteni kohderuutuun normaalisti. Kuvasta \ref{agentgate} nähdään agentin päätöksentekoa portin ollessa auki ja kiinni. Seuraavaksi testattiin agentin sopeutumista liikkuvaan esteeseen. Agentti varoi estettä monen ruudun päästä, joka johtui todennäköisesti liian pitkistä sensorisäteistä. Monissa tapauksissa agentti ei uskaltanut lähteä kiertämään estettä, vaan jäi liikkumaan esteen väärälle puolelle sivusuunnassa. Joissain tapauksissa agentti väisti esteen ja eteni kohderuuduun.
+Keskivaikean tason opetuksen luomaa neuroverkko-tiedostoa käytettiin vaikean tason reitinhakuongelmiin, jolloin pystytään arvioimaan agentin sopeutumista dynaamisen alueen reitinhakuun. Agentti kohtasi reitillään uusia yllättäviä esteitä, joita ei opetusprosessissa esiintynyt. Reitinhakua testattiin aluksi portin toiselle puolelle. Agentti liikkui oppimansa mukaan kohti aukinaista porttia, mutta portin sulkeutuessa agentti pysähtyi muutaman ruudun päähän odottamaan. Kun portti avautui uudestaan, agentti eteni kohderuutuun normaalisti. Kuvasta \ref{agentgate} nähdään agentin päätöksentekoa portin ollessa auki ja kiinni. Kuvasta myös huomataan, että agentti liikkui turhaan pystysuunnassa ennen porttia, joka kertoo epäoptimaalisesta reitistä. Optimaalisin vaihtoehto olisi siirtyä heti portin viereen odottamaan. Seuraavaksi testattiin agentin sopeutumista liikkuvaan esteeseen. Agentti varoi estettä monen ruudun päästä, joka johtui todennäköisesti liian pitkistä sensorisäteistä. Monissa tapauksissa agentti ei uskaltanut lähteä kiertämään estettä, vaan jäi liikkumaan esteen väärälle puolelle sivusuunnassa. Joissain tapauksissa agentti väisti esteen ja eteni kohderuuduun.
 
 \section{A*-algoritmin ja koneoppimisagentin vertailu}
 \label{vertailu}
 
 A*-algoritmi suoriutuu staattisista pelialueista moitteettomasti, joten helpon ja keskivaikean pelialueen vertailua oli turha toteuttaa. Vaikean pelialueen reitinhakutehtävissä hyödynnettiin portin olemassaoloa, joten kohderuutu asetettiin portin toiselle puolelle. Luvussa \ref{vaikea} selitettiin agentin toimintaa portin ympärillä. Kuvasta \ref{astargate} nähdään, että A*-algoritmi päätyi sen sijaan valitsemaan aluksi portin läpi kulkevan reitin, mutta kohdatessaan sulkeutuneen portin se vaihtoi kokonaan reittiään. Kiertoreitin kulkeminen vei tässä tapauksessa selvästi pidemmän ajan, jolloin koneoppimisagentti päätyi suorittamaan reitinhakutehtävän nopeammin.
 
+Liikkuvan esteen suhteen A*-algoritmi toimi selvästi paremmin kuin koneoppimisagentti. Tutkimuksessa toteutettu A* variaatio onnistui heti vaihtamaan reittiä kohdatessaan esteen, jolloin se pääsi kiertämään sen välittömästi. Ääritapauksissa A* valitsi kiertoreitin samalta puolelta johon este oli liikkumassa, jolloin este liikkui heti uudestaan reitille ja A* joutui laskemaan reitin jälleen uudestaan. Agentti sen sijaan oli liian varovainen liikkuvan esteen suhteen, kuten luvussa \ref{vaikea} selitettiin. Pahimmillaan agentti ei pystynyt suorittamaan reitinhakutehtävää ollenkaan.
+
 \begin{figure}[h]
-\centering
 \includegraphics[width=7cm]{agent_avoid_gate.png}
+\hspace{1 cm}
 \includegraphics[width=7cm]{agent_through_gate.png}
 \caption{Agentti osasi odottaa portin avautumista ja käytti portin läpi kulkevaa reittiä kohteeseen. Siniset ruudut kuvaavat agentin kulkemaa reittiä.}
 \label{agentgate}
 \end{figure}
 
 \begin{figure}[h]
-\centering
 \includegraphics[width=7cm]{a_star_gate_collision.png}
+\hspace{1 cm}
+\vspace{1 cm}
 \includegraphics[width=7cm]{a_star_detour.png}
 \includegraphics[width=7cm]{a_star_detour_no_gate.png}
-\caption{A*-algoritmin valitsema reitti portin ollessa auki ja kiinni.}
+\caption{A*-algoritmin valitsema reitti portin ollessa auki ja kiinni. Siniset ruudut kuvaavat A*-algoritmin laskemaa reittiä.}
 \label{astargate}
 \end{figure}
 
@@ -458,7 +462,39 @@ A*-algoritmi suoriutuu staattisista pelialueista moitteettomasti, joten helpon j
 \printbibliography
 
 \chapter{Liitteet}
+\label{liitteet}
 
-- AgentScript-kooditiedosto?
+\begin{verbatim}
+behaviors:
+  GraduTest:
+    trainer_type: sac
+    hyperparameters:
+      learning_rate: 0.0003
+      learning_rate_schedule: constant
+      batch_size: 256
+      buffer_size: 2048
+      buffer_init_steps: 0
+      tau: 0.005
+      steps_per_update: 10.0
+      save_replay_buffer: false
+      init_entcoef: 0.05
+      reward_signal_steps_per_update: 10.0
+    network_settings:
+      normalize: false
+      hidden_units: 256
+      num_layers: 1
+      vis_encode_type: simple
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0
+    keep_checkpoints: 5
+    max_steps: 1000000
+    time_horizon: 64
+    summary_freq: 10000
+    threaded: false
+\end{verbatim}
+
+- ehkä agentscript tiedosto? miten saada pienemmällä fontilla?
 
 \end{document}
