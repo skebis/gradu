@@ -40,7 +40,7 @@ Pathfinding or path planning is one of the major problems in artificial intellig
 \supervisor{Tommi Kärkkäinen}
 % jos useita ohjaajia, anna useampi \supervisor-komento
 \avainsanat{koneoppiminen, videopeli, reitinhaku, syvä vahvistusoppiminen}
-\keywords{machine learning, video game, pathfinding, deep reinforcement learning, Soft Actor Critic, Machine Learning Agents, Unity}
+\keywords{machine learning, video game, pathfinding, deep reinforcement learning, Soft Actor-Critic, Machine Learning Agents, Unity}
 
 \maketitle
 
@@ -99,9 +99,9 @@ A*-algoritmilla on kolme esitettyä ominaisuutta \parencite{hart1968formal}. Ens
 \subsection{A*-algoritmin variaatiot}
 \label{avariaatiot}
 
-Reitinhakualgoritmeja toteutettiin alunperin valmiisiin ja tarkkoihin ympäristöihin, joka ei kuitenkaan ole verrattavissa reaalimaailman tilanteisiin, joissa ympäristö voi muuttua arvaamattomasti \parencite{lawande2022systematic}. A*-algoritmia ja sen rajoitteita onkin tutkittu jo useita vuosikymmeniä, joka on mahdollistanut useiden eri variaatioiden kehittämisen. Useimmiten variaatiot keskittyvät korjaamaan yleisimpiä A*-algoritmin reitinhakuongelmia, kuten suoritustehon optimointia ja sopeutumista muuttuviin alueisiin \parencite{stentz1994optimal}.
+Reitinhakualgoritmeja toteutettiin alunperin valmiisiin ja tarkkoihin ympäristöihin, joka ei kuitenkaan ole verrattavissa reaalimaailman tilanteisiin, joissa ympäristö voi muuttua arvaamattomasti \parencite{lawande2022systematic}. A*-algoritmia ja sen rajoitteita onkin tutkittu jo useita vuosikymmeniä, joka on mahdollistanut useiden eri variaatioiden kehittämisen. Useimmiten variaatiot keskittyvät korjaamaan yleisimpiä A*-algoritmin reitinhakuongelmia, kuten suoritustehon optimointia ja sopeutumista dynaamisiin alueisiin \parencite{stentz1994optimal}.
 
-\textcite{stentz1994optimal,stentz1995focussed} esittivät 90-luvulla kaksi A*-algoritmin variaatiota: D*-algoritmi (Dynamic A*) ja Focussed D*-algoritmi. Uudet variaatiot pyrkivät ratkaisemaan etenkin muuttuvan ja tuntemattoman alueen ongelmat robotiikan tutkimuksessa. Alkuperäinen D*-algoritmi teki mahdolliseksi reitin korjaamisen esteen tai muutoksen tullessa reitille. Focussed D*-algoritmi tehosti alkuperäisen D*-algoritmin toimintaa ajallisesti ja näin kehitti sen toimintaa entisestään.
+\textcite{stentz1994optimal,stentz1995focussed} esittivät 90-luvulla kaksi A*-algoritmin variaatiota: D*-algoritmi (Dynamic A*) ja Focussed D*-algoritmi. Uudet variaatiot pyrkivät ratkaisemaan etenkin dynaamisen ja tuntemattoman alueen ongelmat robotiikan tutkimuksessa. Alkuperäinen D*-algoritmi teki mahdolliseksi reitin korjaamisen esteen tai muutoksen tullessa reitille. Focussed D*-algoritmi tehosti alkuperäisen D*-algoritmin toimintaa ajallisesti ja näin kehitti sen toimintaa entisestään.
 
 \textcite{koenig2005fast} esittivät D* Lite -algoritmin, joka nimestään huolimatta ei varsinaisesti perustu suoraan D*-algoritmiin, vaan A*- ja LPA* (Lifelong Planning A*) -algoritmiin. D* Lite -algoritmi osoittautui yksinkertaisemmaksi ja hieman tehokkaammaksi kuin D*- ja Focussed D*-algoritmit, jonka vuoksi sen toteuttaminen ja soveltaminen oli helpompaa.
 
@@ -384,7 +384,7 @@ Tensorboardin kuvaajista kumulatiivinen palkkio kertoo agentin jaksojen palkkioi
 \chapter{Tulokset ja johtopäätökset}
 \label{tulokset}
 
-Tässä kappaleessa esitellään tutkimuksen tulokset. Kappaleessa \ref{helppo} käsitellään helpon pelialueen koneoppimisen tuloksia. Kappaleessa \ref{keskivaikea} selitetään keskivaikean pelialueen koneoppimisen tulokset. Kappaleessa \ref{vaikea} kerrotaan keskivaikean neuroverkkomallin sopeutumisesta vaikean pelialueen dynaamisuuteen. Lopuksi kappaleessa \ref{vertailu} esitellään A*-algoritmin ja koneoppimisagentin vertailun tulokset.
+Tässä kappaleessa esitellään tutkimuksen tulokset. Kappaleessa \ref{helppo} käsitellään helpon pelialueen koneoppimisen tuloksia. Kappaleessa \ref{keskivaikea} selitetään keskivaikean pelialueen koneoppimisen tulokset. Kappaleessa \ref{vaikea} kerrotaan keskivaikean neuroverkkomallin sopeutumisesta vaikean pelialueen dynaamisuuteen. Kappaleessa \ref{vertailu} esitellään A*-algoritmin ja koneoppimisagentin vertailun tulokset. Lopuksi kappaleessa \ref{johtop} kerrotaan johtopäätökset tuloksista ja mahdolliset rajoitteet tutkimuksessa.
 
 \section{Helppo pelialue}
 \label{helppo}
@@ -458,8 +458,23 @@ Liikkuvan esteen suhteen A*-algoritmi toimi selvästi paremmin kuin koneoppimisa
 \label{astargate}
 \end{figure}
 
+\section{Johtopäätökset ja rajoitteet}
+\label{johtop}
+
+A*-algoritmi suoriutuu selvästi staattisista pelialueista optimaalisesti. Dynaamisissa alueissa sen suoriutuminen riippuu vahvasti esteiden toteutuksesta. A*-algoritmi osaa väistellä liikkuvia, yksittäisiä esteitä laskemalla uuden reitin välittömästi uudestaan. Lisäksi uusi reitti on suurella todennäköisyydellä lyhyempi ja siten käyttää vähemmän muistia. Suuremmat esteet, jotka estävät pääsyn kokonaan tietyn reitin kautta hetkellisesti, osoittautuivat vaikeiksi, koska A*-algoritmi ryhtyi kiertämään kohteeseen toista kautta. Uusi reitti voi olla pahimmillaan monta kertaa pidempi. Tässäkin tapauksessa esteen luonne tosin vaikuttaa A*-algoritmin toiminnan hyvyyteen. Jos este tulisi reitille pysyvästi, niin A*-algoritmin toiminta olisi hyväksyttävää. Jos reitti estyy vain hetkellisesti, niin A*-algoritmin uuden reitin valinta olisi huono päätös. A*-algoritmia kannattaa käyttää edelleen videopelien reitinhakuun ja etenkin uusien variaatioiden käyttöä kannattaa myös harkita.
+
+Koneoppimisagentin reitinhaku oli yksinkertaisissa alueissa lähes moitteetonta. Oppiminen oli helpossa pelialueessa suoraviivaista ja nopeaa, mutta keskivaikea alue oli aluksi ongelmallinen ja agentti ei saanut käsitystä oikeanlaisesta käytännöstä. Jotkin reunatapaukset aiheuttivat agentille ongelmia sekä helpossa että keskivaikeassa alueessa, jolloin se päätyikin liikkumaan vain paikallaan eikä löytänyt kohteen luokse ajoissa. Agentti pystyi jollain tapaa sopeutumaan vaikean pelialueen esteisiin, vaikka se ei opetellut erikseen esteiden väistämistä. Koneoppimista voi suositella käytettävän alueissa, joihin liittyy jonkinlaista älyä kuten hetkellisesti estyviä reittejä.
+
+A*-algoritmin toteutus oli hyvin yksinkertainen, jonka takia se ei täysin sovellu vertailukohteeksi. Tutkimuksessa olisi ollut parempi käyttää esimerkiksi D*- tai D* Lite -algoritmin tapaista dynaamisen alueen algoritmia, mutta niiden toteutus on selvästi hankalampaa eikä selkeitä ohjeita välttämättä löydy. Myös jatkuva A*-algoritmin uudelleenlaskenta esteiden tullessa tielle on tehotonta \parencite{stentz1995focussed}. Tämän tutkimuksen pelialueet ovat kuitenkin pieniä, joten A*-algoritmin tehokkuudella ei tässä tapauksessa ole merkitystä. Jos tutkimusta laajennettaisiin ja pelialueita tehtäisiin lisää, niin A*-algoritmi kannattaisi toteuttaa myös uudestaan tehokkaammin.
+
+Koneoppimisagentin toteuttamisen suhteen on myös mahdollista toimia toisin. Vektorihavainnot ovat näihin yksinkertaisiin tapauksiin sopivat, mutta sensorihavaintoja voisi käyttää toisin. Säteet oli tässä tutkimuksessa jaettu kahteen osaan tunnistamaan erikseen esteitä ja kohdetta. Kohdesäteet olivat pitkiä ja menivät esteiden läpi ja estesäteet olivat lyhyempiä ja pysähtyivät esteisiin. Agentti oppi liiankin hyvin varomaan esteitä, jolloin liikkuvat esteet pysäyttivät sen etenemisen kokonaan. Estesäteet olisivat voineet olla lyhyempiä kuten esimerkiksi vain yhden ruudun pituisia. Agentti olisi voinut myös käyttää visuaalisia havaintoja, jotka olisivat syöttäneet suoraan agentin lähialueen pikselidataa neuroverkolle. Visuaaliset havainnot voisivat parantaa agentin käyttäytymistä esteiden läheisyydessä. Palkkiot oli toteutettu siten, että agenttia ohjattiin suorittamaan tehtävä mahdollisimman nopeasti lisäämällä jokaiselle aika-askeleelle negatiivista palkkiota. Ongelmaksi kuitenkin muodostui positiivisen palkkion harvinaisuus, koska agentti osui aluksi harvoin kohteeseen. Toteutukseen olisi voitu lisätä pieni palkkio, joka riippuisi agentin etäisyydestä kohteeseen ja testata vaikutusta kohteen löytämiseen. Yksi suurimmista muutoksista olisi hyperparametrien oikeanlainen konfigurointi, koska tässä tutkimuksessa oli vain käytettyn valmiin esimerkin hyperparametreja. Suuremmat \textit{batch\_size} ja \textit{buffer\_size} arvot vaikuttaisivat gradientin ja kokemuspuskurin (engl. experience buffer) suuruuteen, jolloin agentti oppisi enemmän aiemmista kokemuksista. Myös esimerkiksi piilokerrosten (num\_layers) lisääminen kahteen ongelmien kasvaessa suuriksi.
+
 \chapter{Yhteenveto}
 \label{yhteenveto}
+
+Tässä tutkimuksessa esiteltiin videopelien reitinhakuongelmaa ja esiteltiin tunnettuja käytettyjä algoritmeja. Tämän jälkeen kerrottiin koneoppimisesta, syväoppimisesta ja tunnetuista menetelmistä lyhyesti. Myöhemmin esiteltiin tutkimuksessa käytetty Unity-pelinkehitysympäristö ja ML-agents -paketti. Lopuksi käytiin läpi tutkimuksen empiirinen osuus ja esiteltiin tulokset.
+
+TODO: yhteenveto vielä kuntoon
 
 \printbibliography
 
