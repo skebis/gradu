@@ -328,16 +328,17 @@ Tässä kappaleessa käsitellään tutkimuksen empiiristä osuutta. Tutkimus tot
 \section{Tutkimuksen kuvaus}
 \label{sec:tutkimuksenkuvaus}
 
-Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten ympäristöjen ja tilanteiden simuloimiseen. Tutkimusta varten Unity Hubissa luotiin valmis 2D-projekti ja projektiin lisättiin Unity Package Managerin kautta ML-Agents -paketti, jotta tarvittavat toiminnallisuudet saatiin käyttöön koneoppimista varten. Unityn valmiiden menetelmien avulla luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja, kävelykelpoisia ruutuja ja alku- ja loppuruudut sekä joihinkin alueisiin liikkuvia esteitä. Reitinhaun vertailua varten luotiin A*-algoritmi. Agentille annettiin yhteensä neljä liikkumissuuntaa vaaka- ja pystysuunnassa, joten A*-algoritmin heuristiikaksi valittiin Manhattan-etäisyys. ML-agents -paketin avulla agentille annettiin \textit{Behavior Parameters}, \textit{Agent Script}, \textit{Decision Requester} ja \textit{Ray Perception Sensor 2D} -komponentit, jotka antavat tarvittavat toiminnallisuudet koneoppimista varten. Agentin opettamiseen käytetään syvään vahvistettuun oppimiseen perustuvaa SAC-algoritmia.
+Tutkimuksen simulaatioalustana käytettiin Unityä, koska sen käyttö oli ennestään tuttua ja se soveltuu hyvin erilaisten ympäristöjen ja tilanteiden simuloimiseen. Tutkimusta varten Unity Hubissa luotiin valmis 2D-projekti ja projektiin lisättiin Unity Package Managerin kautta ML-Agents -paketti, jotta tarvittavat toiminnallisuudet saatiin käyttöön koneoppimista varten. Unityn valmiiden menetelmien avulla luotiin yksinkertaisia ruudukkoalueita, jonne sijoitettiin esteruutuja, kävelykelpoisia ruutuja ja alku- ja loppuruudut sekä joihinkin alueisiin liikkuvia esteitä. Reitinhaun vertailua varten luotiin A*-algoritmi. Agentille annettiin yhteensä neljä liikkumissuuntaa vaaka- ja pystysuunnassa, joten A*-algoritmin heuristiikaksi valittiin Manhattan-etäisyys. ML-agents -paketin avulla agentille annettiin \textit{Behavior Parameters}, \textit{Agent Script}, \textit{Decision Requester} ja \textit{Ray Perception Sensor 2D} -komponentit, jotka antavat tarvittavat toiminnallisuudet koneoppimista varten. Agentin opettamiseen käytetään syvään vahvistettuun oppimiseen perustuvaa SAC-algoritmia. Vertailu 
 
 A*-algoritmia täytyi muokata tutkimukseen sopivaksi. Pelialueet voivat muuttua reaaliaikaisesti, jolloin perinteinen A*-algoritmi ei pysty reagoimaan muutoksiin välittömästi. Algoritmia muokattiin tutkimukseen siten, että esteen ilmestyessä laskelmoidulle reitille A*-algoritmi ajetaan uudestaan, mutta lähtöpisteeksi asetetaan agentin uusi sijainti. Uusi sijainti on agentin siihen asti kulkema matka, jolloin seuraava reitinhakuiteraatio vaatii lyhyemmän matkan ja on kevyempi muistinkäytön kannalta. Ratkaisu ei kuitenkaan ole järkevä suuremmissa pelialueissa, mutta soveltuu hyvin tämän tutkimuksen esimerkkeihin.
 
 \section{Tutkimusasetelma}
 \label{sec:tutkimusasetelma}
 
-Tässä osiossa kerrotaan, miten Unityn simulaatioympäristö konfiguroitiin tutkimuksen eri osioita varten.
+Tässä osiossa kerrotaan millaisessa ympäristössä empiirinen osuus toteutettiin ja miten ympäristö konfiguroitiin tutkimuksen eri osioita varten. Luvussa \ref{alue} kerrotaan luoduista pelialueista ja luvussa \ref{koneoppiminen} kerrotaan koneoppimiseen liittyvät konfiguraatiot.
 
 \subsection{Alue}
+\label{alue}
 
 Tutkimuksessa toteutettiin kolme eri tason aluetta: helppo, keskivaikea ja vaikea. Helppo alue oli tehty tarkoituksella avaraksi ja alueella oli vain muutamia esteitä. Keskivaikeassa alueessa oli useampia esteitä ja seiniä ja alueelle pyrittiin tekemään sekä kapeita käytäviä että erillisiä huoneita. Kuvassa \ref{areabeginnerintermediate} helppo ja keskivaikea pelialue rinnakkain. Vaikea alue on sama kuin keskivaikea, mutta sinne tehtiin 1x1 suuruinen liikkuva este ja erillinen portti, joka aukeaa ja sulkeutuu kahden sekunnin välein. Liikkuva este etenee yhden sekunnin välein kuvan \ref{areadifficult} punaisella merkityllä alueella ja toinen merkitty alue kuvaa portin sijaintia ja kokoa. Keskivaikean alueen koneoppimismallia käytettiin vaikean alueen testaamiseen, jotta voidaan testata agentin sopeutumista uusiin tilanteisiin. Koneoppimista varten kohderuutu valittiin Unityn valmiilla Random.Range()-funktiolla satunnaisesti vapaiden ruutujen seasta, mutta vaikean alueen testauksessa ruutuja valittiin esteiden läheisyydestä tai niiden toiselta puolelta.
 
@@ -357,6 +358,7 @@ Tutkimuksessa toteutettiin kolme eri tason aluetta: helppo, keskivaikea ja vaike
 \end{figure}
 
 \subsection{Koneoppiminen}
+\label{koneoppiminen}
 
 Agentilla voi olla käytössä sekä \textit{Continuous Actions}- että \textit{Discrete Actions}-taulukoita, jotka syötetään parametrina OnActionReceived()-funktioon. Continuous Actions -taulukon voivat olla mitä arvoja tahansa, mutta ne rajataan ennalta [-1,...,1] välille. Kyseiset arvot voidaan asettaa esimerkiksi agentin liikkumista varten, jolloin agentti pystyy oppimisen aikana kontrolloimaan arvoja. Toisena vaihtoehtona on Discrete Actions -taulukko, joka sisältää vain kokonaislukuja. Tässä tutkimuksessa agentilla on käytössä vain viiden elementin Discrete Actions -taulukko, jossa on arvot [0,1,2,3,4]. Agentin liikkuminen on toteutettu siten, että 0 on paikallaan pysyminen, 1 on liikkuminen vasemmalle, 2 on liikkuminen oikealle, 3 on liikkuminen alas ja 4 on liikkuminen ylös. Agentti pystyy liikkumaan kerralla yhden ruudun verran.
 
@@ -377,7 +379,7 @@ Agentin saamat palkkiot ovat vahvistusoppimisen ydin ja tässä tapauksessa agen
 \section{Tulosten mittaaminen}
 \label{sec:mittaaminen}
 
-A*-algoritmin reitin selvittämistä ja koneoppimisagentin toimintaa on vaikea mitata esimerkiksi ajallisesti, koska agentti ei laske reittiä ennalta toisin kuin A*-algoritmi. Tässä tutkimuksessa tarkastellaan molempien vaihtoehtojen reitin optimaalisuutta eli tekeekö koneoppimisagentti turhia liikkeitä verrattuna A*-algoritmin optimaaliseen reittiin. Dynaamisissa alueissa tutkitaan koneoppimisagentin tekemiä ratkaisuja A*-algoritmin ratkaisuihin ja selitetään sanallisesti niiden eroja.
+A*-algoritmin reitin selvittämistä ja koneoppimisagentin toimintaa on vaikea mitata ajallisesti, koska agentti ei laske reittiä ennalta toisin kuin A*-algoritmi. Tässä tutkimuksessa vertaillaan siksi sekä kohteeseen liikkumiseen kulunutta aikaa että käytyjä solmuja ja esitellään saatu data taulukkomuodossa. Sekä koneoppimiseagentti että A*-algoritmia käyttävä agentti pystyvät liikkumaan yhden ruudun joka 0.2 sekunti. Ajan mittaamista varten toteutettiin ajastin, joka alkoi nollasta pelin käynnistyttyä. Kun koneoppimisagentti tai A*-algoritmia käyttävä agentti saapui kohteeseen, ajastimen sen hetkinen aika ja agentin käytyjen solmujen lukumäärä tulostettiin Unityn sisäiseen debuggauslokiin ja kirjattiin sieltä talteen. Jos agentti ei päässyt kohteeseen tuhannen päätösaskeleen kuluessa, tehtävä lopetettiin ennenaikaisesti ja agentin ajaksi ja solmujen lukumääräksi asetettiin epäonnistui. Tämän lisäksi tarkastellaan laadullisesti molempien vaihtoehtojen reitin optimaalisuutta eli esimerkiksi tekeekö koneoppimisagentti turhia liikkeitä verrattuna A*-algoritmin optimaaliseen reittiin. Dynaamisissa alueissa tutkitaan koneoppimisagentin tekemiä ratkaisuja A*-algoritmin ratkaisuihin ja selitetään sanallisesti niiden eroja.
 
 Tensorboardin kuvaajista kumulatiivinen palkkio kertoo agentin jaksojen palkkioiden keskiarvon, jonka tulisi kasvaa oppimisen yhteydessä. Entropia-kuvaaja esittää agentin toimintojen satunnaisuutta. Aluksi entropian kuuluisi olla suurta, mutta agentin oppiessa entropian tulisi tasaisesti laskea. SAC-algoritmin luonteeseen kuuluu entropian maksimointi, joten entropian kuuluisi hieman vaihdella agentin selvitellessä uusia tiloja. Käytännön virhefunktio kuvaa agentin käytännön muuttumista ja sen tulisi laskea onnistuneen oppimisen aikana. Arvofunktio kuvaa mallin kykyä ennustaa tilojen arvoja. Sen tulisi aluksi kasvaa oppimisen aikana ja lopuksi laskea kun palkkio tasoittuu.
 
@@ -436,9 +438,56 @@ Keskivaikean tason opetuksen luomaa neuroverkko-tiedostoa käytettiin vaikean ta
 \section{A*-algoritmin ja koneoppimisagentin vertailu}
 \label{vertailu}
 
-A*-algoritmi suoriutuu staattisista pelialueista optimaalisesti, joten helpon ja keskivaikean pelialueen vertailua oli turha toteuttaa. Vaikean pelialueen reitinhakutehtävissä hyödynnettiin portin olemassaoloa, joten kohderuutu asetettiin portin toiselle puolelle. Luvussa \ref{vaikea} selitettiin agentin toimintaa portin ympärillä. Kuvasta \ref{astargate} nähdään, että A*-algoritmi päätyi sen sijaan valitsemaan aluksi portin läpi kulkevan reitin, mutta kohdatessaan sulkeutuneen portin se vaihtoi kokonaan reittiään. Kiertoreitin kulkeminen vei tässä tapauksessa selvästi pidemmän ajan, jolloin koneoppimisagentti päätyi suorittamaan reitinhakutehtävän nopeammin.
+A*-algoritmi suoriutuu staattisista pelialueista optimaalisesti, joten helpon ja keskivaikean pelialueen vertailua oli turha toteuttaa. Taulukossa \ref{vertailutaulukko} nähdään kymmenen eri reitinhakutilanteen tulokset vaikeassa pelialueessa, jossa on liikkuvia esteitä. Kohteiden sijainnit nähdään kuvassa \ref{testtargets}. Unityn fysiikkapäivitykset tapahtuvat arvon \textit{Time.fixedDeltaTime} perusteella, joka on oletuksena 0.02 sekuntia. Tämän vuoksi taulukossa nähdään joissain tilanteissa sama määrä käytyjä solmuja, mutta ajat eroavat noin 0.02 sekuntia toisistaan.
+
+Taulukosta kohteista viisi, kuusi ja seitsemän huomataan, että reitinhakuagentti onnistuu suoraviivaisissa ja lähialueen reitinhaussa optimaalisesti ja samassa ajassa kuin A*-algoritmi. Ensimmäisessä kohteessa hyödynnettiin portin olemassaoloa. Agentti onnistui odottamaan portin aukeamista, kuten luvussa \ref{vaikea} selitettiin. Kuva \ref{astargate} havainnollistaa A*-algoritmin toimintaa kohdatessaan portin. A*-algoritmi päätyi valitsemaan aluksi portin läpi kulkevan reitin, mutta kohdatessaan sulkeutuneen portin se vaihtoi kokonaan reittiään. Kiertoreitin kulkeminen vei tässä tapauksessa selvästi pidemmän ajan, jolloin koneoppimisagentti päätyi suorittamaan reitinhakutehtävän nopeammin.
+
+Toinen kohde aiheutti hieman ongelmia agentin reitinhaussa ja se päätyi valitsemaan epäoptimaalisen reitin portin läpi, kun taas A*-algoritmi valitsi optimaalisen reitin liikkuvan esteen kautta. Kolmannen kohteen tehtävässä agentti varoi liikkuvaa estettä jo melko kaukaa, jolloin reitinhaku ei ollut optimaalista. A*-algoritmi ehti mennä esteen ohi. Neljännen kohteen reitinhaussa agentti epäonnistui eikä koskaan saavuttanut sitä. Kahdeksannessa kohteessa agentti jostain syystä valitsi pysyä aluksi paikallaan, joka laskettiin myös solmujen lukumäärään mukaan. Yhdeksäs kohde epäonnistui jälleen agentilta, joka oli yllätys, koska kohde oli hyvin lähellä vain yhden esteen takana. Kymmenes kohde sen sijaan onnistui, mutta jälleen epäoptimaalisesti hitaampaa reittiä pitkin. Yleisesti käytyjen solmujen erot eivät olleet suuria. Koneoppimisagentti oli vain 20-30\% hitaampi kuin A*-algoritmi kohteissa, joissa eroa havaittiin. Parhaimmillaan koneoppimisagentti oli yli puolet nopeampi opitun käyttäytymisen ansiosta.
 
 Liikkuvan esteen suhteen A*-algoritmi toimi selvästi paremmin kuin koneoppimisagentti. Tutkimuksessa toteutettu A* variaatio onnistui heti vaihtamaan reittiä kohdatessaan esteen, jolloin se pääsi kiertämään sen välittömästi. Ääritapauksissa A* valitsi kiertoreitin samalta puolelta johon este oli liikkumassa, jolloin este liikkui heti uudestaan reitille ja A* joutui laskemaan reitin jälleen uudestaan. Agentti sen sijaan oli liian varovainen liikkuvan esteen suhteen, kuten luvussa \ref{vaikea} selitettiin. Pahimmillaan agentti ei pystynyt suorittamaan reitinhakutehtävää ollenkaan.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=12cm]{area_difficult_test_targets.png}
+\caption{A*-algoritmin ja koneoppimisagentin vertailun kohderuudut.}
+\label{testtargets}
+\end{figure}
+
+\begin{table}[htp]
+\centering
+\caption{Agentin ja A*-algoritmin vertailutaulukko.}
+\label{vertailutaulukko}
+\begin{tabular}{cccccc}
+\hline
+Kohde & Agentin aika (s) & A* aika (s) & Agentin solmut (n) & A* solmut (n) & Ero (\%) \\
+\hline \hline
+1 & 6.8196 & 16.6600$^*$ & 35 & 84$^*$ & -58 \\
+
+2 & 8.6198 & 7.0392 & 44 & 36 & 22 \\
+
+3 & 4.0196 & 3.2396 & 21 & 17 & 24 \\
+
+4 & Epäonnistui & 6.8397 & Epäonnistui & 35 & -- \\
+
+5 & 4.4196 & 4.4399 & 23 & 23 & 0 \\
+
+6 & 6.6195 & 6.6396 & 34 & 34 & 0 \\
+
+7 & 3.6197 & 3.6399 & 19 & 19 & 0 \\
+
+8 & 4.8198 & 3.8399 & 25 & 20 & 25 \\
+
+9 & Epäonnistui & 3.8398 & Epäonnistui & 20 & -- \\
+
+10 & 9.8198 & 7.6598 & 50 & 39 & 28 \\
+
+\hline
+
+\end{tabular}
+
+$^*$A* kohtasi portin ja valitsi pidemmän reitin sen seurauksena.
+
+\end{table}
 
 \begin{figure}[h]
 \includegraphics[width=7cm]{agent_avoid_gate.png}
